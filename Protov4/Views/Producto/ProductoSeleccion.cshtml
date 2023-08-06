@@ -1,0 +1,104 @@
+﻿@using Protov4.DTO
+@{
+    ViewData["Title"] = "Producto Page";
+
+}
+@model List<ProductoDTO>
+
+<div class="row">
+    @foreach (var prod in Model)
+    {
+        int cantidad = 1;
+        byte[] imagenBytes = prod.Imagen;
+        string base64 = "data:image/png;base64," + Convert.ToBase64String(imagenBytes);
+        <div class="product">
+            <img class="imagenProd" src="@base64" alt="@prod.Nombre_Producto">
+        </div>
+        <div class="product-info">
+            <h1 class="nombreProductoSeleccion">@prod.Nombre_Producto</h1>
+            <h1 class="PrecioSeleccion">$@prod.Precio</h1>
+            <h2 class="lblIVA">Precios incluyen IVA</h2>
+            <button data-productid="@prod.Id" class="btn bi bi-dash-lg btnmenos"></button>
+            <h4 class="contador">@cantidad</h4>
+            <button data-productid="@prod.Id" class="btn bi bi-plus-lg btnmas"></button>
+            <button id="botoncarritoseleccion" class="btn btn-large shadow-sm">
+                <i id="carrito" class="bi bi-cart-fill">AÑADIR AL CARRITO</i>
+            </button>
+            <div class="descripcion">
+                @switch (prod.Tipo)
+                {
+                    case "Procesador":
+                        <p class="text-white">Marca: @prod.Marca</p>
+                        <p class="text-white">Modelo: @prod.Especificaciones.Modelo</p>
+                        <p class="text-white">Velocidad: @prod.Especificaciones.Velocidad</p>
+                        <p class="text-white">Zócalo: @prod.Especificaciones.Zócalo</p>
+                        break;
+                    case "Gráfica":
+                        <p class="text-white">Marca: @prod.Marca</p>
+                        <p class="text-white">Fabricante: @prod.Especificaciones.Fabricante</p>
+                        <p class="text-white">Modelo: @prod.Especificaciones.Modelo</p>
+                        <p class="text-white">Tamaño VRAM: @prod.Especificaciones.TamañoVRAM</p>
+                        <p class="text-white">Velocidad de reloj: @prod.Especificaciones.Velocidad</p>
+                        <p class="text-white">Interfaz de salida: @prod.Especificaciones.Interfaz</p>
+                        break;
+                    case "Almacenamiento":
+                        <p class="text-white">Marca: @prod.Marca</p>
+                        <p class="text-white">Interfaz: @prod.Especificaciones.Interfaz</p>
+                        <p class="text-white">Almacenamiento: @prod.Especificaciones.Almacenamiento</p>
+                        break;
+                    case "Placa":
+                        <p class="text-white">Marca: @prod.Marca</p>
+                        <p class="text-white">Modelo: @prod.Especificaciones.Modelo</p>
+                        <p class="text-white">Velocidad: @prod.Especificaciones.Velocidad</p>
+                        <p class="text-white">Zócalo: @prod.Especificaciones.Zócalo</p>
+                        <p class="text-white">Tecnología Ram: @prod.Especificaciones.TecnologíaRAM</p>
+                        break;
+                    case "Fuente":
+                        <p class="text-white">Marca: @prod.Marca</p>
+                        break;
+                    case "Ram":
+                        <p class="text-white">Marca: @prod.Marca</p>
+                        <p class="text-white">Modelo: @prod.Especificaciones.Modelo</p>
+                        <p class="text-white">Velocidad: @prod.Especificaciones.Velocidad</p>
+                        <p class="text-white">Tamaño de memoria: @prod.Especificaciones.Tamañomemoria</p>
+                        break;
+                }
+                <div class="adicional">
+                    <h2 class="tituloarticulo">Sobre este artículo</h2>
+                    @for (int i = 0; i < prod.Especificaciones.Descripción.Count; i++)
+                    {
+                        <ul class="text-white">
+                            <li>@prod.Especificaciones.Descripción[i]</li>
+                        </ul>
+                    }
+                </div>
+
+            </div>
+        </div>
+
+    }
+</div>
+
+<script>
+    $(document).ready(function () {
+        // Manejar clic en el botón de menos
+        $(".btnmenos").on("click", function () {
+            var divProducto = $(this).closest(".product-info");
+            var cantidadElement = divProducto.find(".contador");
+            var cantidad = parseInt(cantidadElement.text());
+            if (cantidad > 1) {
+                cantidad--;
+                cantidadElement.text(cantidad);
+            }
+        });
+
+        // Manejar clic en el botón de más
+        $(".btnmas").on("click", function () {
+            var divProducto = $(this).closest(".product-info");
+            var cantidadElement = divProducto.find(".contador");
+            var cantidad = parseInt(cantidadElement.text());
+            cantidad++;
+            cantidadElement.text(cantidad);
+        });
+    });
+</script>
