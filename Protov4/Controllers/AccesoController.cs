@@ -38,6 +38,11 @@ namespace Protov4.Controllers
             return View();
         }
 
+        public ActionResult AdminPage()
+        {
+            return View();
+        }
+
         [HttpPost]
         public ActionResult Registrar(UsuariosDTO nuser, ClientesDTO nclient)
         {
