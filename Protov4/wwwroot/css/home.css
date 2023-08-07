@@ -1,6 +1,6 @@
 @font-face {
-  font-family: 'Spoof';
-  src: url('Recursos/SpoofTrial-Bold.otf') format('opentype');
+    font-family: 'Spoof';
+    src: url('../recursos/SpoofTrial-Bold.otf') format('opentype');
 }
 
 body {
@@ -53,16 +53,16 @@ body {
 .welcome-container h2 {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   font-size: 40px;
-
   color: #fff;
+  margin-top:50px;
 }
 
 .welcome-container h3 {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   font-size: 40px;
-  margin-top: 34px;
   margin-left: 9px;
   color: #12CDD4;
+  margin-top:50px;
 }
 
 .welcome-text-container {
@@ -73,77 +73,6 @@ body {
   text-align: justify;
 }
 
-/* BARRA DE NAVEGACION */
-
-.navbar {
-  background-color: #161A33;
-  padding: 10px;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.logo {
-  display: flex;
-  align-items: center;
-  color: #fff;
-}
-
-.logo img {
-  height: 50px;
-  margin-left: 30px;
-  margin-right: 25px;
-}
-
-.logo h1 {
-  font-family: 'Spoof', sans-serif;
-  font-size: 36px;
-  margin: 0;
-}
-
-.navbar-nav {
-  display: flex;
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-  margin-right: 80px;
-}
-
-.nav-item {
-  margin-right: 50px;
-  color: #fff;
-}
-
-.nav-item a {
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: 14px;
-  margin-top: -10px;
-  color: #fff;
-  text-decoration: none;
-}
-
-.nav-link:hover {
-  color: #12CDD4;
-}
-
-.btn {
-  display: inline-block;
-  padding: 5px;
-  border: 1px solid #808080;
-  border-radius: 4px;
-  text-decoration: none;
-  color: #474972;
-}
-
-.btn:hover {
-  background-color: rgba(71, 73, 114, 0.1);
-  border-color: #12CDD4;
-  color: #12CDD4;
-}
 
 
 /* SEPARADOR DE CATEGORIAS*/
@@ -182,10 +111,10 @@ body {
   border-radius: 10px;
   padding: 10px;
   position: relative;
-  width: 300px;
-  height: 100px;
-  margin-left: 50px;
-  margin-right: 50px;
+  width: 325px;
+  height: 125px;
+  margin-left: 40px;
+  margin-right: 40px;
 }
 
 .img-cpu {
@@ -227,7 +156,7 @@ body {
 .box-container-3 p {
   font-family: 'Spoof', sans-serif;
   position: absolute;
-  top: 30%;
+  top: 50%;
   left: 60%;
   transform: translate(-50%, -50%);
   font-size: 18px;
@@ -253,10 +182,10 @@ body {
   border-radius: 10px;
   padding: 10px;
   position: relative;
-  width: 300px;
-  height: 100px;
-  margin-left: 50px;
-  margin-right: 50px;
+  width: 325px;
+  height: 125px;
+  margin-left: 40px;
+  margin-right: 40px;
 }
 
 .img-ram {
@@ -300,7 +229,7 @@ body {
 .box-container-4 p {
   font-family: 'Spoof', sans-serif;
   position: absolute;
-  top: 30%;
+  top: 50%;
   left: 60%;
   transform: translate(-50%, -50%);
   font-size: 18px;
@@ -313,7 +242,6 @@ body {
 
 .catalog-link {
   font-family: Arial, sans-serif;
-
   position: absolute;
   top: 30%;
   left: 10%;

@@ -1,6 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Protov4.DAO;
+﻿using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Mvc;
 using Protov4.DTO;
+using Protov4.DAO;
+using System.Security.Claims;
 
 namespace Protov4.Controllers
 {
@@ -13,24 +16,72 @@ namespace Protov4.Controllers
             _usuariosDAO = usuariosDAO;
         }
 
-        public ActionResult Login()
+        public IActionResult Login()
         {
+            ClaimsPrincipal c = HttpContext.User;
+            if (c.Identity != null)
+            {
+                if (c.Identity.IsAuthenticated)
+                {
+                    return RedirectToAction("Index", "Home");
+                }
+            }
             return View();
         }
+
         [HttpPost]
-        public ActionResult Login(UsuariosDTO user)
+        public async Task<IActionResult> Login(UsuariosDTO user)
         {
-            int idUsuario = _usuariosDAO.ValidarUsuario(user.correo_elec, user.contrasena);
-            if (idUsuario != 0)
+            try
             {
-                Response.Cookies.Append("user", "Bienvenido" + user.correo_elec);
-                return RedirectToAction("Index", "Home");
+                (int id_usuario, int id_rol_user) = _usuariosDAO.ValidarUsuario(user);
+                if (id_usuario != 0)
+                {
+                    var claims = new List<Claim>
+                    {
+                        new Claim(ClaimTypes.Name, user.correo_elec),
+                        new Claim("id_usuario", id_usuario.ToString())
+                    };
+                    var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                    await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
+                    //HttpContext.Session.SetInt32("id_usuario", id_usuario);
+
+                    if (id_rol_user == 1) // Administrador
+                    {
+                        return RedirectToAction("Admin", "Administrador");
+                    }
+                    else // Usuario normal
+                    {
+                        //_usuariosDAO.RegistrarAuditoria(id_usuario, DateTime.Now, null);
+                        return RedirectToAction("Index", "Home");
+                    }
+                }
+                else
+                {
+                    ViewBag.Error = "Credenciales incorrectas";
+                }
+                return View();
             }
-            else
+            catch (System.Exception)
             {
-                ViewData["Mensaje"] = "Usuario no encontrado";
+                ViewBag.Error = "Credenciales incorrectas";
+                return View();
             }
-            return View();
+        }
+
+        public async Task<IActionResult> Logout()
+        {
+            // Obtener el id_usuario almacenado en la variable de sesión
+            //int? id_usuario = HttpContext.Session.GetInt32("id_usuario");
+            //var idUsuarioClaim = User.FindFirst("id_usuario");
+            //if (idUsuarioClaim != null && int.TryParse(idUsuarioClaim.Value, out int id_usuario))
+            //{
+            //    // Llamar al método RegistrarAuditoria para almacenar la fecha de cierre de sesión
+            //    var fechaCierre = DateTime.Now;
+            //    _usuariosDAO.RegistrarAuditoria(id_usuario, fechaCierre, fechaCierre);
+            //}
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return RedirectToAction("Login", "Acceso");
         }
 
         public ActionResult Registrar()
@@ -39,9 +90,9 @@ namespace Protov4.Controllers
         }
 
         [HttpPost]
-        public ActionResult Registrar(UsuariosDTO nuser, ClientesDTO nclient)
+        public ActionResult Registrar(ClientesDTO nclient)
         {
-            bool registrado = _usuariosDAO.Registrar(nuser, nclient);
+            bool registrado = _usuariosDAO.Registrar(nclient);
 
             if (registrado)
             {
@@ -49,16 +100,10 @@ namespace Protov4.Controllers
             }
             else
             {
-                ViewData["Mensaje"] = "Error al registrar";
+                ViewBag.Error = "Credenciales incorrectas";
             }
 
             return View();
-        }
-
-        public ActionResult LogOut()
-        {
-            Response.Cookies.Delete("user");
-            return RedirectToAction("Login", "Acceso");
         }
     }
 }

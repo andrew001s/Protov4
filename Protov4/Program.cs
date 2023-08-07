@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Protov4.DAO;
 
 
@@ -13,7 +14,13 @@ builder.Services.AddControllersWithViews();
 // Configuración para acceder a la cadena de conexión desde appsettings.json
 IConfiguration configuration = builder.Configuration;
 builder.Services.AddSingleton(new DbConnection(configuration));
+
 builder.Services.AddTransient<UsuariosDAO>();
+
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(option =>
+{
+    option.LoginPath = "/Acceso/Login";
+});
 
 
 var app = builder.Build();
@@ -31,10 +38,12 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
+
 app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Acceso}/{action=Login}/{id?}");
 
 app.Run();

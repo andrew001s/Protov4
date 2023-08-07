@@ -1,9 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Protov4.Models;
+using Microsoft.AspNetCore.Authorization;
+using Protov4.DTO;
 using System.Diagnostics;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace Protov4.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;

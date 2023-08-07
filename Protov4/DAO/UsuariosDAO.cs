@@ -1,10 +1,13 @@
 ﻿using Microsoft.Extensions.Configuration;
-using Protov4.DTO;
 using System.Data;
 using System.Data.SqlClient;
+using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
-
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication;
+using Protov4.DTO;
+using Protov4.DAO;
 
 namespace Protov4.DAO
 {
@@ -17,39 +20,50 @@ namespace Protov4.DAO
             // Esto asegura que el objeto de conexión se inicialice correctamente.
         }
 
-        public int ValidarUsuario(string correoElectronico, string contrasena)
+        public (int, int) ValidarUsuario(UsuariosDTO nuser)
         {
-            int idUsuario = 0;
+            int id_usuario = 0;
+            int id_rol_user = 0;
 
-            contrasena = ConvertirSha256(contrasena);
+            nuser.contrasena = ConvertirSha256(nuser.contrasena);
             using (var connection = GetSqlConnection())
             {
                 connection.Open();
                 SqlCommand cmd = new SqlCommand("Login_ValidarUsuario", connection);
-                cmd.Parameters.AddWithValue("@correo_elec", correoElectronico);
-                cmd.Parameters.AddWithValue("@contrasena", contrasena);
+                cmd.Parameters.AddWithValue("@correo_elec", nuser.correo_elec);
+                cmd.Parameters.AddWithValue("@contrasena", nuser.contrasena);
                 cmd.CommandType = CommandType.StoredProcedure;
-
-                var result = cmd.ExecuteScalar();
-                if (result != null)
+                using (var reader = cmd.ExecuteReader())
                 {
-                    idUsuario = Convert.ToInt32(result);
-                }
-            }
+                    if (reader.Read())
+                    {
+                        id_usuario = Convert.ToInt32(reader["id_usuario"]);
+                        id_rol_user = Convert.ToInt32(reader["id_rol_user"]);
 
-            return idUsuario;
+                    }
+
+                    if (id_usuario == 0 && id_rol_user == 0)
+                    {
+                        id_usuario = 0; // Puedes omitir esta línea si deseas que id_usuario sea 0 por defecto.
+                        id_rol_user = 0;
+                    }
+
+                }
+                connection.Close();
+                return (id_usuario, id_rol_user);
+            }
         }
 
-        public bool Registrar(UsuariosDTO nuser, ClientesDTO nclient)
+        public bool Registrar(ClientesDTO nclient)
         {
             bool registrado = false;
             string mensaje = string.Empty;
 
             try
             {
-                if (nuser.contrasena == nuser.confirmar_contrasena)
+                if (nclient.contrasena_nueva == nclient.confirmar_contrasena)
                 {
-                    nuser.contrasena = ConvertirSha256(nuser.contrasena);
+                    nclient.contrasena_nueva = ConvertirSha256(nclient.contrasena_nueva);
                 }
                 else
                 {
@@ -63,17 +77,14 @@ namespace Protov4.DAO
                     using (SqlCommand cmd = new SqlCommand("Login_RegistrarUsuario", connection))
                     {
                         cmd.CommandType = CommandType.StoredProcedure;
-                        cmd.Parameters.Add("@correo_elec", SqlDbType.VarChar).Value = nuser.correo_elec;
-                        cmd.Parameters.Add("@contrasena", SqlDbType.VarChar).Value = nuser.contrasena;
+                        cmd.Parameters.Add("@correo_elec", SqlDbType.VarChar).Value = nclient.correo_nuevo;
+                        cmd.Parameters.Add("@contrasena", SqlDbType.VarChar).Value = nclient.contrasena_nueva;
                         cmd.Parameters.Add("@nombre_cliente", SqlDbType.VarChar).Value = nclient.nombre_cliente;
                         cmd.Parameters.Add("@apellido_cliente", SqlDbType.VarChar).Value = nclient.apellido_cliente;
                         cmd.Parameters.Add("@telefono_cliente", SqlDbType.VarChar).Value = nclient.telefono_cliente;
-
                         cmd.Parameters.Add("Registrado", SqlDbType.Bit).Direction = ParameterDirection.Output;
                         cmd.Parameters.Add("Mensaje", SqlDbType.VarChar, 100).Direction = ParameterDirection.Output;
-
                         cmd.ExecuteNonQuery();
-
                         registrado = Convert.ToBoolean(cmd.Parameters["Registrado"].Value);
                         mensaje = cmd.Parameters["Mensaje"].Value.ToString();
                     }
@@ -86,6 +97,32 @@ namespace Protov4.DAO
 
             // Puedes manejar el mensaje en el controlador si es necesario.
             return registrado;
+        }
+
+        public void RegistrarAuditoria(int id_usuario, DateTime fechaInicio, DateTime? fechaCierre)
+        {
+            try
+            {
+                using (var connection = GetSqlConnection())
+                {
+                    connection.Open();
+
+                    using (SqlCommand cmd = new SqlCommand("Login_RegistrarAuditoria", connection))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@id_usuario", id_usuario);
+                        cmd.Parameters.AddWithValue("@fechaInicio", fechaInicio);
+                        cmd.Parameters.AddWithValue("@fechaCierre", fechaCierre.HasValue ? (object)fechaCierre : DBNull.Value);
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // Agrega mensajes de registro para depurar posibles errores
+                Console.WriteLine("Error en RegistrarAuditoria: " + ex.Message);
+                // Opcionalmente, también puedes lanzar una excepción aquí o tomar otras acciones adecuadas.
+            }
         }
 
         public static string ConvertirSha256(string texto)
