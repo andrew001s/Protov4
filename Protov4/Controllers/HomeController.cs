@@ -18,10 +18,10 @@ namespace Protov4.Controllers
             return View();
         }
 
-        public IActionResult Privacy()
-        {
+        public ActionResult AcercaDe() {
             return View();
         }
+    
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

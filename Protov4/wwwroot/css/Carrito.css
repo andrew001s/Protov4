@@ -1,0 +1,88 @@
+﻿.Titulo1 {
+    color: white;
+    font-size: 30px;
+    font-family: 'Spoof Trial';
+    font-weight: bold;
+    margin-top: 100px;
+    margin-left: 150px
+}
+
+.TabCarrito {
+    border-collapse: collapse;
+    display: absolute;
+    margin-top: 50px;
+    margin-left: 150px;
+    text-align: center;
+    align-content: center;
+}
+    .TabCarrito th {
+        color: white;
+        font-family: Arial;
+        font-weight: bold;
+        height: 30px;
+    }
+    .TabCarrito tr {
+        border-bottom: 1px solid transparent;
+        height: 30px;
+    }
+
+    .TabCarrito th {
+        font-size: 25px;
+        font-weight: bold;
+        color: white;
+    }
+.ColPrec {
+    font-family: Arial;
+    font-size: 20px;
+    color: white;
+    width: 150px;
+    border-bottom: 2.5px solid white;
+}
+.ColSubT {
+    font-family: Arial;
+    font-size: 20px;
+    color: #04D9C4;
+    width: 150px;
+    border-bottom: 2.5px solid white;
+}
+.ColImag {
+    color: white;
+    font-family: Arial;
+    font-weight: bold;
+    font-size: 20px;
+    width: 300px;
+    border-bottom: 2.5px solid white;
+}
+.ColCant {
+    color: white;
+    width: 200px;
+    border-bottom: 2.5px solid white;
+}
+.ColElim {
+    color: white;
+    width: 100px;
+    border-bottom: 2.5px solid white;
+}
+
+.btnmenoscarrito {
+    border-bottom-left-radius: 15px;
+    font-size: 16px;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+    background-color: #2a2b4d;
+    color: azure;
+
+}
+
+.total{
+    border:solid white; 
+}
+
+
+
+
+
+
+
+

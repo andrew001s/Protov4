@@ -5,41 +5,58 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Protov2</title>
-    <link rel="stylesheet" href="~/css/layout.css" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/layout.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/Producto.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/Carrito.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/AcercaDe.css" asp-append-version="true" />
 
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <link rel="stylesheet" href="~/css/Fuentes.css" asp-append-version="true" />
 </head>
 <body>
     <header>
-        <nav class="navbar">
+        <nav class="navbar-custom">
             <div class="logo">
-                <img src="Recursos/Miku_logo.png" alt="Logo de MIKUTECH">
+                <img src="~/Recursos/Miku_logo.png" alt="Logo de MIKUTECH">
                 <h1>MIKUTECH</h1>
             </div>
             <div class="botonera">
-                <ul class="navbar-nav flex-grow-1">
-                    <li class="nav-item">
-                        <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Inicio</a>
+                <ul class="navbar-nav-custom">
+                    <li class="nav-item-custom">
+                        <a class="nav-link-custom" asp-area="" asp-controller="Home" asp-action="Index">Inicio</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Privacy">Tienda</a>
+                    <li class="dropdown" style="z-index:100">
+                        <a class="nav-link-custom" asp-area="" asp-controller="Producto" asp-action="Producto">Tienda</a>
+                        <div class="dropdown-content">
+                            <a class="nav-link text-white elementodrop" onclick="window.location.href='@Url.Action("Producto", "Producto", new { tipo = "Procesador" })'">Procesadores</a>
+                            <a class="nav-link text-white elementodrop" onclick="window.location.href='@Url.Action("Producto", "Producto", new { tipo = "Gráfica" })'">Gráficas</a>
+                            <a class="nav-link text-white elementodrop" onclick="window.location.href='@Url.Action("Producto", "Producto", new { tipo = "Placa" })'">Placas Base</a>
+                            <a class="nav-link text-white elementodrop" onclick="window.location.href='@Url.Action("Producto", "Producto", new { tipo = "Ram" })'">Memorias Ram</a>
+                            <a class="nav-link text-white elementodrop" onclick="window.location.href='@Url.Action("Producto", "Producto", new { tipo = "Almacenamiento" })'">Almacenamiento</a>
+                            <a class="nav-link text-white elementodrop" onclick="window.location.href='@Url.Action("Producto", "Producto", new { tipo = "Fuente" })'">Fuentes de Poder</a>
+                        </div>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Carrito</a>
+                    <li class="nav-item-custom">
+                        <a class="nav-link text-white elementodrop" onclick="window.location.href='@Url.Action("Carrito", "Carrito", new { id = 3 })'">Carrito</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Acerca de</a>
+                    <li class="nav-item-custom">
+                        <a class="nav-link-custom" asp-area="" asp-controller="Home" asp-action="AcercaDe">Acerca de</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link btn" asp-area="" asp-controller="Acceso" asp-action="Login">Iniciar Sesión</a>
+                    <li class="nav-item-custom">
+                        <a class="nav-link-custom-btn" asp-area="" asp-controller="Acceso" asp-action="Login">Iniciar Sesión</a>
                     </li>
                 </ul>
             </div>
         </nav>
     </header>
-    <div class="container">
-        <main role="main" class="pb-3">
+    <div>
+        <main>
             @RenderBody()
         </main>
     </div>
+
 </body>
 </html>

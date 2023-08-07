@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using MongoDB.Driver;
 using Protov4.DAO;
 
 
@@ -14,8 +15,10 @@ builder.Services.AddControllersWithViews();
 IConfiguration configuration = builder.Configuration;
 builder.Services.AddSingleton(new DbConnection(configuration));
 builder.Services.AddTransient<UsuariosDAO>();
-
-
+builder.Services.AddSingleton<IMongoClient>(new MongoClient(configuration.GetConnectionString("MongoDBConnection")));
+builder.Services.AddScoped<DBMongo>();
+builder.Services.AddScoped<IProductoCollection, ProductoDAO>();
+builder.Services.AddTransient<CarritoDAO>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
