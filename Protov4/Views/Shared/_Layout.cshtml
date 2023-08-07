@@ -27,14 +27,14 @@
                         <a class="nav-link-custom" asp-area="" asp-controller="Home" asp-action="Index">Inicio</a>
                     </li>
                     <li class="dropdown" style="z-index:100">
-                        <a class="nav-link-custom" asp-area="" asp-controller="Producto" asp-action="Producto">Tienda</a>
+                        <a class="nav-link-custom" asp-area="" asp-controller="ProductoVistaDAO" asp-action="Producto">Tienda</a>
                         <div class="dropdown-content">
-                            <a class="nav-link text-white elementodrop" onclick="window.location.href='@Url.Action("Producto", "Producto", new { tipo = "Procesador" })'">Procesadores</a>
-                            <a class="nav-link text-white elementodrop" onclick="window.location.href='@Url.Action("Producto", "Producto", new { tipo = "Gráfica" })'">Gráficas</a>
-                            <a class="nav-link text-white elementodrop" onclick="window.location.href='@Url.Action("Producto", "Producto", new { tipo = "Placa" })'">Placas Base</a>
-                            <a class="nav-link text-white elementodrop" onclick="window.location.href='@Url.Action("Producto", "Producto", new { tipo = "Ram" })'">Memorias Ram</a>
-                            <a class="nav-link text-white elementodrop" onclick="window.location.href='@Url.Action("Producto", "Producto", new { tipo = "Almacenamiento" })'">Almacenamiento</a>
-                            <a class="nav-link text-white elementodrop" onclick="window.location.href='@Url.Action("Producto", "Producto", new { tipo = "Fuente" })'">Fuentes de Poder</a>
+                            <a class="nav-link text-white elementodrop" onclick="window.location.href='@Url.Action("Producto", "ProductoVistaDAO", new { tipo = "Procesador" })'">Procesadores</a>
+                            <a class="nav-link text-white elementodrop" onclick="window.location.href='@Url.Action("Producto", "ProductoVistaDAO", new { tipo = "Gráfica" })'">Gráficas</a>
+                            <a class="nav-link text-white elementodrop" onclick="window.location.href='@Url.Action("Producto", "ProductoVistaDAO", new { tipo = "Placa" })'">Placas Base</a>
+                            <a class="nav-link text-white elementodrop" onclick="window.location.href='@Url.Action("Producto", "ProductoVistaDAO", new { tipo = "Ram" })'">Memorias Ram</a>
+                            <a class="nav-link text-white elementodrop" onclick="window.location.href='@Url.Action("Producto", "ProductoVistaDAO", new { tipo = "Almacenamiento" })'">Almacenamiento</a>
+                            <a class="nav-link text-white elementodrop" onclick="window.location.href='@Url.Action("Producto", "ProductoVistaDAO", new { tipo = "Fuente" })'">Fuentes de Poder</a>
                         </div>
                     </li>
                     <li class="nav-item-custom">

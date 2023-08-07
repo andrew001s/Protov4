@@ -1,21 +1,21 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Protov4.DAO;
 using Protov4.DTO;
 using Protov4.Models;
 
-namespace Protov4.Controllers
+namespace Protov4.DAO
 {
-    public class ProductoController : Controller
+    public class ProductoVistaDAO : Controller
     {
         private readonly IProductoCollection db;
 
-        public ProductoController(IConfiguration configuration)
+        public ProductoVistaDAO(IConfiguration configuration)
         {
             db = new ProductoDAO(configuration);
         }
-   
+
         // GET: ProductoController
+       
         public ActionResult Producto(string tipo)
         {
             var productos = ListarProductos(tipo);
@@ -53,7 +53,7 @@ namespace Protov4.Controllers
                     Almacenamiento = p.Especificaciones.Almacenamiento,
                     Descripción = p.Especificaciones.Descripción
                 }
-               
+
             }).ToList();
 
             return ProductoDTO;
