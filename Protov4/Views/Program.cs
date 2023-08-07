@@ -16,7 +16,7 @@ builder.Services.AddSingleton(new DbConnection(configuration));
 builder.Services.AddTransient<UsuariosDAO>();
 builder.Services.AddSingleton<IMongoClient>(new MongoClient(configuration.GetConnectionString("MongoDBConnection")));
 builder.Services.AddScoped<DBMongo>();
-builder.Services.AddScoped<IProductoCollection, ProductoDAO>();
+builder.Services.AddScoped<MikuTechFactory, MikutechDAO>();
 
 
 var app = builder.Build();

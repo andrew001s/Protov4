@@ -5,7 +5,7 @@ using Protov4.DTO;
 
 namespace Protov4.DAO
 {
-    public class ProductoDAO : IProductoCollection
+    public class ProductoDAO 
     {
         private readonly IMongoCollection<ProductoDTO> prod;
 
@@ -14,7 +14,7 @@ namespace Protov4.DAO
             var mongo = new DBMongo(configuration);
             prod = mongo.GetDatabase().GetCollection<ProductoDTO>("Productos");
         }
-        public override List<ProductoDTO> GetAllProductos(string tipo)
+        public  List<ProductoDTO> ObtenerProductos(string tipo)
         {
             var filtro = Builders<ProductoDTO>.Filter.Eq("Tipo", tipo);
 
@@ -59,7 +59,7 @@ namespace Protov4.DAO
 
      
 
-        public override List<ProductoDTO> GetSeleccion(string id)
+        public  List<ProductoDTO> ObtenerSeleccion(string id)
         {
             var objectId = new ObjectId(id);
             var filter = Builders<ProductoDTO>.Filter.Eq(x => x.Id, objectId);

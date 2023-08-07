@@ -2,7 +2,7 @@
 
 namespace Protov4.DAO
 {
-    public abstract class IProductoCollection
+    public abstract class MikuTechFactory
     {
         public abstract List<ProductoDTO> GetAllProductos(string tipo);
 

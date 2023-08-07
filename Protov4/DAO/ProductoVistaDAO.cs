@@ -7,11 +7,11 @@ namespace Protov4.DAO
 {
     public class ProductoVistaDAO : Controller
     {
-        private readonly IProductoCollection db;
+        private readonly MikuTechFactory db;
 
         public ProductoVistaDAO(IConfiguration configuration)
         {
-            db = new ProductoDAO(configuration);
+            db = new MikutechDAO(configuration);
         }
 
         // GET: ProductoController
