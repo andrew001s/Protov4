@@ -1,21 +1,22 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Protov4.DAO;
 using Protov4.DTO;
 using Protov4.Models;
 
-namespace Protov4.DAO
+namespace Protov4.Controllers
 {
-    public class ProductoVistaDAO : Controller
+    public class ProductoController : Controller
     {
         private readonly MikuTechFactory db;
 
-        public ProductoVistaDAO(IConfiguration configuration)
+        public ProductoController(IConfiguration configuration)
         {
             db = new MikutechDAO(configuration);
         }
 
         // GET: ProductoController
-       
+
         public ActionResult Producto(string tipo)
         {
             var productos = ListarProductos(tipo);

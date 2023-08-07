@@ -17,7 +17,7 @@
             {
                 byte[] imagenBytes = prod.Imagen;
                 string base64 = "data:image/png;base64," + Convert.ToBase64String(imagenBytes);
-                    <section id="seccard" class="col col-md-auto" onclick="window.location.href='@Url.Action("ProductoSeleccion","ProductoVistaDAO",new{_id=prod.Id})'">
+                    <section id="seccard" class="col col-md-auto" onclick="window.location.href='@Url.Action("ProductoSeleccion","Producto",new{_id=prod.Id})'">
                         <div id="cardform" class="card text-white rounded-3">
                             <div class="card-body">
                                 <div class="card-title">
