@@ -18,25 +18,25 @@ namespace Protov4.Controllers
 
         }
         // GET: HomeController1
-        public ActionResult Carrito(string id)
+        public ActionResult Carrito(int id)
         {
 
-           
+
 
             var carrfull = obtenerCarritoFull(id);
 
             return View(carrfull);
 
         }
-       
+
         [HttpGet]
-        private List<CarritoFullDTO> obtenerCarritoFull(string idprod)
+        private List<CarritoFullDTO> obtenerCarritoFull(int idped)
         {
-            List<CarritoFullDTO> carr1 = carr.ObtenerCarritoFull(idprod);
-            
+            List<CarritoFullDTO> carr1 = carr.ObtenerCarritoFull(idped);
+
             return carr1;
         }
-        
+
 
         // GET: HomeController1/Details/5
         public ActionResult Details(int id)
@@ -95,16 +95,19 @@ namespace Protov4.Controllers
         // POST: HomeController1/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public ActionResult Delete(int id_pedido, string id_producto)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                carr.EliminarProductoCarrito(id_pedido, id_producto);
+                return Json(new { success = true });
             }
-            catch
+            catch (Exception ex)
             {
-                return View();
+                // Manejar el error si es necesario y devolver un resultado JSON con éxito falso en caso de error
+                return Json(new { success = false, errorMessage = ex.Message });
             }
         }
+
     }
 }
