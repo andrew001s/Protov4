@@ -5,45 +5,49 @@
 }
 @model List<ProductoDTO>
 <div class="container">
-<main role="main" class="pb-3">
+    <main role="main" class="pb-3">
 
-    <section class="row" aria-labelledby="aspnetTitle">
-        <h1 id="title" style="font:bold 36px arial;">Productos</h1>
-    </section>
+        <section class="row" aria-labelledby="aspnetTitle">
+            <h1 id="title" style="font:bold 36px arial;">Productos</h1>
+        </section>
 
-    <div id="contenedor_Productos" class="row">
+        <div id="contenedor_Productos" class="row">
         @{
             foreach (var prod in Model)
             {
                 byte[] imagenBytes = prod.Imagen;
                 string base64 = "data:image/png;base64," + Convert.ToBase64String(imagenBytes);
                     <section id="seccard" class="col col-md-auto" onclick="window.location.href='@Url.Action("ProductoSeleccion","Producto",new{_id=prod.Id})'">
-                        <div id="cardform" class="card text-white rounded-3">
+                    <div id="cardform" class="card text-white rounded-3">
                             <div class="card-body">
-                                <div class="card-title">
-                                    <h5>
-                                        <img src="@base64" width="267" height="252">
-                                    </h5>
-                                    <p id="nombreProducto" class="card-text text-uppercase">@prod.Nombre_Producto</p>
-                                    <p id="Precio" class="card-text ms-3">$@prod.Precio</p>
-                                    <p id="IVA" class="card-text ml-3">Precios incluyen IVA</p>
-                                    <div id="botoncompra">
-                                        <form action="@Url.Action("AgregarAlCarrito","Carrito")" method="post">
-                                            <input type="hidden" name="productId" value="@prod.Id" />
-                                            <button type="submit" id="botoncarrito" class="btn btn-large">
-                                                <i id="carrito" class="bi bi-cart-fill">AÑADIR AL CARRITO</i>
-                                            </button>
-                                        </form>
-                                    </div>
+                            <div class="card-title">
+                                <h5>
+                                    <img src="@base64" width="267" height="252">
+                                </h5>
+                                <p id="nombreProducto" class="card-text text-uppercase">@prod.Nombre_Producto</p>
+                                <p id="Precio" class="card-text ms-3">$@prod.Precio</p>
+                                <p id="IVA" class="card-text ml-3">Precios incluyen IVA</p>
+                                <div id="botoncompra">
+                                    <form method="post" asp-action="CrearCarrito" asp-controller="Producto">
+                                        <input type="hidden" name="id_pedido" value="3" />
+                                        <input type="hidden" name="id_producto" value="@prod.Id" />
+                                        <input type="hidden" name="precio" value="@prod.Precio" />
+                                        <input type="hidden" name="cantidad" value="1" />
+                                        <input type="hidden" name="subtotal" value="@prod.Precio" />
+                                        <button id="botoncarrito" type="submit" class="btn btn-large shadow-sm">
+                                            <i id="carrito" class="bi bi-cart-fill">AÑADIR AL CARRITO</i>
+                                        </button>
+                                    </form>
                                 </div>
                             </div>
                         </div>
-                    </section>
+                    </div>
+                </section>
 
 
             }
-        }
-    </div>
-</main>
+            }
+        </div>
+    </main>
 
 </div>

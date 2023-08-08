@@ -14,7 +14,7 @@ namespace Protov4.Controllers
         {
             db = new MikutechDAO(configuration);
         }
-
+   
         // GET: ProductoController
 
         public ActionResult Producto(string tipo)
@@ -54,7 +54,7 @@ namespace Protov4.Controllers
                     Almacenamiento = p.Especificaciones.Almacenamiento,
                     Descripción = p.Especificaciones.Descripción
                 }
-
+               
             }).ToList();
 
             return ProductoDTO;
@@ -89,7 +89,14 @@ namespace Protov4.Controllers
         {
             return View();
         }
-
+        // POST: ProductoController/Create
+        [HttpPost]
+        public void CrearCarrito(int id_pedido, string id_producto, decimal precio, int cantidad, decimal subtotal)
+        {
+            CarritoDAO.InsertarPedidoDetalle(id_pedido, id_producto, precio, cantidad, subtotal);
+          
+            
+        }
         // POST: ProductoController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]

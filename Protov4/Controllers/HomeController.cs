@@ -18,8 +18,7 @@ namespace Protov4.Controllers
             return View();
         }
 
-        public IActionResult Privacy()
-        {
+        public ActionResult AcercaDe() {
             return View();
         }
         public IActionResult Admin()

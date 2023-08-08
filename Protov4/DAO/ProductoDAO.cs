@@ -13,6 +13,7 @@ namespace Protov4.DAO
         {
             var mongo = new DBMongo(configuration);
             prod = mongo.GetDatabase().GetCollection<ProductoDTO>("Productos");
+            carfull = mongo.GetDatabase().GetCollection<CarritoFullDTO>("Productos");
         }
         public  List<ProductoDTO> ObtenerProductos(string tipo)
         {
@@ -57,7 +58,7 @@ namespace Protov4.DAO
 
         }
 
-     
+
 
         public  List<ProductoDTO> ObtenerSeleccion(string id)
         {
