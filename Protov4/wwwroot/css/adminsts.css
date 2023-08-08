@@ -13,6 +13,9 @@ html {
     /*me permite deslizar cuando hago clic en los links del menú*/
     scroll-behavior: smooth;
 }
+body {
+    background: linear-gradient(135deg, #411038, #0C0A22);
+}
 
 /*ESTILOS DEL MENÚ*/
 .contenedor-header {
@@ -96,16 +99,15 @@ html {
 /*Productos*/
 .productos {
     color: #fff;
-    background: linear-gradient(rgba(0, 1, 3, .5), rgba(0, 0, 0, .7));
-    padding: 100px 20px;
+    padding: 200px 20px;
 }
 
-.productos .contenido-seccion {
-    justify-content: center;
-    align-items:center;
-    text-align:center;
-    margin: auto;
-}
+    .productos .contenido-seccion {
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        margin: auto;
+    }
 
     .productos .contenedor-titulo {
         display: flex;
@@ -114,43 +116,54 @@ html {
         align-items: center;
     }
 
-.productos .fila .columna {
-    margin-bottom:15px;
-}
-.productos .fila label {
-    display:flex;
-    padding:10px;
-    margin-left:425px;
-    font-size:20px;
-    font-weight:bold;
-}
-.productos .fila input {
-    width: 40%;
-    padding: 15px;
-    border: none;
-    border-radius: 5px;
-    font-size: 20px;
-    outline: none;
-    /*elimina contorno*/
-}
+    .productos .fila {
+        display: flex;
+        flex-direction: column;
+        max-width: 1500px;
+        margin: auto;
+        align-items: center;
+        justify-content: center;
+        margin-top: 20px;
+    }
 
-.productos .btn-contenedor button{
-    margin-right:50px;
-    margin-left:50px;
-    margin-top:20px;
-    color:#fff;
-    font-size: 20px
-}
+        .productos .fila .columna {
+            width: calc(38.33% - 10px);
+            margin-bottom: 15px;
+            text-align: left; /* Centrar los elementos dentro de las columnas */
+        }
+
+        .productos .fila label {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .productos .fila input {
+            width: 100%; /* Anchura relativa al ancho de la columna */
+            padding: 15px;
+            border: none;
+            border-radius: 5px;
+            font-size: 20px;
+            outline: none;
+        }
+
+    .productos .btn-contenedor button {
+        margin-right: 50px;
+        margin-left: 50px;
+        margin-top: 20px;
+        color: #fff;
+        font-size: 20px
+    }
 
 .tabla {
     color: #fff;
     background: linear-gradient(rgba(0, 1, 3, .5), rgba(0, 0, 0, .7));
     padding: 100px 20px;
 }
-.tabla .contenido-seccion {
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    margin: auto;
-}
 
+    .tabla .contenido-seccion {
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        margin: auto;
+    }
