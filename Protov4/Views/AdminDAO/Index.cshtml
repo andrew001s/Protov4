@@ -1,5 +1,6 @@
 ﻿<!--Creacion de la vista de admin-->
 <!--Las siguientes líneas son solo html-->
+@model Protov4.DTO.ProductoDTO
 @{
     Layout = null;
 }
@@ -48,32 +49,31 @@
             <thead>
                 <tr>
                     <th>
-                        N°
-                    </th>
-                    <th>
-                        Id Producto
-                    </th>
-                    <th>
-                        Nombre
+                        Nombre producto
                     </th>
                     <th>
                         Precio
+                    </th>
+                    <th>
+                        Imagen
+                    </th>
+                    <th>
+                        Marca
+                    </th>
+                    <th>
+                        Existencia
+                    </th>
+                    <th>
+                        Procesador
                     </th>
                     <th></th>
                 </tr>
             </thead>
             <tbody>
-                <!--Esto toca cambiar por el modelo-->
-                @*@foreach (var item in Model){*@
+                @foreach (var item in Model){
                     <tr>
                         <td>
-                            1
-                        </td>
-                        <td>
-                            147854E47
-                        </td>
-                        <td>
-                            Teclado Mecánico
+                            @Model.Nombre_Producto
                         </td>
                         <td>
                             $14,00
@@ -85,7 +85,7 @@
                             <a asp-action="Delete">Eliminar</a> 
                         </td>
                     </tr>
-                @*}*@
+                }
             </tbody>
         </table>
     </div>
