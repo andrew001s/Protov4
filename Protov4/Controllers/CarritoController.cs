@@ -14,7 +14,7 @@ namespace Protov4.Controllers
         public CarritoController(IConfiguration configuration)
         {
             carr = new CarritoDAO(configuration);
-            prod = new ProductoDAO(configuration);
+           
 
         }
         // GET: HomeController1

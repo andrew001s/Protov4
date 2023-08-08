@@ -11,12 +11,12 @@ namespace Protov4.DAO
 {
     public class CarritoDAO : DbConnection
     {
-        private readonly IProductoCollection db;
+        private readonly MikutechDAO db;
         SqlCommand cmd = new SqlCommand();
         SqlDataReader leertabla;
         public CarritoDAO(IConfiguration configuration) : base(configuration)
         {
-            db = new ProductoDAO(configuration);
+          db = new MikutechDAO(configuration);
             // Constructor que llama al constructor de la clase base (DbConnection) pasando la configuración.
             // Esto asegura que el objeto de conexión se inicialice correctamente.
 

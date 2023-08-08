@@ -8,6 +8,7 @@ namespace Protov4.DAO
     public class ProductoDAO 
     {
         private readonly IMongoCollection<ProductoDTO> prod;
+        private readonly IMongoCollection<CarritoFullDTO> carfull;
 
         public ProductoDAO(IConfiguration configuration)
         {
