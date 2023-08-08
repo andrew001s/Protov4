@@ -2,24 +2,24 @@
 
 namespace Protov4.DAO
 {
-    public class AdminDAO:Controller
+    public class AdminController:Controller
     {
-        private readonly DBMongo _context;
+        //private readonly DBMongo _context;
 
-        public AdminDAO(DBMongo context) { 
+        //public AdminController(DBMongo context) { 
         
-            _context = context;
-        }
-        //public IActionResult Index()
-        //{
-        //    return View();
+        //    _context = context;
         //}
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            return _context.Compras != null ?
-                        View(await _context.Compras.ToListAsync()) :
-                        Problem("Entity set 'ScrapDbContext.Compras'  is null.");
+            return View();
         }
+        //public async Task<IActionResult> Index()
+        //{
+        //    return _context.Compras != null ?
+        //                View(await _context.Compras.ToListAsync()) :
+        //                Problem("Entity set 'ScrapDbContext.Compras'  is null.");
+        //}
 
         public IActionResult Create()
         {
