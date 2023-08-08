@@ -18,9 +18,7 @@
             <h1 class="nombreProductoSeleccion">@prod.Nombre_Producto</h1>
             <h1 class="PrecioSeleccion">$@prod.Precio</h1>
             <h2 class="lblIVA">Precios incluyen IVA</h2>
-            <button data-productid="@prod.Id" class="btn bi bi-dash-lg btnmenos"></button>
-            <h4 class="contador">@cantidad</h4>
-            <button data-productid="@prod.Id" class="btn bi bi-plus-lg btnmas"></button>
+
             <button id="botoncarritoseleccion" class="btn btn-large shadow-sm">
                 <i id="carrito" class="bi bi-cart-fill">AÑADIR AL CARRITO</i>
             </button>
@@ -79,26 +77,4 @@
     }
 </div>
 
-<script>
-    $(document).ready(function () {
-        // Manejar clic en el botón de menos
-        $(".btnmenos").on("click", function () {
-            var divProducto = $(this).closest(".product-info");
-            var cantidadElement = divProducto.find(".contador");
-            var cantidad = parseInt(cantidadElement.text());
-            if (cantidad > 1) {
-                cantidad--;
-                cantidadElement.text(cantidad);
-            }
-        });
 
-        // Manejar clic en el botón de más
-        $(".btnmas").on("click", function () {
-            var divProducto = $(this).closest(".product-info");
-            var cantidadElement = divProducto.find(".contador");
-            var cantidad = parseInt(cantidadElement.text());
-            cantidad++;
-            cantidadElement.text(cantidad);
-        });
-    });
-</script>

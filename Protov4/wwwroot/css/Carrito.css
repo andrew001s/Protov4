@@ -103,11 +103,14 @@
 
 .contador-content {
     display: flex;
+   
     align-items: center;
     max-width: 100%; /* Ajusta el ancho máximo según sea necesario */
 }
 
 .contadorcarrito {
+    
+    
     background-color: #505374;
     text-align: center;
     width: 35px;

@@ -3,6 +3,7 @@
 }
 
 #seccard {
+ 
     margin-bottom: 2%;
 }
 
@@ -23,17 +24,22 @@
 }
 
 .imagenProd {
-    width: 502px;
-    height: 502px;
+    width: 145%;
+    height: 65%;
 }
 
 #cardform {
     width: 400px;
     height: 411px;
-    border-color: white;
+    background:  rgba(255,255,255,0.05);
+    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(20px);
+    box-shadow: 0 8px 32px 0 rgba(0,0,0,0.37);
+    border: 1px solig rgba(255,255,255,0.18);
+    border-radius: 32 px;
     text-align: center;
-    background-color: #444774;
-    transition: transform 0.3s ease-in-out; /* Transición suave al pasar el cursor sobre el botón */
+    /*    background-color: #444774;
+*/ transition: transform 0.3s ease-in-out; /* Transición suave al pasar el cursor sobre el botón */
 }
 #cardform:hover {
         border-color: aqua;

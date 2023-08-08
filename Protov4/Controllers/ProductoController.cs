@@ -93,7 +93,7 @@ namespace Protov4.Controllers
         [HttpPost]
         public void CrearCarrito(int id_pedido, string id_producto, decimal precio, int cantidad, decimal subtotal)
         {
-           // CarritoDAO.InsertarPedidoDetalle(id_pedido, id_producto, precio, cantidad, subtotal);
+            db.insertarCarrito(id_pedido, id_producto, precio, cantidad, subtotal);
           
             
         }
