@@ -8,13 +8,11 @@ namespace Protov4.DAO
     public class ProductoDAO 
     {
         private readonly IMongoCollection<ProductoDTO> prod;
-        private readonly IMongoCollection<CarritoFullDTO> carfull;
 
         public ProductoDAO(IConfiguration configuration)
         {
             var mongo = new DBMongo(configuration);
             prod = mongo.GetDatabase().GetCollection<ProductoDTO>("Productos");
-            carfull = mongo.GetDatabase().GetCollection<CarritoFullDTO>("Productos");
         }
         public  List<ProductoDTO> ObtenerProductos(string tipo)
         {

@@ -9,11 +9,10 @@ namespace Protov4.Controllers
 {
     public class CarritoController : Controller
     {
-        CarritoDAO carr;
-        private readonly IProductoCollection prod;
+        MikutechDAO carr;
         public CarritoController(IConfiguration configuration)
         {
-            carr = new CarritoDAO(configuration);
+            carr = new MikutechDAO(configuration);
            
 
         }
