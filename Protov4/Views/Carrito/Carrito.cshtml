@@ -69,8 +69,8 @@
 </div>
 
 <div>
-    <button class="btn btn-outline-light" onclick="window.location.href='@Url.Action("Producto", "Producto", new { tipo = "" })'">Añadir Producto</button>
-    <button class="btn btn-outline-light">Finalizar compra</button>
+    <button id="botoncarrito" type="submit" class="btn btn-large shadow-sm" onclick="window.location.href='@Url.Action("Producto", "Producto", new { tipo = "" })'">Añadir Producto</button>
+    <button id="botoncarrito" type="submit" class="btn btn-large shadow-sm" onclick="window.location.href='@Url.Action("FinalizarCompra", "Carrito")'">Finalizar compra</button>
 </div>
 
 <script>

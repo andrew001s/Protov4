@@ -151,7 +151,59 @@ namespace Protov4.DAO
             leertabla=cmd.ExecuteReader();
             con.Close();
         }
+        public List<PedidoDTO> RegistrarPedido(int id_cliente)
+        {
+            List<PedidoDTO> list = new List<PedidoDTO>();
 
+            using (var connection = GetSqlConnection())
+            {
+                connection.Open();
+                SqlCommand cmd = new SqlCommand("RegistrarPedido", connection);
+                cmd.Parameters.AddWithValue("@id_cliente", id_cliente);
+                cmd.Parameters.AddWithValue("@pago_total", null);
+                cmd.Parameters.AddWithValue("@Ciudad_envio", null);
+                cmd.Parameters.AddWithValue("@Calle_principal", null);
+                cmd.Parameters.AddWithValue("@Calle_secundaria", null);
+                cmd.Parameters.AddWithValue("@id_tipo_pago", null);
+                cmd.Parameters.AddWithValue("@id_tipo_estado", null);
+                cmd.Parameters.AddWithValue("@fecha_pedido", null);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.ExecuteNonQuery();
+            }
+            return list;
+        }
+        public void ActualizarPedidoDetalle(int id_pedido,int cantidad, decimal subtotal_producto)
+        {
+            var con = GetSqlConnection();
+            cmd.Connection = con;
+            cmd.CommandText = "ActualizarPedidoDetalle";
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@id_pedido", id_pedido);
+            cmd.Parameters.AddWithValue("@cantidad", cantidad);
+            cmd.Parameters.AddWithValue("@subtotal_producto", subtotal_producto);
+            con.Open();
+            leertabla = cmd.ExecuteReader();
+            con.Close();
+        }
+
+        public void ActualizarPedido(int id_pedido, decimal pago_total, string Ciudad_envio, string Calle_principal, string Calle_secundaria, int id_tipo_pago, DateTime fecha_pedido)
+        {
+            var con = GetSqlConnection();
+            cmd.Connection = con;
+            cmd.CommandText = "ActualizarPedido";
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@id_pedido", id_pedido);
+            cmd.Parameters.AddWithValue("@pago_total", pago_total);
+            cmd.Parameters.AddWithValue("@Ciudad_envio", Ciudad_envio);
+            cmd.Parameters.AddWithValue("@Calle_principal", Calle_principal);
+            cmd.Parameters.AddWithValue("@Calle_secundaria", Ciudad_envio);
+            cmd.Parameters.AddWithValue("@id_tipo_pago", Ciudad_envio);
+            cmd.Parameters.AddWithValue("@fecha_pedido", fecha_pedido);
+            con.Open();
+            leertabla = cmd.ExecuteReader();
+            con.Close();
+        }
 
 
 

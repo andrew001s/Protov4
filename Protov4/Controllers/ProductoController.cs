@@ -91,11 +91,19 @@ namespace Protov4.Controllers
         }
         // POST: ProductoController/Create
         [HttpPost]
-        public void CrearCarrito(int id_pedido, string id_producto, decimal precio, int cantidad, decimal subtotal)
+        public ActionResult CrearCarrito(int id_pedido, string id_producto, decimal precio, int cantidad, decimal subtotal)
         {
-            db.insertarCarrito(id_pedido, id_producto, precio, cantidad, subtotal);
-          
-            
+            try
+            {
+                db.insertarCarrito(id_pedido, id_producto, precio, cantidad, subtotal);
+                return Json(new { success = true });
+            }
+            catch (Exception ex)
+            {
+                // Manejar el error si es necesario y devolver un resultado JSON con éxito falso en caso de error
+                return Json(new { success = false, errorMessage = ex.Message });
+            }
+
         }
         // POST: ProductoController/Create
         [HttpPost]

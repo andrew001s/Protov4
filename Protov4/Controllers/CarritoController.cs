@@ -48,6 +48,10 @@ namespace Protov4.Controllers
         {
             return View();
         }
+        public ActionResult FinalizarCompra(int id_cliente)
+        {
+            return View();
+        }
 
         // POST: HomeController1/Create
         [HttpPost]

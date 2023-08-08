@@ -12,6 +12,11 @@ namespace Protov4.DAO
             carritoDAO = new CarritoDAO(configuration);// You might need to adjust this based on your actual implementation
         }
 
+        public override void ActualizarPedidoDetalle(int id_pedido, int cantidad, decimal subtotal_producto)
+        {
+            carritoDAO.ActualizarPedidoDetalle(id_pedido, cantidad, subtotal_producto);
+        }
+
         public override void EliminarProductoCarrito(int id, string idproducto)
         {
             carritoDAO.EliminarProductoCarrito(id, idproducto);
@@ -46,5 +51,11 @@ namespace Protov4.DAO
         {
             return carritoDAO.ObtenerCarritoFull(id);
         }
+
+        public override List<PedidoDTO> RegistrarPedido(int id_cliente)
+        {
+            return carritoDAO.RegistrarPedido(id_cliente);
+        }
     }
 }
+    

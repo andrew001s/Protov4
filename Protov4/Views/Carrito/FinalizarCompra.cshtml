@@ -1,0 +1,34 @@
+﻿<head>
+    <title>Formulario de Compra</title>
+</head>
+<body class="FinComprabody">
+    <div class="cuadrito">
+    <form method="post">
+        <div class="IzqForm">
+        <h2 class="TituloForm">Finalizar Compra</h2>
+        <label class="Texto1Form" for="ciudad">Ciudad</label><br>
+        <select  class="ComboForm" id="ciudad" name="ciudad">
+            <option value="Quito">Quito</option>
+            <option value="Guayaquil">Guayaquil</option>
+            <option value="Cuenca">Cuenca</option>
+        </select>
+        <br>
+        <label class="Texto1Form" for="callePrincipal">Calle Principal</label><br>
+            <input class="Boton1Form" type="text" id="callePrincipal" name="callePrincipal"><br>
+        <label class="Texto1Form" for="calleSecundaria">Calle Secundaria:</label><br>
+            <input class="Boton1Form" type="text" id="calleSecundaria" name="calleSecundaria"><br>
+        </div>
+        <div class="DerForm">
+                <label class="Texto2Form" >Seleccione un método de pago</label><br> 
+                <input type="checkbox" id="pagoTarjetaCredito" name="pagoTarjetaCredito">
+                <label class="Texto3Form" for="pagoTarjetaCredito">Tarjeta de Crédito</label><img  class="Img1Form"src="~/Recursos/Tarjetas.png" alt="Tarjetas" width="150" height="60px"/><br>
+                <input type="checkbox" id="pagoTarjetaDebito" name="pagoTarjetaDebito">
+                <label class="Texto3Form" for="pagoPayPal">PayPal</label><img src="~/Recursos/PayPal.png" alt="PayPal" width="35px" height="35px" /><br>
+                <input type="checkbox" id="pagoPayPal" name="pagoPayPal">
+                <label class="Texto3Form" for="pagoTransferencia">Transferencia</label><img src="~/Recursos/BancoPichincha.png" alt="Transferencia" width="35px" height="35px" /><br>
+        <br>
+                <button id="BtnPagarForm" type="submit" class="btn btn-large shadow-sm">Pagar</button>
+        </div>
+    </form>
+    </div>
+</body>
