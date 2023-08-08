@@ -1,9 +1,9 @@
 ﻿<!--Creacion de la vista de admin-->
 <!--Las siguientes líneas son solo html-->
-@model Protov4.DTO.ProductoDTO
-@{
+@*@model Protov4.DTO.ProductoDTO*@
+@*@{
     Layout = null;
-}
+}*@
 
 <html lang="en">
 <head>
@@ -70,10 +70,10 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (var item in Model){
+                @*@foreach (var item in Model){*@
                     <tr>
                         <td>
-                            @Model.Nombre_Producto
+                            Nombre_producto
                         </td>
                         <td>
                             $14,00
@@ -85,7 +85,7 @@
                             <a asp-action="Delete">Eliminar</a> 
                         </td>
                     </tr>
-                }
+                @*}*@
             </tbody>
         </table>
     </div>
