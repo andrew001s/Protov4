@@ -12,6 +12,11 @@ namespace Protov4.DAO
             carritoDAO = new CarritoDAO(configuration);// You might need to adjust this based on your actual implementation
         }
 
+        public override void ActualizarPedido(int id_pedido, decimal pago_total, string Ciudad_envio, string Calle_principal, string Calle_secundaria, int id_tipo_pago, DateTime fecha_pedido)
+        {
+            carritoDAO.ActualizarPedido(id_pedido, pago_total, Ciudad_envio, Calle_principal, Calle_secundaria, id_tipo_pago, fecha_pedido);
+        }
+
         public override void ActualizarPedidoDetalle(int id_pedido, int cantidad, decimal subtotal_producto)
         {
             carritoDAO.ActualizarPedidoDetalle(id_pedido, cantidad, subtotal_producto);
