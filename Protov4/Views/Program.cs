@@ -13,6 +13,7 @@ builder.Services.AddControllersWithViews();
 // Configuración para acceder a la cadena de conexión desde appsettings.json
 IConfiguration configuration = builder.Configuration;
 builder.Services.AddSingleton(new DbConnection(configuration));
+
 builder.Services.AddTransient<UsuariosDAO>();
 builder.Services.AddSingleton<IMongoClient>(new MongoClient(configuration.GetConnectionString("MongoDBConnection")));
 builder.Services.AddScoped<DBMongo>();

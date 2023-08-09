@@ -57,9 +57,14 @@ namespace Protov4.DAO
             return carritoDAO.ObtenerCarritoFull(id);
         }
 
-        public override List<PedidoDTO> RegistrarPedido(int id_cliente)
+        public override int ObtenerIdPedido()
         {
-            return carritoDAO.RegistrarPedido(id_cliente);
+            return carritoDAO.ObtenerIdPedido();
+        }
+
+        public override void RegistrarPedido(int id_cliente)
+        {
+             carritoDAO.RegistrarPedido(id_cliente);
         }
     }
 }

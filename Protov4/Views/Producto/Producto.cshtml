@@ -3,7 +3,7 @@
     ViewData["Title"] = "Producto Page";
 }
 
-@model List<ProductoDTO>
+@model List<ProductoDTO> 
 <div class="container">
     <main role="main" class="pb-3">
         <section class="row" aria-labelledby="aspnetTitle">
@@ -28,7 +28,7 @@
                                     <p id="IVA" class="card-text ml-3">Precios incluyen IVA</p>
                                     <div id="botoncompra">
                                         <form class="carritoForm" action="@Url.Action("CrearCarrito", "Producto")" method="post">
-                                            <input type="hidden" name="id_pedido" value="3" />
+                                            <input type="hidden" name="id_cliente" value="1" />
                                             <input type="hidden" name="id_producto" value="@prod.Id" />
                                             <input type="hidden" name="precio" value="@prod.Precio" />
                                             <input type="hidden" name="cantidad" value="1" />

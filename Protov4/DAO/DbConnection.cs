@@ -6,7 +6,7 @@ namespace Protov4.DAO
 {
     public class DbConnection
     {
-        protected SqlConnection conexion;
+        public SqlConnection conexion;
 
         public DbConnection(IConfiguration configuration)
         {
@@ -23,7 +23,7 @@ namespace Protov4.DAO
             }
         }
 
-        protected SqlConnection GetSqlConnection()
+        public SqlConnection GetSqlConnection()
         {
             return conexion;
         }

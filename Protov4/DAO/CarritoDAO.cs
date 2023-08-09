@@ -6,26 +6,27 @@ using MongoDB.Driver;
 using System.Security.Cryptography;
 using System.Collections.Generic;
 using NuGet.Protocol.Plugins;
+using MongoDB.Driver.Core.Configuration;
 
 namespace Protov4.DAO
 {
-    public class CarritoDAO : DbConnection
+    public class CarritoDAO 
     {
         private readonly ProductoDAO db;
         SqlCommand cmd = new SqlCommand();
+        DbConnection dbsql;
         SqlDataReader leertabla;
-        public CarritoDAO(IConfiguration configuration) : base(configuration)
+        public CarritoDAO(IConfiguration configuration) 
         {
           db = new ProductoDAO(configuration);
+            dbsql=new DbConnection(configuration);
             // Constructor que llama al constructor de la clase base (DbConnection) pasando la configuración.
             // Esto asegura que el objeto de conexión se inicialice correctamente.
 
         }
         public void InsertarPedidoDetalle(int id_pedido, string id_producto, decimal precio, int cantidad, decimal subtotal)
         {
-            List<CarritoDTO> list = new List<CarritoDTO>();
-
-            using (var connection = GetSqlConnection())
+            using (var connection = dbsql.GetSqlConnection())
             {
                 connection.Open();
                 SqlCommand cmd = new SqlCommand("InsertarPedidoDetalle", connection);
@@ -45,7 +46,7 @@ namespace Protov4.DAO
         {
             List<CarritoDTO> list = new List<CarritoDTO>();
 
-            using (var connection = GetSqlConnection())
+            using (var connection = dbsql.GetSqlConnection())
             {
                 connection.Open();
                 SqlCommand cmd = new SqlCommand("ObtenerCarrito", connection);
@@ -78,7 +79,7 @@ namespace Protov4.DAO
             List<CarritoFullDTO> listsql = new List<CarritoFullDTO>();
 
             var listmongo = new List<CarritoFullDTO>();
-            using (var connection = GetSqlConnection())
+            using (var connection = dbsql.GetSqlConnection())
             {
                 connection.Open();
                 SqlCommand cmd = new SqlCommand("ObtenerCarrito", connection);
@@ -141,7 +142,7 @@ namespace Protov4.DAO
         }
         public void EliminarProductoCarrito(int id,string idproducto)
         {
-            var con= GetSqlConnection();
+            var con= dbsql.GetSqlConnection();
             cmd.Connection = con;
             cmd.CommandText= "EliminarCarrito";
             cmd.CommandType = CommandType.StoredProcedure;
@@ -151,31 +152,30 @@ namespace Protov4.DAO
             leertabla=cmd.ExecuteReader();
             con.Close();
         }
-        public List<PedidoDTO> RegistrarPedido(int id_cliente)
+        public void RegistrarPedido(int id_cliente)
         {
-            List<PedidoDTO> list = new List<PedidoDTO>();
 
-            using (var connection = GetSqlConnection())
+            using (var connection = new SqlConnection("Data Source=SHANDREW\\SQLEXPRESS;Initial Catalog=MIKUDBV1;Integrated Security=true;Encrypt=False"))
             {
                 connection.Open();
                 SqlCommand cmd = new SqlCommand("RegistrarPedido", connection);
                 cmd.Parameters.AddWithValue("@id_cliente", id_cliente);
-                cmd.Parameters.AddWithValue("@pago_total", null);
-                cmd.Parameters.AddWithValue("@Ciudad_envio", null);
-                cmd.Parameters.AddWithValue("@Calle_principal", null);
-                cmd.Parameters.AddWithValue("@Calle_secundaria", null);
-                cmd.Parameters.AddWithValue("@id_tipo_pago", null);
-                cmd.Parameters.AddWithValue("@id_tipo_estado", null);
-                cmd.Parameters.AddWithValue("@fecha_pedido", null);
+                cmd.Parameters.AddWithValue("@pago_total", DBNull.Value);
+                cmd.Parameters.AddWithValue("@Ciudad_envio", DBNull.Value);
+                cmd.Parameters.AddWithValue("@Calle_principal", DBNull.Value);
+                cmd.Parameters.AddWithValue("@Calle_secundaria", DBNull.Value);
+                cmd.Parameters.AddWithValue("@id_tipo_pago", DBNull.Value);
+                cmd.Parameters.AddWithValue("@id_tipo_estado", DBNull.Value);
+                cmd.Parameters.AddWithValue("@fecha_pedido", DBNull.Value);
                 cmd.CommandType = CommandType.StoredProcedure;
 
                 cmd.ExecuteNonQuery();
             }
-            return list;
+            
         }
         public void ActualizarPedidoDetalle(int id_pedido,int cantidad, decimal subtotal_producto)
         {
-            var con = GetSqlConnection();
+            var con = dbsql.GetSqlConnection();
             cmd.Connection = con;
             cmd.CommandText = "ActualizarPedidoDetalle";
             cmd.CommandType = CommandType.StoredProcedure;
@@ -186,10 +186,39 @@ namespace Protov4.DAO
             leertabla = cmd.ExecuteReader();
             con.Close();
         }
+       public int ObtenerIdPedido()
+{
+    int lastPedidoId = -1;
+
+    using (var connection = new SqlConnection("Data Source=SHANDREW\\SQLEXPRESS;Initial Catalog=MIKUDBV1;Integrated Security=true;Encrypt=False"))
+    {
+        connection.Open();
+        using (var cmd = new SqlCommand("GetLastPedidoId", connection))
+        {
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            SqlParameter outputParameter = new SqlParameter();
+            outputParameter.ParameterName = "@LastPedidoId";
+            outputParameter.SqlDbType = SqlDbType.Int;
+            outputParameter.Direction = ParameterDirection.Output;
+            cmd.Parameters.Add(outputParameter);
+
+            cmd.ExecuteNonQuery();
+
+            if (outputParameter.Value != DBNull.Value)
+            {
+                lastPedidoId = (int)outputParameter.Value;
+            }
+        }
+    }
+
+    return lastPedidoId;
+}
+
 
         public void ActualizarPedido(int id_pedido, decimal pago_total, string Ciudad_envio, string Calle_principal, string Calle_secundaria, int id_tipo_pago, DateTime fecha_pedido)
         {
-            var con = GetSqlConnection();
+            var con = dbsql.GetSqlConnection();
             cmd.Connection = con;
             cmd.CommandText = "ActualizarPedido";
             cmd.CommandType = CommandType.StoredProcedure;

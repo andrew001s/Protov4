@@ -12,8 +12,9 @@ namespace Protov4.DAO
         public abstract List<CarritoDTO> ObtenerCarrito();
         public abstract List<CarritoFullDTO> ObtenerCarritoFull(int id);
         public abstract void EliminarProductoCarrito(int id, string idproducto);
-        public abstract List<PedidoDTO> RegistrarPedido(int id_cliente);
+        public abstract void RegistrarPedido(int id_cliente);
         public abstract void ActualizarPedidoDetalle(int id_pedido, int cantidad, decimal subtotal_producto);
         public abstract void ActualizarPedido(int id_pedido, decimal pago_total, string Ciudad_envio, string Calle_principal, string Calle_secundaria, int id_tipo_pago, DateTime fecha_pedido);
+        public abstract int ObtenerIdPedido();
     }
 }
