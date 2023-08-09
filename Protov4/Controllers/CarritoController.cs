@@ -90,10 +90,7 @@ namespace Protov4.Controllers
         }
 
         // GET: HomeController1/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
+
 
         // POST: HomeController1/Delete/5
         [HttpPost]

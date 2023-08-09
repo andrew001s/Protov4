@@ -6,7 +6,17 @@
     margin-top: 100px;
     margin-left: 150px
 }
-
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+}
 .TabCarrito {
     border-collapse: collapse;
     display: flex;
@@ -132,6 +142,17 @@
     display:flex;
     justify-content:center;
     transform:translateX(-82px) translateY(20px);
+}
+.BtnFinCompra {
+    background-color: #643ada;
+    width: 150px;
+    height: 30px;
+    font: bold 14px arial;
+    color: white;
+    padding: 8px 16px; /* Ajusta el espaciado interno del botón */
+    border: none; /* Sin bordes */
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out; /* Transición suave al pasar el cursor sobre el botón */
 }
 
 
