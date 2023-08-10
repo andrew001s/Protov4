@@ -20,8 +20,8 @@
             <h2 class="lblIVA">Precios incluyen IVA</h2>
 
             <div id="botoncompra">
-                <form class="crearcar" method="post" action="@Url.Action("CrearCarrito", "Producto")">
-                    <input type="hidden" name="id_pedido" value="3" />
+                <form class="carritoForm" action="@Url.Action("CrearCarrito", "Producto")" method="post">
+                    <input type="hidden" name="id_cliente" value="1" />
                     <input type="hidden" name="id_producto" value="@prod.Id" />
                     <input type="hidden" name="precio" value="@prod.Precio" />
                     <input type="hidden" name="cantidad" value="1" />
@@ -86,11 +86,12 @@
     }
 </div>
 
+<div id="alertContainer" class="alert-container"></div>
 
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-        var crearcar = document.querySelectorAll(".crearcar");
-        crearcar.forEach(function (form) {
+        var carritoForm = document.querySelectorAll(".carritoForm");
+        carritoForm.forEach(function (form) {
             form.addEventListener("submit", function (e) {
                 e.preventDefault();
 
@@ -102,7 +103,8 @@
                 })
                     .then(function (response) {
                         if (response.ok) {
-                            location.reload();
+                            // Instead of location.reload(), you can update the view using AJAX
+                            updateView();
                         } else {
                             // Handle error if needed
                         }
@@ -112,4 +114,30 @@
                     });
             });
         });
+
+        // Function to update the view (you can customize this based on your framework)
+        function updateView() {
+            var alertContainer = document.getElementById('alertContainer');
+
+            // Crear el elemento de la alerta
+            var alertElement = document.createElement('div');
+            alertElement.classList.add('alert', 'alert-success', 'fade', 'show', 'product-alert');
+            alertElement.innerHTML = 'Producto añadido al carrito';
+
+            // Agregar la alerta al contenedor
+            alertContainer.appendChild(alertElement);
+
+            // Desvanecer la alerta después de un tiempo (por ejemplo, 3 segundos)
+            setTimeout(function () {
+                alertElement.classList.remove('show');
+
+                // Eliminar la alerta del DOM después de la animación de desvanecimiento
+                alertElement.addEventListener('transitionend', function () {
+                    alertContainer.removeChild(alertElement);
+                });
+            }, 3000); // 3000 milisegundos = 3 segundos
+        }
+
+    });
 </script>
+

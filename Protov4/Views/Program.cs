@@ -18,7 +18,13 @@ builder.Services.AddTransient<UsuariosDAO>();
 builder.Services.AddSingleton<IMongoClient>(new MongoClient(configuration.GetConnectionString("MongoDBConnection")));
 builder.Services.AddScoped<DBMongo>();
 builder.Services.AddScoped<MikuTechFactory, MikutechDAO>();
-
+builder.Services.AddDistributedMemoryCache(); // Otra implementación de caché puede ser usada
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30); // Ajusta el tiempo de expiración según tus necesidades
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
 
 var app = builder.Build();
 

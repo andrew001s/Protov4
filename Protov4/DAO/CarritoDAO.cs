@@ -10,23 +10,24 @@ using MongoDB.Driver.Core.Configuration;
 
 namespace Protov4.DAO
 {
-    public class CarritoDAO 
+    public class CarritoDAO : DbConnection
     {
         private readonly ProductoDAO db;
         SqlCommand cmd = new SqlCommand();
-        DbConnection dbsql;
+        //DbConnection dbsql;
         SqlDataReader leertabla;
-        public CarritoDAO(IConfiguration configuration) 
+        public CarritoDAO(IConfiguration configuration):base(configuration) 
         {
           db = new ProductoDAO(configuration);
-            dbsql=new DbConnection(configuration);
+            //dbsql=new DbConnection(configuration);
             // Constructor que llama al constructor de la clase base (DbConnection) pasando la configuración.
             // Esto asegura que el objeto de conexión se inicialice correctamente.
 
         }
+
         public void InsertarPedidoDetalle(int id_pedido, string id_producto, decimal precio, int cantidad, decimal subtotal)
         {
-            using (var connection = dbsql.GetSqlConnection())
+            using (var connection=GetSqlConnection())
             {
                 connection.Open();
                 SqlCommand cmd = new SqlCommand("InsertarPedidoDetalle", connection);
@@ -46,7 +47,7 @@ namespace Protov4.DAO
         {
             List<CarritoDTO> list = new List<CarritoDTO>();
 
-            using (var connection = dbsql.GetSqlConnection())
+            using (var connection = GetSqlConnection())
             {
                 connection.Open();
                 SqlCommand cmd = new SqlCommand("ObtenerCarrito", connection);
@@ -79,7 +80,7 @@ namespace Protov4.DAO
             List<CarritoFullDTO> listsql = new List<CarritoFullDTO>();
 
             var listmongo = new List<CarritoFullDTO>();
-            using (var connection = dbsql.GetSqlConnection())
+            using (var connection = GetSqlConnection())
             {
                 connection.Open();
                 SqlCommand cmd = new SqlCommand("ObtenerCarrito", connection);
@@ -142,7 +143,7 @@ namespace Protov4.DAO
         }
         public void EliminarProductoCarrito(int id,string idproducto)
         {
-            var con= dbsql.GetSqlConnection();
+            var con = GetSqlConnection();
             cmd.Connection = con;
             cmd.CommandText= "EliminarCarrito";
             cmd.CommandType = CommandType.StoredProcedure;
@@ -155,7 +156,7 @@ namespace Protov4.DAO
         public void RegistrarPedido(int id_cliente)
         {
 
-            using (var connection = new SqlConnection("Data Source=SHANDREW\\SQLEXPRESS;Initial Catalog=MIKUDBV1;Integrated Security=true;Encrypt=False"))
+            using (var connection = GetSqlConnection())
             {
                 connection.Open();
                 SqlCommand cmd = new SqlCommand("RegistrarPedido", connection);
@@ -175,7 +176,7 @@ namespace Protov4.DAO
         }
         public void ActualizarPedidoDetalle(int id_pedido,int cantidad, decimal subtotal_producto)
         {
-            var con = dbsql.GetSqlConnection();
+            var con = GetSqlConnection();
             cmd.Connection = con;
             cmd.CommandText = "ActualizarPedidoDetalle";
             cmd.CommandType = CommandType.StoredProcedure;
@@ -190,7 +191,7 @@ namespace Protov4.DAO
 {
     int lastPedidoId = -1;
 
-    using (var connection = new SqlConnection("Data Source=SHANDREW\\SQLEXPRESS;Initial Catalog=MIKUDBV1;Integrated Security=true;Encrypt=False"))
+    using (var connection = GetSqlConnection())
     {
         connection.Open();
         using (var cmd = new SqlCommand("GetLastPedidoId", connection))
@@ -218,7 +219,7 @@ namespace Protov4.DAO
 
         public void ActualizarPedido(int id_pedido, decimal pago_total, string Ciudad_envio, string Calle_principal, string Calle_secundaria, int id_tipo_pago, DateTime fecha_pedido)
         {
-            var con = dbsql.GetSqlConnection();
+            var con = GetSqlConnection();
             cmd.Connection = con;
             cmd.CommandText = "ActualizarPedido";
             cmd.CommandType = CommandType.StoredProcedure;

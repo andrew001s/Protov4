@@ -9,10 +9,13 @@ namespace Protov4.Controllers
     public class ProductoController : Controller
     {
         private readonly MikuTechFactory db;
+        private static bool pedido = false;
+
 
         public ProductoController(IConfiguration configuration)
         {
             db = new MikutechDAO(configuration);
+           
         }
    
         // GET: ProductoController
@@ -95,10 +98,16 @@ namespace Protov4.Controllers
         {
             try
             {
-                db.RegistrarPedido(id_cliente);
+                if (!pedido)
+                {
+                    db.RegistrarPedido(id_cliente);
+                    pedido = true;
+                }
+                
                 int id_pedido= db.ObtenerIdPedido();
                 db.insertarCarrito(id_pedido, id_producto, precio, cantidad, subtotal);
                 
+
                 return Json(new { success = true });
             }
             catch (Exception ex)
