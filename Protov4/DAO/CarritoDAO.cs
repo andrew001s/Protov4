@@ -7,6 +7,7 @@ using System.Security.Cryptography;
 using System.Collections.Generic;
 using NuGet.Protocol.Plugins;
 using MongoDB.Driver.Core.Configuration;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Protov4.DAO
 {
@@ -71,6 +72,43 @@ namespace Protov4.DAO
                 return carr;
             }
 
+        }
+  
+        public List<PedidoDTO> ObtenerPedidoPorId(int idPedido)
+        {
+            List<PedidoDTO> pedidos = new List<PedidoDTO>();
+
+            using (var connection=GetSqlConnection())
+            {
+                SqlCommand command = new SqlCommand("ObtenerPedido", connection);
+                command.CommandType = CommandType.StoredProcedure;
+
+                command.Parameters.AddWithValue("@idpedido", idPedido);
+
+                connection.Open();
+
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        PedidoDTO pedido = new PedidoDTO();
+                        pedido.id_pedido = (int)reader["id_pedido"];
+                        pedido.id_cliente =(int) reader["id_cliente"];
+                        pedido.pago_total = (decimal)reader["pago_total"];
+                        pedido.Ciudad_envio = reader["Ciudad_envio"].ToString();
+                        pedido.Calle_principal = reader["Calle_principal"].ToString();
+                        pedido.Calle_secundaria = reader["Calle_secundaria"].ToString();
+                        pedido.id_tipo_pago = (int)reader["id_tipo_pago"];
+                        pedido.id_tipo_estado = (int)reader["id_tipo_estado"];
+                        pedido.fecha_pedido = (DateTime)reader["fecha_pedido"];
+
+
+                        pedidos.Add(pedido);
+                    }
+                }
+            }
+
+            return pedidos;
         }
 
         public List<CarritoFullDTO> ObtenerCarritoFull(int id)
@@ -174,18 +212,20 @@ namespace Protov4.DAO
             }
             
         }
-        public void ActualizarPedidoDetalle(int id_pedido,int cantidad, decimal subtotal_producto)
+        public void ActualizarPedidoDetalle(string id_producto,int id_pedido,int cantidad, decimal subtotal_producto)
         {
-            var con = GetSqlConnection();
-            cmd.Connection = con;
-            cmd.CommandText = "ActualizarPedidoDetalle";
-            cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@id_pedido", id_pedido);
-            cmd.Parameters.AddWithValue("@cantidad", cantidad);
-            cmd.Parameters.AddWithValue("@subtotal_producto", subtotal_producto);
-            con.Open();
-            leertabla = cmd.ExecuteReader();
-            con.Close();
+            using (var connection = GetSqlConnection())
+            {
+                connection.Open();
+                SqlCommand cmd = new SqlCommand("ActualizarPedidoDetalle", connection);
+                cmd.Parameters.AddWithValue("@id_producto", id_producto);
+                cmd.Parameters.AddWithValue("@id_pedido", id_pedido);
+                cmd.Parameters.AddWithValue("@cantidad", cantidad);
+                cmd.Parameters.AddWithValue("@subtotal_producto", subtotal_producto);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.ExecuteNonQuery();
+            }
         }
        public int ObtenerIdPedido()
 {
@@ -217,7 +257,7 @@ namespace Protov4.DAO
 }
 
 
-        public void ActualizarPedido(int id_pedido, decimal pago_total, string Ciudad_envio, string Calle_principal, string Calle_secundaria, int id_tipo_pago, DateTime fecha_pedido)
+        public void ActualizarPedido(int id_pedido, decimal pago_total, int tipoestado,string Ciudad_envio, string Calle_principal, string Calle_secundaria, int id_tipo_pago, DateTime fecha_pedido)
         {
             var con = GetSqlConnection();
             cmd.Connection = con;
@@ -227,8 +267,9 @@ namespace Protov4.DAO
             cmd.Parameters.AddWithValue("@pago_total", pago_total);
             cmd.Parameters.AddWithValue("@Ciudad_envio", Ciudad_envio);
             cmd.Parameters.AddWithValue("@Calle_principal", Calle_principal);
-            cmd.Parameters.AddWithValue("@Calle_secundaria", Ciudad_envio);
-            cmd.Parameters.AddWithValue("@id_tipo_pago", Ciudad_envio);
+            cmd.Parameters.AddWithValue("@Calle_secundaria", Calle_secundaria);
+            cmd.Parameters.AddWithValue("@id_tipo_pago", tipoestado);
+            cmd.Parameters.AddWithValue("@id_tipo_estado", tipoestado);
             cmd.Parameters.AddWithValue("@fecha_pedido", fecha_pedido);
             con.Open();
             leertabla = cmd.ExecuteReader();

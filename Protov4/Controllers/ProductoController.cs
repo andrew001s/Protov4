@@ -99,8 +99,8 @@ namespace Protov4.Controllers
             try
             {
                 int id_pedido;
-
-                if (!TempData.ContainsKey("PedidoRegistrado"))
+               
+                if (HttpContext.Session.GetInt32("IdPedidoActual") != null)
                 {
                    
                     id_pedido = db.ObtenerIdPedido();

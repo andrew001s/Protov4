@@ -6,71 +6,85 @@
 }
 <div class="carr">
     <p class="Titulo1"> Tienes @Model.Count articulos en tu carrito</p>
+    @{
 
-    <table class="TabCarrito">
-        <tr>
-            <th>Producto</th>
-            <th>Descripción</th>
-            <th>Precio</th>
-            <th>Cantidad</th>
-            <th>Subtotal</th>
-            <th></th>
-        </tr>
-
-        @foreach (var carr in Model)
-        {
-            int cantidad = 1;
-
-            byte[] imagenBytes = carr.Imagen;
-            string base64 = "data:image/png;base64," + Convert.ToBase64String(imagenBytes);
+        <table class="TabCarrito">
             <tr>
-                <td class="ColImag"><img src="@base64" width="200" height="200"></td>
-                <td class="ColImag"> @carr.Nombre_Producto </td>
-                <td class="ColPrec">$ @carr.Precio </td>
-                <td class="ColCant">
-                    <div class="contador-container">
-                        <div class="contador-content">
-                            <button class="btn bi bi-dash-lg btnmenoscarrito"></button>
-                            <h4 class="contadorcarrito">@cantidad</h4>
-                            <button class="btn bi bi-plus-lg btnmascarrito"></button>
-                        </div>
-                    </div>
-                </td>
-                <td class="ColSubT">$ @carr.subtotal_producto </td>
-
-                <td class="ColElim">
-                    <form class="deleteForm" action="@Url.Action("Delete", "Carrito")" method="post">
-                        @Html.AntiForgeryToken()
-                        <input type="hidden" name="id_pedido" value=3 />
-                        <input type="hidden" name="id_producto" value="@carr.id_producto" />
-                        <button class="btn btn-danger shadow-sm deleteButton" type="submit">
-                            <i class="bi bi-trash3"></i>
-                        </button>
-                    </form>
-                </td>
+                <th>Producto</th>
+                <th>Descripción</th>
+                <th>Precio</th>
+                <th>Cantidad</th>
+                <th>Subtotal</th>
+                <th></th>
             </tr>
-        }
-    </table>
+
+            @for (int i = 0; i < Model.Count; i++)
+            {
+                var carr = Model[i];
+                int cantidad = 1;
+                byte[] imagenBytes = carr.Imagen;
+                string base64 = "data:image/png;base64," + Convert.ToBase64String(imagenBytes);
+                <tr>
+                    <td class="ColImag"><img src="@base64" width="200" height="200"></td>
+                    <td class="ColImag"> @carr.Nombre_Producto </td>
+                    <td class="ColPrec">$ @carr.Precio </td>
+                    <td class="ColCant">
+                        <input type="hidden" name="cantidad[@i]" value="@cantidad" />
+                        <div class="contador-container">
+                            <div class="contador-content">
+                                <button class="btn bi bi-dash-lg btnmenoscarrito"></button>
+                                <h4 data-index="@i" class="contadorcarrito">@cantidad</h4>
+                                <button class="btn bi bi-plus-lg btnmascarrito"></button>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="ColSubT">$ @carr.subtotal_producto </td>
+
+                    <td class="ColElim">
+                        <form class="deleteForm" action="@Url.Action("DeletePedido", "Carrito")" method="post">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="id_producto" value="@carr.id_producto" />
+                            <button class="btn btn-danger shadow-sm deleteButton" type="submit">
+                                <i class="bi bi-trash3"></i>
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </table>
+    }
     <div class="divcenter">
-        <div class="total">
-            <h1>Total Carrito</h1>
-            @{
-                decimal total = 0;
-                @foreach (var item in Model)
+        @{
+            decimal total = 0;
+            <div class="total">
+                <h1>Total Carrito</h1>
+
+                @for (int i = 0; i < Model.Count; i++)
                 {
-                    total = total + item.subtotal_producto;
+                    total = total + Model[i].subtotal_producto;
                 }
-                <h3>
+                <h3 id="totalCompra">
                     $ @total
                 </h3>
-            }
-        </div>
-    </div>
-</div>
 
-<div>
-    <button class="BtnFinCompra btn btn-outline-light" onclick="window.location.href='@Url.Action("Producto", "Producto", new { tipo = "" })'">Añadir Producto</button>
-    <button class="BtnFinCompra btn btn-outline-light" onclick="window.location.href='@Url.Action("FinalizarCompra", "Carrito")'">Finalizar compra</button>
+            </div>
+            <div>
+                <button class="BtnFinCompra btn btn-outline-light" onclick="window.location.href='@Url.Action("Producto", "Producto", new { tipo = "" })'">Añadir Producto</button>
+                <form class="FinalizarCompra" action="@Url.Action("FinalizarCompra", "Carrito")" method="post">
+                    <input type="hidden" name="pagototal" id="pagototal" value="@total" />
+                    @for (int i = 0; i < Model.Count; i++)
+                    {
+                        <input type="hidden" name="id_producto[@i]" value="@Model[i].id_producto" />
+
+                        <input type="hidden" name="cantidad[@i]" value="@Model[i].cantidad" />
+                        <input type="hidden" name="precio[@i]" value="@Model[i].Precio" />
+                    }
+                    <button class="BtnFinCompra btn btn-outline-light">Finalizar compra</button>
+                </form>
+            </div>
+        }
+    </div>
+
 </div>
 
 <script>
@@ -103,12 +117,16 @@
         btnMenosCarrito.forEach(function (btn) {
             btn.addEventListener("click", function () {
                 var divProducto = btn.closest(".ColCant");
+                var index = divProducto.querySelector(".contadorcarrito").getAttribute("data-index");
                 var cantidadElement = divProducto.querySelector(".contadorcarrito");
                 var cantidad = parseInt(cantidadElement.textContent);
                 if (cantidad > 1) {
                     cantidad--;
                     cantidadElement.textContent = cantidad;
-                    actualizarSubtotalYTotal(divProducto, cantidad);
+                    actualizarSubtotalYTotal(divProducto, cantidad, index);
+
+                    // Actualizar el campo oculto directamente
+                    $("input[name='cantidad[" + index + "]']").val(cantidad);
                 }
             });
         });
@@ -117,24 +135,33 @@
         btnMasCarrito.forEach(function (btn) {
             btn.addEventListener("click", function () {
                 var divProducto = btn.closest(".ColCant");
+                var index = divProducto.querySelector(".contadorcarrito").getAttribute("data-index");
                 var cantidadElement = divProducto.querySelector(".contadorcarrito");
                 var cantidad = parseInt(cantidadElement.textContent);
                 cantidad++;
                 cantidadElement.textContent = cantidad;
-                actualizarSubtotalYTotal(divProducto, cantidad);
+                actualizarSubtotalYTotal(divProducto, cantidad, index);
+
+                // Actualizar el campo oculto directamente
+                $("input[name='cantidad[" + index + "]']").val(cantidad);
+
             });
         });
 
-        function actualizarSubtotalYTotal(divProducto, cantidad) {
+
+        function actualizarSubtotalYTotal(divProducto, cantidad, index) {
             var precio = parseFloat(divProducto.closest("tr").querySelector(".ColPrec").textContent.replace("$", ""));
             var subtotal = cantidad * precio;
             divProducto.closest("tr").querySelector(".ColSubT").textContent = "$ " + subtotal.toFixed(2);
 
             var total = 0;
             document.querySelectorAll(".ColSubT").forEach(function (subTotalElement) {
-                total += parseFloat(subTotalElement.textContent.replace("$", ""));
+                var subtotalValue = parseFloat(subTotalElement.textContent.replace("$", ""));
+                total += subtotalValue;
+
             });
             document.querySelector(".total h3").textContent = "$ " + total.toFixed(2);
+            document.getElementById("pagototal").value = total;
         }
     });
 </script>

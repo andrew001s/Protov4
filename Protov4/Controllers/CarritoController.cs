@@ -54,12 +54,41 @@ namespace Protov4.Controllers
         {
             return View();
         }
-        public ActionResult FinalizarCompra(int id_pedido,int cantidad, decimal subtotal)
+        public ActionResult FinalizarCompra(string[] id_producto,int[] cantidad, decimal[] precio, decimal pagototal)
         {
-            carr.ActualizarPedidoDetalle(id_pedido,cantidad,subtotal);
-            return View();
+            int id_pedido = carr.ObtenerIdPedido();
+            for (int i = 0; i < id_producto.Length; i++)
+            {
+                carr.ActualizarPedidoDetalle(id_producto[i].ToString(), id_pedido, cantidad[i], (cantidad[i] * precio[i]));
+            }
+            carr.ActualizarPedido(id_pedido, pagototal,1, "", "", "", 1, DateTime.Now);
+            List<PedidoDTO> pedido=  carr.ObtenerPedidoPorId(id_pedido);
+                return View(pedido);
+            
+           
+            //int id_pedido = carr.ObtenerIdPedido();
+            // carr.ActualizarPedidoDetalle(id_producto, id_pedido,cantidad,subtotal);
+
         }
-    
+        public ActionResult CompraRealizada(string ciudad, string callePrincipal, string calleSecundaria, int pagometodo, decimal pagototal)
+        {
+            try
+            {
+                int id_pedido = carr.ObtenerIdPedido();
+
+
+                carr.ActualizarPedido(id_pedido, pagototal, pagometodo, ciudad, callePrincipal, calleSecundaria, 1, DateTime.Now);
+                List<PedidoDTO> pedido = carr.ObtenerPedidoPorId(id_pedido);
+                return View(pedido);
+            }
+            catch (Exception ex)
+            {
+                // Manejar la excepción de manera adecuada, como mostrar un mensaje de error o registrar el error en un log
+                ViewBag.ErrorMessage = "Error al procesar la compra: " + ex.Message;
+                return View("Error"); // Puedes crear una vista específica para mostrar errores
+            }
+        }
+
 
         // POST: HomeController1/Create
         [HttpPost]
@@ -103,10 +132,11 @@ namespace Protov4.Controllers
         // POST: HomeController1/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id_pedido, string id_producto)
+        public ActionResult DeletePedido( string id_producto)
         {
             try
             {
+                int id_pedido = carr.ObtenerIdPedido();
                 carr.EliminarProductoCarrito(id_pedido, id_producto);
                 return Json(new { success = true });
             }
