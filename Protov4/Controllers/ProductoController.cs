@@ -98,15 +98,26 @@ namespace Protov4.Controllers
         {
             try
             {
-                if (!pedido)
+                int id_pedido;
+
+                if (!TempData.ContainsKey("PedidoRegistrado"))
                 {
-                    db.RegistrarPedido(id_cliente);
-                    pedido = true;
+                   
+                    id_pedido = db.ObtenerIdPedido();
+
+                    TempData["PedidoRegistrado"] = true;
+                    HttpContext.Session.SetInt32("IdPedidoActual", id_pedido);
                 }
-                
-                int id_pedido= db.ObtenerIdPedido();
+                else
+                {
+                     db.RegistrarPedido(id_cliente);
+                    id_pedido = db.ObtenerIdPedido();
+                    TempData["PedidoRegistrado"] = true;
+                    HttpContext.Session.SetInt32("IdPedidoActual", id_pedido);
+                   
+                }
+
                 db.insertarCarrito(id_pedido, id_producto, precio, cantidad, subtotal);
-                
 
                 return Json(new { success = true });
             }
@@ -115,8 +126,9 @@ namespace Protov4.Controllers
                 // Manejar el error si es necesario y devolver un resultado JSON con éxito falso en caso de error
                 return Json(new { success = false, errorMessage = ex.Message });
             }
-
         }
+
+
         // POST: ProductoController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]

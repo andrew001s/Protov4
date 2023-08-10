@@ -21,10 +21,11 @@ builder.Services.AddScoped<MikuTechFactory, MikutechDAO>();
 builder.Services.AddDistributedMemoryCache(); // Otra implementación de caché puede ser usada
 builder.Services.AddSession(options =>
 {
-    options.IdleTimeout = TimeSpan.FromMinutes(30); // Ajusta el tiempo de expiración según tus necesidades
+    options.IdleTimeout = TimeSpan.FromMinutes(30); // Configura el tiempo de expiración
     options.Cookie.HttpOnly = true;
     options.Cookie.IsEssential = true;
 });
+
 
 var app = builder.Build();
 
@@ -38,7 +39,7 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
+app.UseSession();
 app.UseRouting();
 
 app.UseAuthorization();

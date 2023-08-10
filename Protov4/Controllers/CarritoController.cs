@@ -17,16 +17,22 @@ namespace Protov4.Controllers
 
         }
         // GET: HomeController1
-        public ActionResult Carrito(int id)
+        public ActionResult Carrito()
         {
-
-
-
-            var carrfull = obtenerCarritoFull(id);
-
-            return View(carrfull);
-
+            if (HttpContext.Session.GetInt32("IdPedidoActual") is int id_pedido)
+            {
+                
+                var carrfull = obtenerCarritoFull(id_pedido);
+                return View(carrfull);
+            }
+            else
+            {
+                var mensaje = "No hay productos en el carrito.";
+                var carrfull = obtenerCarritoFull(0);
+                return View(carrfull);
+            }
         }
+
 
         [HttpGet]
         private List<CarritoFullDTO> obtenerCarritoFull(int idped)
@@ -48,10 +54,12 @@ namespace Protov4.Controllers
         {
             return View();
         }
-        public ActionResult FinalizarCompra(int id_cliente)
+        public ActionResult FinalizarCompra(int id_pedido,int cantidad, decimal subtotal)
         {
+            carr.ActualizarPedidoDetalle(id_pedido,cantidad,subtotal);
             return View();
         }
+    
 
         // POST: HomeController1/Create
         [HttpPost]

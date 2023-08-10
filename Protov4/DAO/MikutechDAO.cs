@@ -5,6 +5,7 @@ namespace Protov4.DAO
     public class MikutechDAO : MikuTechFactory
     {   ProductoDAO productoDAO;
         CarritoDAO carritoDAO;
+        public static bool pedido = false;
         public MikutechDAO(IConfiguration configuration)
         {
             // Initialize the productoDAO object here
