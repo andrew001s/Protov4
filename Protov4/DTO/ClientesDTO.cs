@@ -28,12 +28,12 @@ namespace Protov4.DTO
         [Required(ErrorMessage = "Campo requerido")]
         public string? telefono_cliente { get; set; }
 
-
+        
         [MinLength(6, ErrorMessage = "La contraseña debe tener al menos 6 caracteres.")]
         [Required(ErrorMessage = "Campo requerido")]
         public string? contrasena_nueva { get; set; }
 
-
+        
         [MinLength(6, ErrorMessage = "La contraseña debe tener al menos 6 caracteres.")]
         [Required(ErrorMessage = "Campo requerido")]
         public string confirmar_contrasena { get; set; }

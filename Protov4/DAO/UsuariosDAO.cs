@@ -99,31 +99,41 @@ namespace Protov4.DAO
             return registrado;
         }
 
-        public void RegistrarAuditoria(int id_usuario, DateTime fechaInicio, DateTime? fechaCierre)
+        public void RegistrarAuditoria(int idUsuario, DateTime fechaSesion, bool esInicioSesion)
         {
             try
             {
                 using (var connection = GetSqlConnection())
                 {
                     connection.Open();
-
                     using (SqlCommand cmd = new SqlCommand("Login_RegistrarAuditoria", connection))
                     {
                         cmd.CommandType = CommandType.StoredProcedure;
-                        cmd.Parameters.AddWithValue("@id_usuario", id_usuario);
-                        cmd.Parameters.AddWithValue("@fechaInicio", fechaInicio);
-                        cmd.Parameters.AddWithValue("@fechaCierre", fechaCierre.HasValue ? (object)fechaCierre : DBNull.Value);
+                        cmd.Parameters.AddWithValue("@id_usuario", idUsuario);
+
+                        // Si esInicioSesion es verdadero, registramos la fecha de inicio de sesión
+                        if (esInicioSesion)
+                        {
+                            cmd.Parameters.AddWithValue("@fecha_inicio_sesion", fechaSesion);
+                            cmd.Parameters.AddWithValue("@fecha_cierre_sesion", DBNull.Value); // Valor nulo para cierre
+                        }
+                        else
+                        {
+                            cmd.Parameters.AddWithValue("@fecha_inicio_sesion", DBNull.Value); // Valor nulo para inicio
+                            cmd.Parameters.AddWithValue("@fecha_cierre_sesion", fechaSesion); // Registramos fecha de cierre
+                        }
+
                         cmd.ExecuteNonQuery();
                     }
                 }
             }
             catch (Exception ex)
             {
-                // Agrega mensajes de registro para depurar posibles errores
+                // Agregar manejo de errores aquí si es necesario
                 Console.WriteLine("Error en RegistrarAuditoria: " + ex.Message);
-                // Opcionalmente, también puedes lanzar una excepción aquí o tomar otras acciones adecuadas.
             }
         }
+
 
         public static string ConvertirSha256(string texto)
         {

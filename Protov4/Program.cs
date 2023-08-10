@@ -20,6 +20,16 @@ builder.Services.AddTransient<UsuariosDAO>();
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(option =>
 {
     option.LoginPath = "/Acceso/Login";
+
+});
+
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("AdminOnly", policy =>
+        policy.RequireClaim("id_rol_user", "1"));
+
+    options.AddPolicy("UserOnly", policy =>
+        policy.RequireClaim("id_rol_user", "2"));
 });
 
 

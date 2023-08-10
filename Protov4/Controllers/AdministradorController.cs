@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Protov4.Controllers
 {
-    [Authorize]
+    [Authorize(Policy = "AdminOnly")]
     public class AdministradorController : Controller
     {
         public IActionResult Admin()

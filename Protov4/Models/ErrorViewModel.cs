@@ -1,4 +1,4 @@
-namespace Protov4.DTO
+namespace Protov4.Models
 {
     public class ErrorViewModel
     {

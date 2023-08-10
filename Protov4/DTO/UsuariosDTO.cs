@@ -8,7 +8,6 @@ namespace Protov4.DTO
         [Key]
         public int id_usuario { get; set; }
 
-
         [EmailAddress]
         [StringLength(50)]
         [Required(ErrorMessage = "Campo requerido")]
@@ -17,11 +16,7 @@ namespace Protov4.DTO
         [Required(ErrorMessage = "Campo requerido")]
         public string? contrasena { get; set; }
 
-        //public string? confirmar_contrasena { get; set; }
-
         public int id_rol_user { get; set; }
 
-        [NotMapped]
-        public bool Mantener_Activo { get; set; }
     }
 }

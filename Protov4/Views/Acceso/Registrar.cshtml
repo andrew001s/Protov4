@@ -1,4 +1,4 @@
-﻿@model Protov5.DTO.ClientesDTO;
+﻿@model Protov4.DTO.ClientesDTO;
 @{
     Layout = null;
 }
@@ -31,31 +31,31 @@
                 <div class="container-row">
                     <div class="container-col-1">
                         <label>Nombre:</label>
-                        <input asp-for="nombre_cliente" class="form-control bloquear-numeros" required />
+                        <input asp-for="nombre_cliente" class="form-control bloquear-numeros" required/>
                         <span asp-validation-for="nombre_cliente" class="text-danger"></span>
                     </div>
                     <div class="container-col-2">
                         <label>Apellido:</label>
-                        <input asp-for="apellido_cliente" class="form-control bloquear-numeros" required />
+                        <input asp-for="apellido_cliente" class="form-control bloquear-numeros" required/>
                         <span asp-validation-for="apellido_cliente" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="container-col">
                     <div>
                         <label>Teléfono:</label>
-                        <input asp-for="telefono_cliente" id="telefono_cliente" class="form-control" required />
+                        <input asp-for="telefono_cliente" id="telefono_cliente" class="form-control" required/>
                         <span asp-validation-for="telefono_cliente" class="text-danger"></span>
                         <span id="telefono_error" class="text-danger"></span>
                     </div>
                     <div>
                         <label>Correo:</label>
-                        <input asp-for="correo_nuevo" id="correo_nuevo" required />
+                        <input asp-for="correo_nuevo" id="correo_nuevo" required/>
                         <span asp-validation-for="correo_nuevo" class="text-danger correo-error"></span>
 
                     </div>
                     <div>
                         <label>Contraseña:</label>
-                        <input asp-for="contrasena_nueva" type="password" required />
+                        <input asp-for="contrasena_nueva" type="password" required/>
                         <span asp-validation-for="contrasena_nueva" class="text-danger"></span>
                     </div>
                     <div>
@@ -64,7 +64,7 @@
                         <span asp-validation-for="confirmar_contrasena" class="text-danger"></span>
                     </div>
                     <input type="submit" value="Registrar">
-                </div>
+                 </div>
             </form>
 
             <p class="register-text">

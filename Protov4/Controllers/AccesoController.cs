@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
-using Protov4.DTO;
 using Protov4.DAO;
 using System.Security.Claims;
+using Protov4.DTO;
 
 namespace Protov4.Controllers
 {
@@ -39,20 +39,30 @@ namespace Protov4.Controllers
                 {
                     var claims = new List<Claim>
                     {
-                        new Claim(ClaimTypes.Name, user.correo_elec),
-                        new Claim("id_usuario", id_usuario.ToString())
+                    new Claim(ClaimTypes.Name, user.correo_elec),
+                    new Claim("id_usuario", id_usuario.ToString())
                     };
+
+                    if (id_rol_user == 1)
+                    {
+                        claims.Add(new Claim("id_rol_user", "1")); // Administrador
+                    }
+                    else
+                    {
+                        claims.Add(new Claim("id_rol_user", "2")); // Usuario normal
+                    }
+
                     var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
                     await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
-                    //HttpContext.Session.SetInt32("id_usuario", id_usuario);
 
-                    if (id_rol_user == 1) // Administrador
+                    if (id_rol_user == 1)
                     {
                         return RedirectToAction("Admin", "Administrador");
                     }
-                    else // Usuario normal
+                    else
                     {
-                        //_usuariosDAO.RegistrarAuditoria(id_usuario, DateTime.Now, null);
+
+                        _usuariosDAO.RegistrarAuditoria(id_usuario, DateTime.Now, true);
                         return RedirectToAction("Index", "Home");
                     }
                 }
@@ -71,17 +81,19 @@ namespace Protov4.Controllers
 
         public async Task<IActionResult> Logout()
         {
-            // Obtener el id_usuario almacenado en la variable de sesión
-            //int? id_usuario = HttpContext.Session.GetInt32("id_usuario");
-            //var idUsuarioClaim = User.FindFirst("id_usuario");
-            //if (idUsuarioClaim != null && int.TryParse(idUsuarioClaim.Value, out int id_usuario))
-            //{
-            //    // Llamar al método RegistrarAuditoria para almacenar la fecha de cierre de sesión
-            //    var fechaCierre = DateTime.Now;
-            //    _usuariosDAO.RegistrarAuditoria(id_usuario, fechaCierre, fechaCierre);
-            //}
+            ClaimsPrincipal c = HttpContext.User;
+            if (c.Identity != null && c.Identity.IsAuthenticated)
+            {
+                var idUsuarioClaim = c.FindFirstValue("id_usuario");
+                if (int.TryParse(idUsuarioClaim, out int id_usuario))
+                {
+                    bool esInicioSesion = false; // Indicar que es un cierre de sesión
+                    _usuariosDAO.RegistrarAuditoria(id_usuario, DateTime.Now, esInicioSesion);
+                }
+            }
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return RedirectToAction("Login", "Acceso");
+
         }
 
         public ActionResult Registrar()
