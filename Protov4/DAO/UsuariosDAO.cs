@@ -20,9 +20,10 @@ namespace Protov4.DAO
             // Esto asegura que el objeto de conexión se inicialice correctamente.
         }
 
-        public (int, int) ValidarUsuario(UsuariosDTO nuser)
+        public ((int id_usuario, int id_rol_user), int id_cliente) ValidarUsuario(UsuariosDTO nuser)
         {
             int id_usuario = 0;
+            int id_cliente = 0;
             int id_rol_user = 0;
 
             nuser.contrasena = ConvertirSha256(nuser.contrasena);
@@ -39,18 +40,20 @@ namespace Protov4.DAO
                     {
                         id_usuario = Convert.ToInt32(reader["id_usuario"]);
                         id_rol_user = Convert.ToInt32(reader["id_rol_user"]);
+                        id_cliente = Convert.ToInt32(reader["id_cliente"]);
 
                     }
 
                     if (id_usuario == 0 && id_rol_user == 0)
                     {
-                        id_usuario = 0; // Puedes omitir esta línea si deseas que id_usuario sea 0 por defecto.
+                        id_usuario = 0;
+                        id_cliente = 0;
                         id_rol_user = 0;
                     }
 
                 }
                 connection.Close();
-                return (id_usuario, id_rol_user);
+                return ((id_usuario, id_rol_user), id_cliente);
             }
         }
 

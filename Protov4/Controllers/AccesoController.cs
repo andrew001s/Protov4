@@ -34,13 +34,16 @@ namespace Protov4.Controllers
         {
             try
             {
-                (int id_usuario, int id_rol_user) = _usuariosDAO.ValidarUsuario(user);
+                ((int id_usuario, int id_rol_user), int id_cliente) = _usuariosDAO.ValidarUsuario(user);
                 if (id_usuario != 0)
                 {
                     var claims = new List<Claim>
                     {
                     new Claim(ClaimTypes.Name, user.correo_elec),
-                    new Claim("id_usuario", id_usuario.ToString())
+                    new Claim("id_usuario", id_usuario.ToString()),
+                    new Claim("id_cliente", id_cliente.ToString()),
+                    new Claim("id_rol_user", id_rol_user.ToString())
+
                     };
 
                     if (id_rol_user == 1)
