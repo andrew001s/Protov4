@@ -31,63 +31,75 @@
             </nav>
         </header>
     </div>
+    <div class="lista-productos">
+        <div class="titulo">
+            <div class="contenedor-titulo">
+                <h2>LISTADO DE PRODUCTOS</h2>
+                <i class="bi bi-arrow-clockwise"></i>
+            </div>
+        </div>
+        <div class="contenedor-buscar">
+            <form class="d-flex" role="search">
+                <input class="form-control me-2" type="search" placeholder="Buscar Producto">
+                <i class="bi bi-search"></i>
+            </form>
+        </div>
 
-    <div class="tabla">
-        <div class="contenedor-titulo">
-            <h2>LISTADO DE PRODUCTOS</h2>
-            <i class="bi bi-arrow-clockwise"></i>
+        <div class="herramientas">
+            <div class="btn-Crear">
+                <a asp-action="Create">Agregar nuevo producto</a>
+            </div>
+        </div>
+
+        <div class="contenedor-tabla">
+            <table class="tabla-productos">
+                <thead>
+                    <tr>
+                        <th>
+                            ID
+                        </th>
+                        <th>
+                            Nombre producto
+                        </th>
+                        <th>
+                            Precio
+                        </th>
+                        <th>
+                            Marca
+                        </th>
+                        <th>
+                            Existencia
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @*@foreach (var item in Model){*@
+                    <tr>
+                        <td>
+                            MT2548
+                        </td>
+                        <td>
+                            Nombre_producto
+                        </td>
+                        <td>
+                            $14,00
+                        </td>
+                        <td>
+                            Gamemax
+                        </td>
+                        <td>
+                            100
+                        </td>
+                        <td>
+                            <a class="btn-Editar" asp-action="Edit">Editar</a>
+                            <a class="btn-Detalles" asp-action="Details">Detalles</a>
+                            <a class="btn-Eliminar" asp-action="Delete">Eliminar</a>
+                        </td>
+                    </tr>
+                    @*}*@
+                </tbody>
+            </table>
         </div>
     </div>
-
-    <div class="herramientas">
-        <div class="btn-Crear">
-            <a asp-action="Create">Agregar nuevo producto</a>
-        </div>
-    </div>
-   <div class="contenedor-tabla">
-        <table class="tabla-productos">
-            <thead>
-                <tr>
-                    <th>
-                        Nombre producto
-                    </th>
-                    <th>
-                        Precio
-                    </th>
-                    <th>
-                        Imagen
-                    </th>
-                    <th>
-                        Marca
-                    </th>
-                    <th>
-                        Existencia
-                    </th>
-                    <th>
-                        Procesador
-                    </th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                @*@foreach (var item in Model){*@
-                <tr>
-                    <td>
-                        Nombre_producto
-                    </td>
-                    <td>
-                        $14,00
-                    </td>
-                    <td>
-                       
-                        <a asp-action="Edit">Editar</a>
-                        <a asp-action="Details">Detalles</a>
-                        <a asp-action="Delete">Eliminar</a>
-                    </td>
-                </tr>
-                @*}*@
-            </tbody>
-        </table>
-     </div>
 </body>
 </html>
