@@ -22,6 +22,7 @@
             {
                 var carr = Model[i];
                 int cantidad = 1;
+                int existencias = carr.existencias;
                 byte[] imagenBytes = carr.Imagen;
                 string base64 = "data:image/png;base64," + Convert.ToBase64String(imagenBytes);
                 <tr>
@@ -33,8 +34,8 @@
                         <div class="contador-container">
                             <div class="contador-content">
                                 <button class="btn bi bi-dash-lg btnmenoscarrito"></button>
-                                <h4 data-index="@i" class="contadorcarrito">@cantidad</h4>
-                                <button class="btn bi bi-plus-lg btnmascarrito"></button>
+                                <h4 class="contadorcarrito">@cantidad</h4>
+                                <button class="btn bi bi-plus-lg btnmascarrito" data-index=@carr.existencias></button>
                             </div>
                         </div>
                     </td>
@@ -136,15 +137,18 @@
             btn.addEventListener("click", function () {
                 var divProducto = btn.closest(".ColCant");
                 var index = divProducto.querySelector(".contadorcarrito").getAttribute("data-index");
+                var existencias = parseInt(btn.getAttribute("data-index"));
                 var cantidadElement = divProducto.querySelector(".contadorcarrito");
                 var cantidad = parseInt(cantidadElement.textContent);
-                cantidad++;
-                cantidadElement.textContent = cantidad;
-                actualizarSubtotalYTotal(divProducto, cantidad, index);
 
-                // Actualizar el campo oculto directamente
-                $("input[name='cantidad[" + index + "]']").val(cantidad);
+                if (cantidad < existencias) {
+                    cantidad++;
+                    cantidadElement.textContent = cantidad;
+                    actualizarSubtotalYTotal(divProducto, cantidad, index);
 
+                    // Actualizar el campo oculto directamente
+                    $("input[name='cantidad[" + index + "]']").val(cantidad);
+                }
             });
         });
 

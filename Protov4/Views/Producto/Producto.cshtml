@@ -14,6 +14,7 @@
             @{
                 foreach (var prod in Model)
                 {
+
                     byte[] imagenBytes = prod.Imagen;
                     string base64 = "data:image/png;base64," + Convert.ToBase64String(imagenBytes);
                     <section id="seccard" class="col col-md-auto">
@@ -68,7 +69,7 @@
                 })
                     .then(function (response) {
                         if (response.ok) {
-                            // Instead of location.reload(), you can update the view using AJAX
+                            // Update session and view
                             updateView();
                         } else {
                             // Handle error if needed
@@ -80,7 +81,7 @@
             });
         });
 
-        // Function to update the view (you can customize this based on your framework)
+        // Function to update the view and session
         function updateView() {
             var alertContainer = document.getElementById('alertContainer');
 

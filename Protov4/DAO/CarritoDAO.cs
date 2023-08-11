@@ -144,6 +144,7 @@ namespace Protov4.DAO
                     {
                         id_producto = p.Id.ToString(),
                         Imagen = p.Imagen,
+                        existencias=p.Existencia,
                         Nombre_Producto = p.Nombre_Producto,
                         Precio = 0, // Puedes definirlo como 0 por ahora o ajustarlo después según tus necesidades
                         cantidad = 0, // Puedes definirlo como 0 por ahora o ajustarlo después según tus necesidades
@@ -169,6 +170,7 @@ namespace Protov4.DAO
                             cantidad = itemSql.cantidad,
                             subtotal_producto = itemSql.subtotal_producto,
                             Imagen = itemMongo.Imagen,
+                            existencias=itemMongo.existencias,
                             Nombre_Producto = itemMongo.Nombre_Producto
                         };
 

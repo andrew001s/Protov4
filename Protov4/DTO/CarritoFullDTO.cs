@@ -10,6 +10,7 @@ namespace Protov4.DTO
         public byte[]? Imagen { get; set; }
         public string? Nombre_Producto { get; set; }
         public int cantidad { get; set; }
+        public int existencias { get; set; }
         public decimal Precio { get; set; }
         public decimal subtotal_producto { get; set; }
 
