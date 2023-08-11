@@ -17,27 +17,41 @@ namespace Protov4.DAO
             // Esto asegura que el objeto de conexión se inicialice correctamente.
         }
 
-        public int ValidarUsuario(string correoElectronico, string contrasena)
+        public ((int id_usuario, int id_rol_user), int id_cliente) ValidarUsuario(UsuariosDTO nuser)
         {
-            int idUsuario = 0;
+            int id_usuario = 0;
+            int id_cliente = 0;
+            int id_rol_user = 0;
 
-            contrasena = ConvertirSha256(contrasena);
+            nuser.contrasena = ConvertirSha256(nuser.contrasena);
             using (var connection = GetSqlConnection())
             {
                 connection.Open();
                 SqlCommand cmd = new SqlCommand("Login_ValidarUsuario", connection);
-                cmd.Parameters.AddWithValue("@correo_elec", correoElectronico);
-                cmd.Parameters.AddWithValue("@contrasena", contrasena);
+                cmd.Parameters.AddWithValue("@correo_elec", nuser.correo_elec);
+                cmd.Parameters.AddWithValue("@contrasena", nuser.contrasena);
                 cmd.CommandType = CommandType.StoredProcedure;
-
-                var result = cmd.ExecuteScalar();
-                if (result != null)
+                using (var reader = cmd.ExecuteReader())
                 {
-                    idUsuario = Convert.ToInt32(result);
-                }
-            }
+                    if (reader.Read())
+                    {
+                        id_usuario = Convert.ToInt32(reader["id_usuario"]);
+                        id_rol_user = Convert.ToInt32(reader["id_rol_user"]);
+                        id_cliente = Convert.ToInt32(reader["id_cliente"]);
 
-            return idUsuario;
+                    }
+
+                    if (id_usuario == 0 && id_rol_user == 0)
+                    {
+                        id_usuario = 0;
+                        id_cliente = 0;
+                        id_rol_user = 0;
+                    }
+
+                }
+                connection.Close();
+                return ((id_usuario, id_rol_user), id_cliente);
+            }
         }
 
         public bool Registrar(UsuariosDTO nuser, ClientesDTO nclient)

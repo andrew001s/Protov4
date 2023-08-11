@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Protov4.DAO;
 using Protov4.DTO;
 using Protov4.Models;
+using System.Security.Claims;
 
 namespace Protov4.Controllers
 {
@@ -10,6 +11,7 @@ namespace Protov4.Controllers
     {
         private readonly MikuTechFactory db;
         private static bool pedido = false;
+        private readonly UsuariosDAO _usuariosDAO;
 
 
         public ProductoController(IConfiguration configuration)
@@ -94,10 +96,12 @@ namespace Protov4.Controllers
         }
         // POST: ProductoController/Create
         [HttpPost]
-        public ActionResult CrearCarrito(int id_cliente, string id_producto, decimal precio, int cantidad, decimal subtotal)
+        public ActionResult CrearCarrito(int id_cliente, string id_producto, decimal precio, int cantidad, decimal subtotal, UsuariosDTO user)
         {
             try
             {
+                ClaimsPrincipal c = HttpContext.User;
+
                 int id_pedido;
                
                 if (HttpContext.Session.GetInt32("IdPedidoActual") != null)
@@ -110,7 +114,14 @@ namespace Protov4.Controllers
                 }
                 else
                 {
-                     db.RegistrarPedido(id_cliente);
+                    if (c.Identity != null && c.Identity.IsAuthenticated)
+                    {
+                        if (int.TryParse(c.FindFirstValue("id_cliente"), out int idCliente))
+                        {
+                            db.RegistrarPedido(idCliente);
+                        }
+                    }
+                    
                     id_pedido = db.ObtenerIdPedido();
                     TempData["PedidoRegistrado"] = true;
                     HttpContext.Session.SetInt32("IdPedidoActual", id_pedido);
