@@ -13,6 +13,7 @@ html {
     /*me permite deslizar cuando hago clic en los links del menú*/
     scroll-behavior: smooth;
 }
+
 body {
     background: linear-gradient(135deg, #411038, #0C0A22);
 }
@@ -154,16 +155,24 @@ body {
         color: #fff;
         font-size: 20px
     }
-
+/*Tabla*/
 .tabla {
     color: #fff;
-    background: linear-gradient(rgba(0, 1, 3, .5), rgba(0, 0, 0, .7));
     padding: 100px 20px;
 }
 
-    .tabla .contenido-seccion {
-        justify-content: center;
+    .tabla .contenedor-titulo {
+        display: flex;
         align-items: center;
-        text-align: center;
-        margin: auto;
+        justify-content: center;
     }
+
+        .tabla .contenedor-titulo i {
+            margin-left: 13px;
+            font-size: 28px;
+            cursor: pointer;
+        }
+
+            .tabla .contenedor-titulo i:hover {
+                color: #12CDD4;
+            }
