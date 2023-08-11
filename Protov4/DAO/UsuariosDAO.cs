@@ -126,6 +126,44 @@ namespace Protov4.DAO
             }
         }
 
+        public List<MisPedidosDTO> ListarPedidos(int id_cliente)
+        {
+            try
+            {
+                var Lista = new List<MisPedidosDTO>();
+
+                using (var connection = GetSqlConnection())
+                {
+                    connection.Open();
+                    SqlCommand cmd = new SqlCommand("ObtenerDatosPedido", connection);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@id_cliente", id_cliente);
+
+                    using (var dr = cmd.ExecuteReader())
+                    {
+                        while (dr.Read())
+                        {
+                            Lista.Add(new MisPedidosDTO
+                            {
+                                ciudad_envio = dr["ciudad_envio"].ToString(),
+                                fecha_pedido = ((DateTime)dr["fecha_pedido"]).ToString("dd/MM/yyyy"),
+                                nombre_pago = dr["nombre_pago"].ToString(),
+                                pago_total = dr.IsDBNull(dr.GetOrdinal("pago_total")) ? null : (decimal?)dr.GetDecimal(dr.GetOrdinal("pago_total")),
+                                nombre_estado = dr["nombre_estado"].ToString()
+                            });
+                        }
+                    }
+
+                }
+                return Lista;
+            }
+            catch (Exception ex)
+            {
+                // Agregar manejo de errores aquí si es necesario
+                Console.WriteLine("Error en RegistrarAuditoria: " + ex.Message);
+                return new List<MisPedidosDTO>();
+            }
+        }
 
         public static string ConvertirSha256(string texto)
         {
@@ -144,3 +182,4 @@ namespace Protov4.DAO
 
     }
 }
+
