@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using System.Diagnostics;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Protov4.Models;
 using Protov4.DAO;
@@ -35,7 +34,6 @@ namespace Protov4.Controllers
                     return View(Lista);
                 }
             }
-
             return RedirectToAction("Index", "Home"); // Por ejemplo, redirige a la página principal en caso de error
         }
 

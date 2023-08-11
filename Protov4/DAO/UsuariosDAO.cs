@@ -60,7 +60,6 @@ namespace Protov4.DAO
         public bool Registrar(ClientesDTO nclient)
         {
             bool registrado = false;
-
             try
             {
                 nclient.contrasena_nueva = ConvertirSha256(nclient.contrasena_nueva);
