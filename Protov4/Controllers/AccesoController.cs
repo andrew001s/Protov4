@@ -107,6 +107,18 @@ namespace Protov4.Controllers
         [HttpPost]
         public ActionResult Registrar(ClientesDTO nclient)
         {
+            if (!ModelState.IsValid)
+            {
+                // El modelo no es válido, regresar a la vista con mensajes de error
+                return View();
+            }
+
+            if (nclient.contrasena_nueva != nclient.confirmar_contrasena)
+            {
+                ModelState.AddModelError("confirmar_contrasena", "Las contraseñas no coinciden");
+                return View(nclient);
+            }
+
             bool registrado = _usuariosDAO.Registrar(nclient);
 
             if (registrado)

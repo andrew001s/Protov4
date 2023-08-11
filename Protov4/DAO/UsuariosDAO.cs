@@ -60,19 +60,10 @@ namespace Protov4.DAO
         public bool Registrar(ClientesDTO nclient)
         {
             bool registrado = false;
-            string mensaje = string.Empty;
 
             try
             {
-                if (nclient.contrasena_nueva == nclient.confirmar_contrasena)
-                {
-                    nclient.contrasena_nueva = ConvertirSha256(nclient.contrasena_nueva);
-                }
-                else
-                {
-                    mensaje = "Las contraseñas no coinciden";
-                    return registrado;
-                }
+                nclient.contrasena_nueva = ConvertirSha256(nclient.contrasena_nueva);
 
                 using (var connection = GetSqlConnection())
                 {
@@ -89,16 +80,14 @@ namespace Protov4.DAO
                         cmd.Parameters.Add("Mensaje", SqlDbType.VarChar, 100).Direction = ParameterDirection.Output;
                         cmd.ExecuteNonQuery();
                         registrado = Convert.ToBoolean(cmd.Parameters["Registrado"].Value);
-                        mensaje = cmd.Parameters["Mensaje"].Value.ToString();
                     }
                 }
             }
             catch (Exception)
             {
-                mensaje = "Error al registrar";
+                // Puedes manejar el error aquí si es necesario.
             }
 
-            // Puedes manejar el mensaje en el controlador si es necesario.
             return registrado;
         }
 
