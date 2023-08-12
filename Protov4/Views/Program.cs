@@ -9,7 +9,7 @@ using Protov4.DAO;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Agregar servicios al contenedor.
 builder.Services.AddControllersWithViews();
 // Configuración para acceder a la cadena de conexión desde appsettings.json
 IConfiguration configuration = builder.Configuration;
@@ -19,10 +19,10 @@ builder.Services.AddTransient<UsuariosDAO>();
 builder.Services.AddSingleton<IMongoClient>(new MongoClient(configuration.GetConnectionString("MongoDBConnection")));
 builder.Services.AddScoped<DBMongo>();
 builder.Services.AddScoped<MikuTechFactory, MikutechDAO>();
-builder.Services.AddDistributedMemoryCache(); // Otra implementación de caché puede ser usada
+builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options =>
 {
-    options.IdleTimeout = TimeSpan.FromMinutes(30); // Configura el tiempo de expiración
+    options.IdleTimeout = TimeSpan.FromMinutes(30); 
     options.Cookie.HttpOnly = true;
     options.Cookie.IsEssential = true;
 });

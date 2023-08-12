@@ -17,18 +17,16 @@ namespace Protov4.DAO
         SqlCommand cmd = new SqlCommand();
         //DbConnection dbsql;
         SqlDataReader leertabla;
-        public CarritoDAO(IConfiguration configuration):base(configuration) 
+        // Constructor que llama al constructor de la clase base (DbConnection) pasando la configuración.
+
+        public CarritoDAO(IConfiguration configuration) : base(configuration)
         {
-          db = new ProductoDAO(configuration);
-            //dbsql=new DbConnection(configuration);
-            // Constructor que llama al constructor de la clase base (DbConnection) pasando la configuración.
-            // Esto asegura que el objeto de conexión se inicialice correctamente.
-
+            db = new ProductoDAO(configuration);
         }
-
+        // Inserta un nuevo detalle de pedido en la base de datos
         public void InsertarPedidoDetalle(int id_pedido, string id_producto, decimal precio, int cantidad, decimal subtotal)
         {
-            using (var connection=GetSqlConnection())
+            using (var connection = GetSqlConnection())
             {
                 connection.Open();
                 SqlCommand cmd = new SqlCommand("InsertarPedidoDetalle", connection);
@@ -43,21 +41,21 @@ namespace Protov4.DAO
                 cmd.ExecuteNonQuery();
             }
         }
-
-        public List<CarritoDTO> ObtenerCarrito()
+        // Obtiene una lista de elementos en el carrito de compras
+        public List<PedidoDetalleDTO> ObtenerCarrito()
         {
-            List<CarritoDTO> list = new List<CarritoDTO>();
+            List<PedidoDetalleDTO> list = new List<PedidoDetalleDTO>();
 
             using (var connection = GetSqlConnection())
             {
                 connection.Open();
                 SqlCommand cmd = new SqlCommand("ObtenerCarrito", connection);
                 cmd.CommandType = CommandType.StoredProcedure;
-                List<CarritoDTO> carr = new List<CarritoDTO>();
+                List<PedidoDetalleDTO> carr = new List<PedidoDetalleDTO>();
                 SqlDataReader reader = cmd.ExecuteReader();
                 while (reader.Read())
                 {
-                    carr.Add(new CarritoDTO()
+                    carr.Add(new PedidoDetalleDTO()
                     {
                         id_pedido_detalle = reader.GetInt32(0),
                         id_pedido = reader.GetInt32(1),
@@ -73,12 +71,12 @@ namespace Protov4.DAO
             }
 
         }
-  
+        // Obtiene una lista de pedidos según su ID
         public List<PedidoDTO> ObtenerPedidoPorId(int idPedido)
         {
             List<PedidoDTO> pedidos = new List<PedidoDTO>();
 
-            using (var connection=GetSqlConnection())
+            using (var connection = GetSqlConnection())
             {
                 SqlCommand command = new SqlCommand("ObtenerPedido", connection);
                 command.CommandType = CommandType.StoredProcedure;
@@ -93,7 +91,7 @@ namespace Protov4.DAO
                     {
                         PedidoDTO pedido = new PedidoDTO();
                         pedido.id_pedido = (int)reader["id_pedido"];
-                        pedido.id_cliente =(int) reader["id_cliente"];
+                        pedido.id_cliente = (int)reader["id_cliente"];
                         pedido.pago_total = (decimal)reader["pago_total"];
                         pedido.Ciudad_envio = reader["Ciudad_envio"].ToString();
                         pedido.Calle_principal = reader["Calle_principal"].ToString();
@@ -110,7 +108,7 @@ namespace Protov4.DAO
 
             return pedidos;
         }
-
+        // Obtiene una lista de elementos del carrito con detalles completos
         public List<CarritoFullDTO> ObtenerCarritoFull(int id)
         {
             List<CarritoFullDTO> list = new List<CarritoFullDTO>();
@@ -144,11 +142,11 @@ namespace Protov4.DAO
                     {
                         id_producto = p.Id.ToString(),
                         Imagen = p.Imagen,
-                        existencias=p.Existencia,
+                        existencias = p.Existencia,
                         Nombre_Producto = p.Nombre_Producto,
-                        Precio = 0, // Puedes definirlo como 0 por ahora o ajustarlo después según tus necesidades
-                        cantidad = 0, // Puedes definirlo como 0 por ahora o ajustarlo después según tus necesidades
-                        subtotal_producto = 0 // Puedes definirlo como 0 por ahora o ajustarlo después según tus necesidades
+                        Precio = 0, 
+                        cantidad = 0,
+                        subtotal_producto = 0 
                     }); ;
                     listmongo.AddRange(items);
                 }
@@ -157,7 +155,7 @@ namespace Protov4.DAO
 
                 foreach (var itemSql in listsql)
                 {
-                    // Buscar el elemento correspondiente en listmongo basado en algún identificador único, por ejemplo, supongamos que es por el nombre del producto
+                    // Buscar el elemento correspondiente en listmongo basado en algún identificador único
                     var itemMongo = listmongo.FirstOrDefault(item => item.id_producto == itemSql.id_producto);
 
                     if (itemMongo != null)
@@ -165,12 +163,12 @@ namespace Protov4.DAO
                         // Combinar las propiedades del elemento de listsql y listmongo en un nuevo objeto CarritoFullDTO
                         var carritoItem = new CarritoFullDTO
                         {
-                            id_producto=itemSql.id_producto,
+                            id_producto = itemSql.id_producto,
                             Precio = itemSql.Precio,
                             cantidad = itemSql.cantidad,
                             subtotal_producto = itemSql.subtotal_producto,
                             Imagen = itemMongo.Imagen,
-                            existencias=itemMongo.existencias,
+                            existencias = itemMongo.existencias,
                             Nombre_Producto = itemMongo.Nombre_Producto
                         };
 
@@ -181,18 +179,20 @@ namespace Protov4.DAO
                 return list;
             }
         }
-        public void EliminarProductoCarrito(int id,string idproducto)
+        // Elimina un producto del carrito de compras
+        public void EliminarProductoCarrito(int id, string idproducto)
         {
             var con = GetSqlConnection();
             cmd.Connection = con;
-            cmd.CommandText= "EliminarCarrito";
+            cmd.CommandText = "EliminarCarrito";
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@idpedido", id);
             cmd.Parameters.AddWithValue("@idproducto", idproducto);
             con.Open();
-            leertabla=cmd.ExecuteReader();
+            leertabla = cmd.ExecuteReader();
             con.Close();
         }
+        // Registra un nuevo pedido en la base de datos
         public void RegistrarPedido(int id_cliente)
         {
 
@@ -212,9 +212,10 @@ namespace Protov4.DAO
 
                 cmd.ExecuteNonQuery();
             }
-            
+
         }
-        public void ActualizarPedidoDetalle(string id_producto,int id_pedido,int cantidad, decimal subtotal_producto)
+        // Actualiza los detalles de un pedido en la base de datos
+        public void ActualizarPedidoDetalle(string id_producto, int id_pedido, int cantidad, decimal subtotal_producto)
         {
             using (var connection = GetSqlConnection())
             {
@@ -229,37 +230,38 @@ namespace Protov4.DAO
                 cmd.ExecuteNonQuery();
             }
         }
-       public int ObtenerIdPedido()
-{
-    int lastPedidoId = -1;
-
-    using (var connection = GetSqlConnection())
-    {
-        connection.Open();
-        using (var cmd = new SqlCommand("GetLastPedidoId", connection))
+        // Obtiene el último ID de pedido registrado en la base de datos
+        public int ObtenerIdPedido()
         {
-            cmd.CommandType = CommandType.StoredProcedure;
+            int lastPedidoId = -1;
 
-            SqlParameter outputParameter = new SqlParameter();
-            outputParameter.ParameterName = "@LastPedidoId";
-            outputParameter.SqlDbType = SqlDbType.Int;
-            outputParameter.Direction = ParameterDirection.Output;
-            cmd.Parameters.Add(outputParameter);
-
-            cmd.ExecuteNonQuery();
-
-            if (outputParameter.Value != DBNull.Value)
+            using (var connection = GetSqlConnection())
             {
-                lastPedidoId = (int)outputParameter.Value;
+                connection.Open();
+                using (var cmd = new SqlCommand("GetLastPedidoId", connection))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    SqlParameter outputParameter = new SqlParameter();
+                    outputParameter.ParameterName = "@LastPedidoId";
+                    outputParameter.SqlDbType = SqlDbType.Int;
+                    outputParameter.Direction = ParameterDirection.Output;
+                    cmd.Parameters.Add(outputParameter);
+
+                    cmd.ExecuteNonQuery();
+
+                    if (outputParameter.Value != DBNull.Value)
+                    {
+                        lastPedidoId = (int)outputParameter.Value;
+                    }
+                }
             }
+
+            return lastPedidoId;
         }
-    }
 
-    return lastPedidoId;
-}
-
-
-        public void ActualizarPedido(int id_pedido, decimal pago_total, int tipoestado,string Ciudad_envio, string Calle_principal, string Calle_secundaria, int id_tipo_pago, DateTime fecha_pedido)
+        // Actualiza los detalles de un pedido en la base de datos
+        public void ActualizarPedido(int id_pedido, decimal pago_total, int tipoestado, string Ciudad_envio, string Calle_principal, string Calle_secundaria, int id_tipo_pago, DateTime fecha_pedido)
         {
             var con = GetSqlConnection();
             cmd.Connection = con;

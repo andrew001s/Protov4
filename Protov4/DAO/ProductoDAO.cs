@@ -8,13 +8,14 @@ namespace Protov4.DAO
     public class ProductoDAO 
     {
         private readonly IMongoCollection<ProductoDTO> prod;
-
+        // Inicializa la conexión a la base de datos MongoDB y obtiene la colección de productos
         public ProductoDAO(IConfiguration configuration)
         {
             var mongo = new DBMongo(configuration);
             prod = mongo.GetDatabase().GetCollection<ProductoDTO>("Productos");
         }
-        public  List<ProductoDTO> ObtenerProductos(string tipo)
+        // Obtiene una lista de productos según el tipo especificado
+        public List<ProductoDTO> ObtenerProductos(string tipo)
         {
             var filtro = Builders<ProductoDTO>.Filter.Eq("Tipo", tipo);
 
@@ -58,8 +59,8 @@ namespace Protov4.DAO
         }
 
 
-
-        public  List<ProductoDTO> ObtenerSeleccion(string id)
+        // Obtiene detalles de un producto según su ID en formato string
+        public List<ProductoDTO> ObtenerSeleccion(string id)
         {
             var objectId = new ObjectId(id);
             var filter = Builders<ProductoDTO>.Filter.Eq(x => x.Id, objectId);

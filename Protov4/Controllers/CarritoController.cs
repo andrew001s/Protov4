@@ -13,13 +13,15 @@ namespace Protov4.Controllers
     public class CarritoController : Controller
     {
         MikutechDAO carr;
+        // Constructor: Inicializa el controlador con una instancia de MikutechDAO
         public CarritoController(IConfiguration configuration)
         {
             carr = new MikutechDAO(configuration);
            
 
         }
-        // GET: HomeController1
+        // GET: Carrito
+        // Muestra el contenido del carrito de compras del usuario
         public ActionResult Carrito()
         {
             if (HttpContext.Session.GetInt32("IdPedidoActual") is int id_pedido)
@@ -36,7 +38,7 @@ namespace Protov4.Controllers
             }
         }
 
-
+        // Método auxiliar privado: Obtiene los detalles completos del carrito según el ID de pedido proporcionado
         [HttpGet]
         private List<CarritoFullDTO> obtenerCarritoFull(int idped)
         {
@@ -57,6 +59,7 @@ namespace Protov4.Controllers
         {
             return View();
         }
+        // Método de acción para finalizar la compra
         public ActionResult FinalizarCompra(string[] id_producto,int[] cantidad, decimal[] precio, decimal pagototal)
         {
             int id_pedido = carr.ObtenerIdPedido();
@@ -66,13 +69,12 @@ namespace Protov4.Controllers
             }
             carr.ActualizarPedido(id_pedido, pagototal,1, "", "", "", 1, DateTime.Now);
             List<PedidoDTO> pedido=  carr.ObtenerPedidoPorId(id_pedido);
-                return View(pedido);
-            
-           
-            //int id_pedido = carr.ObtenerIdPedido();
-            // carr.ActualizarPedidoDetalle(id_producto, id_pedido,cantidad,subtotal);
+            HttpContext.Session.Remove("IdPedidoActual");
+            Response.Cookies.Delete("carrito");
+            return View(pedido);
 
         }
+        // Método de acción para manejar una compra completada
         public ActionResult CompraRealizada(string ciudad, string callePrincipal, string calleSecundaria, int pagometodo, decimal pagototal)
         {
             try
@@ -86,9 +88,8 @@ namespace Protov4.Controllers
             }
             catch (Exception ex)
             {
-                // Manejar la excepción de manera adecuada, como mostrar un mensaje de error o registrar el error en un log
                 ViewBag.ErrorMessage = "Error al procesar la compra: " + ex.Message;
-                return View("Error"); // Puedes crear una vista específica para mostrar errores
+                return View("Error"); 
             }
         }
 
@@ -132,7 +133,7 @@ namespace Protov4.Controllers
         // GET: HomeController1/Delete/5
 
 
-        // POST: HomeController1/Delete/5
+        // Metodo para eliminar un product del carrito usando el id del producto
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult DeletePedido( string id_producto)
@@ -145,7 +146,6 @@ namespace Protov4.Controllers
             }
             catch (Exception ex)
             {
-                // Manejar el error si es necesario y devolver un resultado JSON con éxito falso en caso de error
                 return Json(new { success = false, errorMessage = ex.Message });
             }
         }

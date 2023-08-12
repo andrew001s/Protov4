@@ -20,19 +20,22 @@ namespace Protov4.Controllers
             db = new MikutechDAO(configuration);
            
         }
-   
-        // GET: ProductoController
 
+        // GET: ProductoController/Producto
+        // Muestra una lista de productos filtrados por tipo
         public ActionResult Producto(string tipo)
         {
             var productos = ListarProductos(tipo);
             return View(productos);
         }
+        // GET: ProductoController/ProductoSeleccion
+        // Muestra los detalles de un producto específico seleccionado por ID
         public ActionResult ProductoSeleccion(string _id)
         {
             var productos = ObjetoSeleccion(_id);
             return View(productos);
         }
+        // Método auxiliar HTTP GET: Obtiene los detalles de un producto seleccionado por ID
         [HttpGet]
         public List<ProductoDTO> ObjetoSeleccion(string _id)
         {
@@ -65,6 +68,7 @@ namespace Protov4.Controllers
 
             return ProductoDTO;
         }
+        // Método auxiliar HTTP GET: Obtiene una lista de productos filtrados por tipo
         [HttpGet]
         public List<ProductoDTO> ListarProductos(string tipo)
         {
@@ -95,7 +99,8 @@ namespace Protov4.Controllers
         {
             return View();
         }
-        // POST: ProductoController/Create
+        // POST: ProductoController/CrearCarrito
+        // Agrega un producto al carrito de compras
         [HttpPost]
         public ActionResult CrearCarrito(int id_cliente, string id_producto, decimal precio, int cantidad, decimal subtotal)
         {
@@ -126,7 +131,6 @@ namespace Protov4.Controllers
             }
             catch (Exception ex)
             {
-                // Manejar el error si es necesario y devolver un resultado JSON con éxito falso en caso de error
                 return Json(new { success = false, errorMessage = ex.Message });
             }
         }

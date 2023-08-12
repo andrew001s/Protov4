@@ -83,9 +83,6 @@
                     @if(total>0){
                         <button class="BtnFinCompra btn btn-outline-light">Finalizar compra</button>
                     }
-                    else{
-                    <button class="BtnFinCompra btn btn-outline-light" disabled>Finalizar compra</button>
-                    }
                 </form>
             </div>
         }
@@ -127,7 +124,7 @@
         btnMenosCarrito.forEach(function (btn) {
             btn.addEventListener("click", function () {
                 var divProducto = btn.closest(".ColCant");
-                var index = divProducto.querySelector(".contadorcarrito").getAttribute("data-index");
+                var index = btn.closest("tr").rowIndex - 1; // Obtener el índice de la fila
                 var cantidadElement = divProducto.querySelector(".contadorcarrito");
                 var cantidad = parseInt(cantidadElement.textContent);
                 if (cantidad > 1) {
@@ -145,7 +142,7 @@
         btnMasCarrito.forEach(function (btn) {
             btn.addEventListener("click", function () {
                 var divProducto = btn.closest(".ColCant");
-                var index = divProducto.querySelector(".contadorcarrito").getAttribute("data-index");
+                var index = btn.closest("tr").rowIndex - 1; // Obtener el índice de la fila
                 var existencias = parseInt(btn.getAttribute("data-index"));
                 var cantidadElement = divProducto.querySelector(".contadorcarrito");
                 var cantidad = parseInt(cantidadElement.textContent);
