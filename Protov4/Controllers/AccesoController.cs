@@ -1,9 +1,6 @@
-﻿using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Protov4.DAO;
 using Protov4.DTO;
-using System.Security.Claims;
 
 namespace Protov4.Controllers
 {
@@ -21,56 +18,19 @@ namespace Protov4.Controllers
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> Login(UsuariosDTO user)
+        public ActionResult Login(UsuariosDTO user)
         {
-            try
+            int idUsuario = _usuariosDAO.ValidarUsuario(user.correo_elec, user.contrasena);
+            if (idUsuario != 0)
             {
-                ((int id_usuario, int id_rol_user), int id_cliente) = _usuariosDAO.ValidarUsuario(user);
-                if (id_usuario != 0)
-                {
-                    var claims = new List<Claim>
-                    {
-                    new Claim(ClaimTypes.Name, user.correo_elec),
-                    new Claim("id_usuario", id_usuario.ToString()),
-                    new Claim("id_cliente", id_cliente.ToString()),
-                    new Claim("id_rol_user", id_rol_user.ToString())
-
-                    };
-
-                    if (id_rol_user == 1)
-                    {
-                        claims.Add(new Claim("id_rol_user", "1")); // Administrador
-                    }
-                    else
-                    {
-                        claims.Add(new Claim("id_rol_user", "2")); // Usuario normal
-                    }
-
-                    var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-                    await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
-
-                    if (id_rol_user == 1)
-                    {
-                        return RedirectToAction("Admin", "Administrador");
-                    }
-                    else
-                    {
-
-                       // _usuariosDAO.RegistrarAuditoria(id_usuario, DateTime.Now, true);
-                        return RedirectToAction("Index", "Home");
-                    }
-                }
-                else
-                {
-                    ViewBag.Error = "Credenciales incorrectas";
-                }
-                return View();
+                Response.Cookies.Append("user", "Bienvenido" + user.correo_elec);
+                return RedirectToAction("Index", "Home");
             }
-            catch (System.Exception)
+            else
             {
-                ViewBag.Error = "Credenciales incorrectas";
-                return View();
+                ViewData["Mensaje"] = "Usuario no encontrado";
             }
+            return View();
         }
 
         public ActionResult Registrar()
