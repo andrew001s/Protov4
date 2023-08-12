@@ -21,8 +21,6 @@ function blockNumbers(event) {
 }
 
 
-// Llamar a la función para borrar las cookies al inicio
-
 function validateTelefono() {
   const telefono = telefonoInput.value;
   const telefonoPattern = /^09[0-9]{0,8}$/;

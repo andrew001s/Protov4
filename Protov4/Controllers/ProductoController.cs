@@ -25,7 +25,6 @@ namespace Protov4.Controllers
         public ActionResult Producto(string tipo)
         {
             var productos = ListarProductos(tipo);
-    
             return View(productos);
         }
         public ActionResult ProductoSeleccion(string _id)

@@ -1,6 +1,7 @@
 ﻿@using Protov4.DTO
 @{
     ViewData["Title"] = "Producto Page";
+
 }
 @model List<ProductoDTO>
 
@@ -78,15 +79,16 @@
                         </ul>
                     }
                 </div>
+
             </div>
         </div>
+
     }
 </div>
 
 <div id="alertContainer" class="alert-container"></div>
 
 <script>
-
     document.addEventListener("DOMContentLoaded", function () {
         var carritoForm = document.querySelectorAll(".carritoForm");
         carritoForm.forEach(function (form) {
@@ -95,32 +97,13 @@
 
                 var formData = new FormData(form);
 
-                var id_producto = formData.get("id_producto");
-                var cantidad = parseInt(formData.get("cantidad"));
-
-                if (isNaN(cantidad) || cantidad <= 0) {
-                    alert("La cantidad debe ser un número válido y mayor que cero.");
-                    return;
-                }
-
-                // Verificar si el producto ya está en el carrito (usando una cookie)
-                var carritoCookie = getCookie("carrito");
-                if (carritoCookie && carritoCookie.includes(id_producto)) {
-                    alert("Este producto ya está en el carrito. Puedes actualizar la cantidad en el carrito.");
-                    return;
-                }
-
-                // Agregar el ID del producto a la cookie
-                var updatedCarritoCookie = carritoCookie ? carritoCookie + "," + id_producto : id_producto;
-                setCookie("carrito", updatedCarritoCookie);
-
                 fetch(form.action, {
                     method: "POST",
                     body: formData
                 })
                     .then(function (response) {
                         if (response.ok) {
-                            // Update session and view
+                            // Instead of location.reload(), you can update the view using AJAX
                             updateView();
                         } else {
                             // Handle error if needed
@@ -132,24 +115,7 @@
             });
         });
 
-        // Funciones para trabajar con cookies
-        function setCookie(name, value) {
-            document.cookie = name + "=" + value + "; path=/";
-        }
-
-        function getCookie(name) {
-            var cookieName = name + "=";
-            var cookies = document.cookie.split(';');
-            for (var i = 0; i < cookies.length; i++) {
-                var cookie = cookies[i].trim();
-                if (cookie.indexOf(cookieName) === 0) {
-                    return cookie.substring(cookieName.length, cookie.length);
-                }
-            }
-            return null;
-        }
-
-        // Function to update the view and session
+        // Function to update the view (you can customize this based on your framework)
         function updateView() {
             var alertContainer = document.getElementById('alertContainer');
 
@@ -171,5 +137,7 @@
                 });
             }, 3000); // 3000 milisegundos = 3 segundos
         }
+
     });
 </script>
+
