@@ -44,7 +44,6 @@ $(document).ready(function () {
     });
 
     // Mostrar mensaje de error si el correo no coincide con el formato válido
-    // Mostrar mensaje de error si el correo no coincide con el formato válido
     $('#correo_nuevo').on('input', function () {
         var correo = $(this).val();
         var correoErrorSpan = $('.correo-error'); // Seleccionamos el span por su clase
