@@ -17,15 +17,15 @@ namespace Protov4.Controllers
         public ProductoController(IConfiguration configuration)
         {
             db = new MikutechDAO(configuration);
-           
+
         }
-   
+
         // GET: ProductoController
 
         public ActionResult Producto(string tipo)
         {
             var productos = ListarProductos(tipo);
-    
+
             return View(productos);
         }
         public ActionResult ProductoSeleccion(string _id)
@@ -60,7 +60,7 @@ namespace Protov4.Controllers
                     Almacenamiento = p.Especificaciones.Almacenamiento,
                     Descripción = p.Especificaciones.Descripción
                 }
-               
+
             }).ToList();
 
             return ProductoDTO;
@@ -104,10 +104,10 @@ namespace Protov4.Controllers
                 ClaimsPrincipal c = HttpContext.User;
 
                 int id_pedido;
-               
+
                 if (HttpContext.Session.GetInt32("IdPedidoActual") != null)
                 {
-                   
+
                     id_pedido = db.ObtenerIdPedido();
 
                     TempData["PedidoRegistrado"] = true;
@@ -122,11 +122,11 @@ namespace Protov4.Controllers
                             db.RegistrarPedido(idCliente);
                         }
                     }
-                    
+
                     id_pedido = db.ObtenerIdPedido();
                     TempData["PedidoRegistrado"] = true;
                     HttpContext.Session.SetInt32("IdPedidoActual", id_pedido);
-                   
+
                 }
 
                 db.insertarCarrito(id_pedido, id_producto, precio, cantidad, subtotal);
