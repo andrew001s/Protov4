@@ -1,4 +1,5 @@
-﻿@{
+﻿@model Protov4.DTO.ClientesDTO;
+@{
     Layout = null;
 }
 
@@ -8,7 +9,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="~/css/register.css">
+    <link rel="stylesheet" href="~/css/register.css" asp-append-version="true">
 
     <title>REGISTER</title>
 </head>
@@ -26,46 +27,54 @@
         <div class="column-right">
             <p style="margin-top: 25px; font-family: Arial, Helvetica, sans-serif;
             font-weight: bold;">Registrar datos:</p>
-            <form asp-controller="Acceso" asp-action="Registrar" method="post">
+            <form asp-controller="Acceso" asp-action="Registrar" method="post" id="registroForm">
                 <div class="container-row">
                     <div class="container-col-1">
-                        <label for="nombre_cliente">Nombre:</label>
-                        <input type="text" name="nombre_cliente" id="nombre_cliente" required>
+                        <label>Nombre:</label>
+                        <input asp-for="nombre_cliente" class="form-control bloquear-numeros" required/>
+                        <span asp-validation-for="nombre_cliente" class="text-danger"></span>
                     </div>
                     <div class="container-col-2">
-                        <label for="apellido_usuario">Apellido:</label>
-                        <input type="text" name="apellido_cliente" id="apellido_cliente" required>
+                        <label>Apellido:</label>
+                        <input asp-for="apellido_cliente" class="form-control bloquear-numeros" required/>
+                        <span asp-validation-for="apellido_cliente" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="container-col">
                     <div>
-                        <label for="telefono_ciente">Teléfono:</label>
-                        <input type="text" id="telefono_cliente" name="telefono_cliente" maxlength="10"
-                               onkeypress="return isNumberKey(event)" oninput="checkTelefono()">
-                        <span id="telefono-error" style="color: red;"></span>
+                        <label>Teléfono:</label>
+                        <input asp-for="telefono_cliente" id="telefono_cliente" class="form-control" required/>
+                        <span asp-validation-for="telefono_cliente" class="text-danger"></span>
+                        <span id="telefono_error" class="text-danger"></span>
                     </div>
                     <div>
-                        <label for="correo">Correo:</label>
-                        <input type="email" id="correo" name="correo_elec" required>
-                        <span id="correo-error" style="color: red;"></span>
+                        <label>Correo:</label>
+                        <input asp-for="correo_nuevo" id="correo_nuevo" required/>
+                        <span asp-validation-for="correo_nuevo" class="text-danger correo-error"></span>
+
                     </div>
                     <div>
-                        <label for="contrasena">Contraseña:</label>
-                        <input type="password" id="contrasena" name="contrasena" required>
+                        <label>Contraseña:</label>
+                        <input asp-for="contrasena_nueva" type="password" required/>
+                        <span asp-validation-for="contrasena_nueva" class="text-danger"></span>
                     </div>
                     <div>
-                        <label for="c_contrasena">Confirmar contraseña:</label>
-                        <input type="password" id="c_contrasena" name="confirmar_contrasena" required>
+                        <label>Confirmar contraseña:</label>
+                        <input asp-for="confirmar_contrasena" name="confirmar_contrasena" type="password" required>
+                        <span asp-validation-for="confirmar_contrasena" class="text-danger"></span>
                     </div>
                     <input type="submit" value="Registrar">
-                </div>
+                 </div>
             </form>
+
             <p class="register-text">
                 ¿Ya tienes una cuenta?
                 <a class="register-link" href="@Url.Action("Login", "Acceso")">Iniciar Sesión</a>
             </p>
         </div>
     </div>
-    <script src="~/js/validation.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
+    <script src="~/js/registro-validation.js"></script>
 </body>
 </html>

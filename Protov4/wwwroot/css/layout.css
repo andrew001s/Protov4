@@ -1,10 +1,15 @@
-﻿/* BARRA DE NAVEGACION */
+﻿@font-face {
+    font-family: 'Spoof';
+    src: url('../recursos/SpoofTrial-Bold.otf') format('opentype');
+}
+
+/* BARRA DE NAVEGACION */
 
 .navbar-custom {
     background-color: #161A33;
     padding: 10px;
     position: fixed;
-    z-index:100;
+    z-index: 100;
     top: 0;
     left: 0;
     width: 100%;
@@ -28,7 +33,7 @@
     }
 
     .logo h1 {
-        font-family: 'Spoof', sans-serif;
+        font-family: Spoof, sans-serif;
         font-size: 36px;
         margin: 0;
     }

@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MongoDB.Driver;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Protov4.DAO;
 
 
@@ -26,6 +27,21 @@ builder.Services.AddSession(options =>
     options.Cookie.IsEssential = true;
 });
 
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(option =>
+{
+    option.LoginPath = "/Acceso/Login";
+
+});
+
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("AdminOnly", policy =>
+        policy.RequireClaim("id_rol_user", "1"));
+
+    options.AddPolicy("UserOnly", policy =>
+        policy.RequireClaim("id_rol_user", "2"));
+});
+
 
 var app = builder.Build();
 
@@ -41,6 +57,8 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseSession();
 app.UseRouting();
+
+app.UseAuthentication();
 
 app.UseAuthorization();
 

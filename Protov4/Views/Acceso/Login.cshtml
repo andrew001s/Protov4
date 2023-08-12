@@ -9,7 +9,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="~/css/login.css">
+    <link rel="stylesheet" href="~/css/login.css" asp-append-version="true">
     <title>LOGIN</title>
 </head>
 <body>
@@ -46,6 +46,12 @@
                 ¿No tienes una cuenta?
                 <a class="register-link" href="@Url.Action("Registrar", "Acceso")">Registrarse</a>
             </p>
+            @if (ViewBag.Error != null)
+            {
+                <div class="error-alert">
+                    <a>@ViewBag.Error</a>
+                </div>
+            }
         </div>
     </div>
     <script src="~/js/validation.js"></script>
