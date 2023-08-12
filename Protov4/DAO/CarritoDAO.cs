@@ -85,14 +85,14 @@ namespace Protov4.DAO
 
                 connection.Open();
 
-                using (SqlDataReader reader = command.ExecuteReader())
+                using (var reader = command.ExecuteReader())
                 {
                     while (reader.Read())
                     {
                         PedidoDTO pedido = new PedidoDTO();
                         pedido.id_pedido = (int)reader["id_pedido"];
                         pedido.id_cliente = (int)reader["id_cliente"];
-                        pedido.pago_total = (decimal)reader["pago_total"];
+                        pedido.pago_total = (decimal)reader.GetDecimal(reader.GetOrdinal("pago_total"));
                         pedido.Ciudad_envio = reader["Ciudad_envio"].ToString();
                         pedido.Calle_principal = reader["Calle_principal"].ToString();
                         pedido.Calle_secundaria = reader["Calle_secundaria"].ToString();
@@ -130,7 +130,7 @@ namespace Protov4.DAO
                     {
                         Precio = reader.GetDecimal(3),
                         cantidad = reader.GetInt32(4),
-                        subtotal_producto = reader.GetDecimal(5),
+                        subtotal_producto = (decimal)reader.GetDecimal(5),
                         id_producto = reader.GetString(2)
                     });
                 }
@@ -182,15 +182,20 @@ namespace Protov4.DAO
         // Elimina un producto del carrito de compras
         public void EliminarProductoCarrito(int id, string idproducto)
         {
-            var con = GetSqlConnection();
-            cmd.Connection = con;
+            using (var connection = GetSqlConnection())
+            {
+                connection.Open();
+                cmd.Connection = connection;
             cmd.CommandText = "EliminarCarrito";
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@idpedido", id);
             cmd.Parameters.AddWithValue("@idproducto", idproducto);
-            con.Open();
-            leertabla = cmd.ExecuteReader();
-            con.Close();
+
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.ExecuteNonQuery();
+            }
+          
         }
         // Registra un nuevo pedido en la base de datos
         public void RegistrarPedido(int id_cliente)
@@ -263,21 +268,24 @@ namespace Protov4.DAO
         // Actualiza los detalles de un pedido en la base de datos
         public void ActualizarPedido(int id_pedido, decimal pago_total, int tipoestado, string Ciudad_envio, string Calle_principal, string Calle_secundaria, int id_tipo_pago, DateTime fecha_pedido)
         {
-            var con = GetSqlConnection();
-            cmd.Connection = con;
-            cmd.CommandText = "ActualizarPedido";
-            cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@id_pedido", id_pedido);
-            cmd.Parameters.AddWithValue("@pago_total", pago_total);
-            cmd.Parameters.AddWithValue("@Ciudad_envio", Ciudad_envio);
-            cmd.Parameters.AddWithValue("@Calle_principal", Calle_principal);
-            cmd.Parameters.AddWithValue("@Calle_secundaria", Calle_secundaria);
-            cmd.Parameters.AddWithValue("@id_tipo_pago", tipoestado);
-            cmd.Parameters.AddWithValue("@id_tipo_estado", tipoestado);
-            cmd.Parameters.AddWithValue("@fecha_pedido", fecha_pedido);
-            con.Open();
-            leertabla = cmd.ExecuteReader();
-            con.Close();
+            using (var connection = GetSqlConnection())
+            {
+                connection.Open();
+                var cmd = new SqlCommand("ActualizarPedido", connection);
+
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@id_pedido", id_pedido);
+                cmd.Parameters.AddWithValue("@pago_total", pago_total);
+                cmd.Parameters.AddWithValue("@Ciudad_envio", Ciudad_envio);
+                cmd.Parameters.AddWithValue("@Calle_principal", Calle_principal);
+                cmd.Parameters.AddWithValue("@Calle_secundaria", Calle_secundaria);
+                cmd.Parameters.AddWithValue("@id_tipo_pago", tipoestado);
+                cmd.Parameters.AddWithValue("@id_tipo_estado", tipoestado);
+                cmd.Parameters.AddWithValue("@fecha_pedido", fecha_pedido);
+
+                cmd.ExecuteNonQuery();
+            }
+
         }
 
 
