@@ -80,7 +80,12 @@
                         <input type="hidden" name="cantidad[@i]" value="@Model[i].cantidad" />
                         <input type="hidden" name="precio[@i]" value="@Model[i].Precio" />
                     }
-                    <button class="BtnFinCompra btn btn-outline-light">Finalizar compra</button>
+                    @if(total>0){
+                        <button class="BtnFinCompra btn btn-outline-light">Finalizar compra</button>
+                    }
+                    else{
+                    <button class="BtnFinCompra btn btn-outline-light" disabled>Finalizar compra</button>
+                    }
                 </form>
             </div>
         }
