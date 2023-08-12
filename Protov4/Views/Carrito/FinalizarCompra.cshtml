@@ -18,13 +18,13 @@
                 </select>
                 <br>
                 <label class="Texto1Form" for="Calleprin">Calle Principal</label><br>
-                <input class="Boton1Form" type="text" id="Calleprin" name="callePrincipal"><br>
+                <input class="Boton1Form" type="text" id="Calleprin" name="callePrincipal" required pattern="[A-Za-z0-9ñÑ\s]+"><br>
                 <label class="Texto1Form" for="callesec">Calle Secundaria:</label><br>
-                <input class="Boton1Form" type="text" id="callesec" name="calleSecundaria"><br>
+                <input class="Boton1Form" type="text" id="callesec" name="calleSecundaria" required pattern="[A-Za-z0-9ñÑ\s]+"><br>
             </div>
             <div class="DerForm">
                 <div class="form-check">
-                    <input class="form-check-input" type="radio" id="id_metodo_pago1" name="pagoMetodo" value=1>
+                    <input class="form-check-input" type="radio" id="id_metodo_pago1" name="pagoMetodo" value=1 checked>
                     <label class="Texto3Form" for="pagoMetodo">Tarjeta de Crédito</label><img class="Img1Form" src="~/Recursos/Tarjetas.png" alt="Tarjetas" width="150" height="60px" /><br>
                 </div>
                 <div class="form-check">
