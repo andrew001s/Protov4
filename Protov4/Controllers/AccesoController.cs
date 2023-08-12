@@ -94,6 +94,9 @@ namespace Protov4.Controllers
                     _usuariosDAO.RegistrarAuditoria(id_usuario, DateTime.Now, esInicioSesion);
                 }
             }
+            HttpContext.Session.Remove("IdPedidoActual");
+            Response.Cookies.Delete("carrito"); // Aquí se elimina la cookie
+
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return RedirectToAction("Login", "Acceso");
 
