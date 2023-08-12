@@ -103,6 +103,10 @@
                 })
                     .then(function (response) {
                         if (response.ok) {
+                            // Eliminar el producto de la cookie
+                            var id_producto = formData.get("id_producto");
+                            removeProductFromCookie(id_producto);
+
                             location.reload();
                         } else {
                             // Handle error if needed
@@ -152,6 +156,35 @@
             });
         });
 
+        // Función para eliminar un producto de la cookie
+        function removeProductFromCookie(id_producto) {
+            var carritoCookie = getCookie("carrito");
+            if (carritoCookie) {
+                var productIds = carritoCookie.split(",");
+                var updatedProductIds = productIds.filter(function (productId) {
+                    return productId !== id_producto;
+                });
+                var updatedCarritoCookie = updatedProductIds.join(",");
+                setCookie("carrito", updatedCarritoCookie);
+            }
+        }
+
+        // Funciones para trabajar con cookies
+        function setCookie(name, value) {
+            document.cookie = name + "=" + value + "; path=/";
+        }
+
+        function getCookie(name) {
+            var cookieName = name + "=";
+            var cookies = document.cookie.split(';');
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = cookies[i].trim();
+                if (cookie.indexOf(cookieName) === 0) {
+                    return cookie.substring(cookieName.length, cookie.length);
+                }
+            }
+            return null;
+        }
 
         function actualizarSubtotalYTotal(divProducto, cantidad, index) {
             var precio = parseFloat(divProducto.closest("tr").querySelector(".ColPrec").textContent.replace("$", ""));
@@ -162,7 +195,6 @@
             document.querySelectorAll(".ColSubT").forEach(function (subTotalElement) {
                 var subtotalValue = parseFloat(subTotalElement.textContent.replace("$", ""));
                 total += subtotalValue;
-
             });
             document.querySelector(".total h3").textContent = "$ " + total.toFixed(2);
             document.getElementById("pagototal").value = total;
