@@ -20,23 +20,25 @@ namespace Protov4.DAO
             // Esto asegura que el objeto de conexión se inicialice correctamente.
         }
 
+        // Método para validar las credenciales del usuario al intentar iniciar sesión
         public ((int id_usuario, int id_rol_user), int id_cliente) ValidarUsuario(UsuariosDTO nuser)
         {
             int id_usuario = 0;
             int id_cliente = 0;
             int id_rol_user = 0;
 
-            nuser.contrasena = ConvertirSha256(nuser.contrasena);
+            nuser.contrasena = ConvertirSha256(nuser.contrasena); // Convertir la contraseña a su hash SHA256 correspondiente
             using (var connection = GetSqlConnection())
             {
-                connection.Open();
+                connection.Open(); // Abrir la conexión a la base de datos
+                // Se hace el llamado al procedimiento almacenado y se le envía los parámetros requeridos
                 SqlCommand cmd = new SqlCommand("Login_ValidarUsuario", connection);
                 cmd.Parameters.AddWithValue("@correo_elec", nuser.correo_elec);
                 cmd.Parameters.AddWithValue("@contrasena", nuser.contrasena);
                 cmd.CommandType = CommandType.StoredProcedure;
                 using (var reader = cmd.ExecuteReader())
                 {
-                    if (reader.Read())
+                    if (reader.Read()) // Extraer la información del usuario autenticado
                     {
                         id_usuario = Convert.ToInt32(reader["id_usuario"]);
                         id_rol_user = Convert.ToInt32(reader["id_rol_user"]);
@@ -44,7 +46,7 @@ namespace Protov4.DAO
 
                     }
 
-                    if (id_usuario == 0 && id_rol_user == 0)
+                    if (id_usuario == 0 && id_rol_user == 0) // Si no se encuentra un usuario válido, se resetean los valores
                     {
                         id_usuario = 0;
                         id_cliente = 0;
@@ -52,22 +54,24 @@ namespace Protov4.DAO
                     }
 
                 }
-                connection.Close();
+                connection.Close(); // Cerrar la conexión a la base de datos
                 return ((id_usuario, id_rol_user), id_cliente);
             }
         }
 
+        // Método para registrar un nuevo cliente
         public bool Registrar(ClientesDTO nclient)
         {
             bool registrado = false;
             try
             {
+                // Convertir la contraseña a su hash SHA256 correspondiente
                 nclient.contrasena_nueva = ConvertirSha256(nclient.contrasena_nueva);
 
                 using (var connection = GetSqlConnection())
                 {
-                    connection.Open();
-                    using (SqlCommand cmd = new SqlCommand("Login_RegistrarUsuario", connection))
+                    connection.Open(); // Abrir la conexión a la base de datos
+                    using (SqlCommand cmd = new SqlCommand("Login_RegistrarUsuario", connection)) //Se llama al procedimiento almacenado y se le envían los parámetros necesarios
                     {
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.Add("@correo_elec", SqlDbType.VarChar).Value = nclient.correo_nuevo;
@@ -77,8 +81,8 @@ namespace Protov4.DAO
                         cmd.Parameters.Add("@telefono_cliente", SqlDbType.VarChar).Value = nclient.telefono_cliente;
                         cmd.Parameters.Add("Registrado", SqlDbType.Bit).Direction = ParameterDirection.Output;
                         cmd.Parameters.Add("Mensaje", SqlDbType.VarChar, 100).Direction = ParameterDirection.Output;
-                        cmd.ExecuteNonQuery();
-                        registrado = Convert.ToBoolean(cmd.Parameters["Registrado"].Value);
+                        cmd.ExecuteNonQuery(); // Ejecutar el procedimiento almacenado
+                        registrado = Convert.ToBoolean(cmd.Parameters["Registrado"].Value); // Obtener el resultado del proceso de registro
                     }
                 }
             }
@@ -90,13 +94,14 @@ namespace Protov4.DAO
             return registrado;
         }
 
+        // Método para registrar una auditoría de inicio o cierre de sesión
         public void RegistrarAuditoria(int idUsuario, DateTime fechaSesion, bool esInicioSesion)
         {
             try
             {
                 using (var connection = GetSqlConnection())
                 {
-                    connection.Open();
+                    connection.Open(); // Abrir la conexión a la base de datos
                     using (SqlCommand cmd = new SqlCommand("Login_RegistrarAuditoria", connection))
                     {
                         cmd.CommandType = CommandType.StoredProcedure;
@@ -114,7 +119,7 @@ namespace Protov4.DAO
                             cmd.Parameters.AddWithValue("@fecha_cierre_sesion", fechaSesion); // Registramos fecha de cierre
                         }
 
-                        cmd.ExecuteNonQuery();
+                        cmd.ExecuteNonQuery(); // Ejecutar el procedimiento almacenado
                     }
                 }
             }
@@ -125,16 +130,18 @@ namespace Protov4.DAO
             }
         }
 
+        // Método para listar los pedidos de un cliente
         public List<MisPedidosDTO> ListarPedidos(int id_cliente)
         {
             try
             {
-                var Lista = new List<MisPedidosDTO>();
+                var Lista = new List<MisPedidosDTO>(); //Creamos una lista con los mismos campos del modelo MisPedidos
 
                 using (var connection = GetSqlConnection())
                 {
-                    connection.Open();
-                    SqlCommand cmd = new SqlCommand("ObtenerDatosPedido", connection);
+                    connection.Open(); // Abrir la conexión a la base de datos
+                    SqlCommand cmd = new SqlCommand("ObtenerDatosPedido", connection); // Llamar al procedimiento almacenado "ObtenerDatosPedido"
+                    cmd.CommandType = CommandType.StoredProcedure;
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@id_cliente", id_cliente);
 
@@ -142,7 +149,7 @@ namespace Protov4.DAO
                     {
                         while (dr.Read())
                         {
-                            Lista.Add(new MisPedidosDTO
+                            Lista.Add(new MisPedidosDTO     // Agregar detalles de los pedidos a la lista
                             {
                                 ciudad_envio = dr["ciudad_envio"].ToString(),
                                 fecha_pedido = ((DateTime)dr["fecha_pedido"]).ToString("dd/MM/yyyy"),
@@ -164,6 +171,7 @@ namespace Protov4.DAO
             }
         }
 
+        // Método estático para convertir un texto en su hash SHA256 correspondiente
         public static string ConvertirSha256(string texto)
         {
             StringBuilder Sb = new StringBuilder();
