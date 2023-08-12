@@ -21,17 +21,18 @@
                         <div id="cardform" class="card text-white rounded-3">
                             <div class="card-body">
                                 <div class="card-title" onclick="window.location.href='@Url.Action("ProductoSeleccion","Producto",new{_id=prod.Id})'">
-                                   
-                                        <h5>
-                                            <img src="@base64" width="267" height="252" >
-                                        </h5>
-                                   
+
+                                    <h5>
+                                        <img src="@base64" width="267" height="252">
+                                    </h5>
+
                                     <p id="nombreProducto" class="card-text text-uppercase">@prod.Nombre_Producto</p>
                                     <p id="Precio" class="card-text ms-3">$@prod.Precio</p>
                                     <p id="IVA" class="card-text ml-3">Precios incluyen IVA</p>
-                                    
+
                                 </div>
                                 <div id="botoncompra">
+
                                     <form class="carritoForm" action="@Url.Action("CrearCarrito", "Producto")" method="post">
                                         <input type="hidden" name="id_cliente" value="1" />
                                         <input type="hidden" name="id_producto" value="@prod.Id" />
@@ -42,11 +43,14 @@
                                             <i id="carrito" class="bi bi-cart-fill">AÑADIR AL CARRITO</i>
                                         </button>
                                     </form>
+
+
                                 </div>
+
                             </div>
                         </div>
                     </section>
-                   
+
                 }
             }
         </div>
@@ -62,6 +66,25 @@
                 e.preventDefault();
 
                 var formData = new FormData(form);
+
+                var id_producto = formData.get("id_producto");
+                var cantidad = parseInt(formData.get("cantidad"));
+
+                if (isNaN(cantidad) || cantidad <= 0) {
+                    alert("La cantidad debe ser un número válido y mayor que cero.");
+                    return;
+                }
+
+                // Verificar si el producto ya está en el carrito (usando una cookie)
+                var carritoCookie = getCookie("carrito");
+                if (carritoCookie && carritoCookie.includes(id_producto)) {
+                    alert("Este producto ya está en el carrito. Puedes actualizar la cantidad en el carrito.");
+                    return;
+                }
+
+                // Agregar el ID del producto a la cookie
+                var updatedCarritoCookie = carritoCookie ? carritoCookie + "," + id_producto : id_producto;
+                setCookie("carrito", updatedCarritoCookie);
 
                 fetch(form.action, {
                     method: "POST",
@@ -80,6 +103,25 @@
                     });
             });
         });
+
+        // Resto del código aquí...
+
+        // Funciones para trabajar con cookies
+        function setCookie(name, value) {
+            document.cookie = name + "=" + value + "; path=/";
+        }
+
+        function getCookie(name) {
+            var cookieName = name + "=";
+            var cookies = document.cookie.split(';');
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = cookies[i].trim();
+                if (cookie.indexOf(cookieName) === 0) {
+                    return cookie.substring(cookieName.length, cookie.length);
+                }
+            }
+            return null;
+        }
 
         // Function to update the view and session
         function updateView() {
@@ -103,6 +145,6 @@
                 });
             }, 3000); // 3000 milisegundos = 3 segundos
         }
-
     });
+
 </script>
