@@ -66,5 +66,17 @@ namespace Protov4.DAO
             var filter = Builders<ProductoDTO>.Filter.Eq(x => x.Id, objectId);
             return prod.Find(filter).ToList();
         }
+
+        //Método para actualizar las existencias de un producto luego de su compra
+        public void ActualizarExistencias(string id,int cantidad)
+        {
+            var objectId = new ObjectId(id);
+            var filtro = Builders<ProductoDTO>.Filter.Eq(p => p.Id, objectId);
+
+            var update = Builders<ProductoDTO>.Update.Inc(p => p.Existencia, -cantidad); // Incrementar la existencia en 10 unidades
+
+            var updateResult = prod.UpdateOne(filtro, update);
+
+        }
     }
 }

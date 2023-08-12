@@ -73,6 +73,11 @@ namespace Protov4.DAO
         {
             return carritoDAO.ObtenerPedidoPorId(idPedido);
         }
+
+        public override void ActualizarExistencias(string id, int cantidad)
+        {
+            productoDAO.ActualizarExistencias(id,cantidad);
+        }
     }
 }
     

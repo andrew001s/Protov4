@@ -28,5 +28,8 @@ namespace Protov4.DAO
         public abstract int ObtenerIdPedido();
         // Obtiene detalles de un pedido específico según su ID
         public abstract List<PedidoDTO> ObtenerPedidoPorId(int idPedido);
+        //Actualiza las existencias de un producto luego de una compra
+        public abstract void ActualizarExistencias(string id,int cantidad);
+
     }
 }

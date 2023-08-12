@@ -80,10 +80,14 @@ namespace Protov4.Controllers
             try
             {
                 int id_pedido = carr.ObtenerIdPedido();
-
-
                 carr.ActualizarPedido(id_pedido, pagototal, pagometodo, ciudad, callePrincipal, calleSecundaria, 1, DateTime.Now);
                 List<PedidoDTO> pedido = carr.ObtenerPedidoPorId(id_pedido);
+                List<CarritoFullDTO> carr1 = carr.ObtenerCarritoFull(id_pedido);
+                foreach(var item in carr1 )
+                {
+                    carr.ActualizarExistencias(item.id_producto,item.cantidad);
+                }
+                
                 return View(pedido);
             }
             catch (Exception ex)

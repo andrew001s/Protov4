@@ -13,9 +13,11 @@
             @{
                 foreach (var prod in Model)
                 {
-
+                    int existencias = prod.Existencia;
+                    if(existencias>0){
                     byte[] imagenBytes = prod.Imagen;
                     string base64 = "data:image/png;base64," + Convert.ToBase64String(imagenBytes);
+                    
                     <section id="seccard" class="col col-md-auto">
                         <div id="cardform" class="card text-white rounded-3">
                             <div class="card-body">
@@ -49,7 +51,7 @@
                             </div>
                         </div>
                     </section>
-
+                    }
                 }
             }
         </div>
