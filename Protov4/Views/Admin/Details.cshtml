@@ -1,32 +1,41 @@
 ﻿@model Protov4.DTO.ProductoDTO;
 
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="~/css/adminsts.css">
+    <title>Admin</title>
+</head>
+<body class="body-detalles">
 <h1>Detalles</h1>
 
-<div>
+<div class="contenedor-detalles">
     <h4>Producto</h4>
     <hr />
     <dl class="row">
         <dt class="columna-elim">
             @Html.DisplayNameFor(model => model.Id)
         </dt>
-        <dd class="col-sm-10">
+        <dd >
             @Html.DisplayFor(model => model.Nombre_Producto)
         </dd>
-        <dt class="col-sm-2">
+        <dt >
             @Html.DisplayNameFor(model => model.Precio)
         </dt>
-        <dd class="col-sm-10">
+        <dd >
             @Html.DisplayFor(model => model.Marca)
         </dd>
-        <dt class="col-sm-2">
+        <dt >
             @Html.DisplayNameFor(model => model.Tipo)
         </dt>
-        <dd class="col-sm-10">
+        <dd >
             @Html.DisplayFor(model => model.Especificaciones)
         </dd>
     </dl>
 </div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a>
-    <a asp-action="Index">Cancelar</a>
+<div class=" btn-contenedor">
+    <a class="editar-btn" asp-action="Edit" asp-route-id="@Model?.Id">Editar</a>
+    <a class="cancelar-btn" asp-action="Index">Cancelar</a>
 </div>
+</body>
+</html>

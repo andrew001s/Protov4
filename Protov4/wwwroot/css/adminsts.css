@@ -3,10 +3,7 @@
     src: url('Recursos/SpoofTrial-Bold.otf') format('opentype');
 }
 
-
-
 html {
-    /*me permite deslizar cuando hago clic en los links del menú*/
     scroll-behavior: smooth;
 }
 
@@ -18,7 +15,6 @@ body {
 .contenedor-header {
     background-color: #161A33;
     position: fixed;
-    /* Establece la posición del elemento contenedor como fija */
     width: 100%;
     top: 0;
     left: 0;
@@ -27,15 +23,11 @@ body {
 
     .contenedor-header header {
         width: 100%;
-        /* Establece el ancho máximo del elemento <header> a 1100px */
         margin: auto;
-        /* Centra horizontalmente el elemento <header> dentro de su contenedor */
         display: flex;
         justify-content: space-between;
         align-items: center;
         padding: 15px 20px;
-        /* Agrega un relleno interno al elemento <header> 
-                         de 15px (arriba y abajo) y 20px (izquierda y derecha) */
     }
 
         .contenedor-header header .logo {
@@ -58,7 +50,6 @@ body {
 
         .contenedor-header header ul {
             display: flex;
-            /* Elimina los estilos de viñetas (puntos o números) en la lista */
             list-style: none;
         }
 
@@ -70,7 +61,6 @@ body {
             transition: .5s;
             text-decoration: none;
             font-size: 20px;
-            /*Elimina el subrayado*/
         }
 
             .contenedor-header header nav ul li a:hover {
@@ -93,7 +83,8 @@ body {
         border-color: #ff0000;
         color: #ff0000;
     }
-/*Productos*/
+
+/*PAGINA CREAR*/
 .productos {
     color: #fff;
     padding: 150px 0 25px 0;
@@ -126,7 +117,7 @@ body {
         .productos .fila .columna {
             width: calc(38.33% - 10px);
             margin-bottom: 15px;
-            text-align: left; /* Centrar los elementos dentro de las columnas */
+            text-align: left;
         }
 
         .productos .fila label {
@@ -151,6 +142,8 @@ body {
         color: #fff;
         font-size: 20px
     }
+
+/*INDEX ADMIN*/
 
 .lista-productos {
     color: #fff;
@@ -254,7 +247,7 @@ body {
         border: none;
         background: #094ac4;
         font-size: 18px;
-        padding: 5px 15px;
+        padding: 5px 25px;
         border-radius: 5px;
         cursor: pointer;
     }
@@ -302,22 +295,25 @@ body {
     padding: 20px;
     border-radius: 5px;
     text-align: center;
-    max-width: 400px;
+    max-width: 500px;
     color: #fff;
 }
-    .mensaje-confirmacion p{
+
+    .mensaje-confirmacion p {
         font-size: 20px;
     }
+
     .mensaje-confirmacion span {
         color: red;
     }
+
     .mensaje-confirmacion .confirmar-btn {
         width: fit-content;
         margin: 0;
         margin-top: 10px;
         border: none;
         background: #af0606;
-        font-size: 18px;
+        font-size: 20px;
         padding: 10px 15px;
         border-radius: 5px;
         cursor: pointer;
@@ -330,47 +326,138 @@ body {
         margin-left: 50px;
         border: none;
         background: #8495d0;
-        font-size: 18px;
-        padding: 10px 15px;
-        border-radius: 5px;
-        cursor: pointer;
-        color: #fff;
-    }
-
-/*PAGINA EDITAR*/
-.contenido-seccion .titulo-editar {
-    display: flex;
-    flex-direction:column;
-    justify-content: center;
-    text-align: center;
-    align-items: center;
-}
-
-    .contenido-seccion .titulo-editar h1 {
-        color: #094ac4;
-    }
-    .contenido-seccion .contenedor-editar .btn-Editar {
-        width: fit-content;
-        margin: 0;
-        margin-top: 30px;
-        border: none;
-        background: #094ac4;
         font-size: 20px;
         padding: 10px 15px;
         border-radius: 5px;
         cursor: pointer;
         color: #fff;
+        text-decoration: none;
     }
-
-.contenido-seccion .contenedor-editar .cancelar-btn {
-    width: fit-content;
+/*PAGINA DETALLES*/
+.body-detalles {
     margin: 0;
-    margin-left: 150px;
-    border: none;
-    background: #8495d0;
-    font-size: 20px;
-    padding: 10px 15px;
-    border-radius: 5px;
-    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
     color: #fff;
 }
+
+    .body-detalles h1, h4 {
+        text-align: center;
+    }
+
+.contenedor-detalles {
+    background: linear-gradient(135deg, #411038, #4a448a);
+    padding: 20px;
+    border-radius: 5px;
+    width: 400px;
+    height: auto;
+    margin-top: 25px;
+    margin-bottom: 25px;
+}
+
+.btn-contenedor {
+    text-align: center;
+    color: #fff;
+    font-size: 20px;
+}
+
+    .btn-contenedor .editar-btn {
+        width: fit-content;
+        margin: 0;
+        border: none;
+        background: #094ac4;
+        padding: 10px 30px;
+        border-radius: 5px;
+        cursor: pointer;
+        text-decoration: none;
+        color: #fff;
+    }
+
+    .btn-contenedor .cancelar-btn {
+        width: fit-content;
+        margin: 0;
+        border: none;
+        background: #8495d0;
+        padding: 10px 15px;
+        border-radius: 5px;
+        margin-left: 50px;
+        cursor: pointer;
+        text-decoration: none;
+        color: #fff;
+    }
+
+/*PAGINA EDIT*/
+.body-editar {
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    color: #fff;
+}
+
+.body-editar .contenedor-titulo{
+    text-align:center;
+    margin-top: 125px
+}
+
+.contenedor-editar {
+    background: linear-gradient(135deg, #411038, #4a448a);
+    padding: 20px;
+    border-radius: 5px;
+    width: 450px;
+    height: auto;
+    margin-top: 25px;
+    margin-bottom: 25px;
+}
+
+.contenedor-editar .form-group{
+    margin-bottom:10px;
+}
+    .contenedor-editar .form-group label{
+        margin-bottom: 5px;
+        font-size: 18px;
+    }
+
+
+    .contenedor-editar .solution input {
+        margin-left: 122px;
+        max-width: 450px;
+    }
+.contenedor-editar .botones-edit{
+    display:flex;
+    text-align:center;
+    justify-content:center;
+    margin-top: 25px;
+}
+
+    .contenedor-editar .botones-edit .guardar-btn {
+        width: fit-content;
+        margin: 0;
+        border: none;
+        background: #094ac4;
+        padding: 10px 15px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 20px;
+        color: #fff;
+    }
+
+    .contenedor-editar .botones-edit .cancelar-btn {
+        width: fit-content;
+        margin: 0;
+        border: none;
+        background: #8495d0;
+        padding: 10px 15px;
+        border-radius: 5px;
+        cursor: pointer;
+        text-decoration: none;
+        color: #fff;
+        font-size: 20px;
+        margin-left: 50px;
+    }
+
+
+
