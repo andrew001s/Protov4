@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@model Protov4.DTO.ProductoDTO;
+
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
@@ -13,8 +15,33 @@
         <h1><span>¡ALERTA¡</span></h1>
         <p><h3><strong>El producto seleccionado va a ser eliminado</strong></h3></p>
         <p>¿Seguro quiere eliminar el producto?</p>
-        <button class="confirmar-btn">Eliminar</button>
-        <button class="cancelar-btn">Cancelar</button>
+        <h4>Producto</h4>
+        <hr />
+        <d1>
+            <dt class="columna-elim">
+                @Html.DisplayNameFor(model => model.Id)
+            </dt>
+            <dt class="columna-elim">
+                @Html.DisplayNameFor(model => model.Nombre_Producto)
+            </dt>
+            <dt class="columna-elim">
+                @Html.DisplayNameFor(model => model.Precio)
+            </dt>
+            <dt class="columna-elim">
+                @Html.DisplayNameFor(model => model.Marca)
+            </dt>
+            <dt class="columna-elim">
+                @Html.DisplayNameFor(model => model.Existencia)
+            </dt>
+            <dt class="columna-elim">
+                @Html.DisplayNameFor(model => model.Tipo)
+            </dt>
+        </d1>
+        <form asp-action="Delete">
+            <input type="hidden" asp-for="Id" />
+            <input type="submit" value="Delete" class="confirmar-btn" />
+            <a asp-action="Index">Cancelar</a>
+        </form>
     </div>
 </body>
 </html>
