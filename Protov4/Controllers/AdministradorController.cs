@@ -8,7 +8,6 @@ namespace Protov4.Controllers
     {
         public IActionResult Admin()
         {
-
             return View();
         }
     }
