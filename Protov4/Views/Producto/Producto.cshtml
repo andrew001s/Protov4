@@ -1,9 +1,8 @@
 ﻿@using Protov4.DTO
 @{
-    ViewData["Title"] = "Producto Page";
+    ViewData["Title"] = "Productos";
 }
 
-@model List<ProductoDTO>
 <div class="container">
     <main role="main" class="pb-3">
         <section class="row" aria-labelledby="aspnetTitle">
@@ -56,8 +55,9 @@
         </div>
     </main>
 </div>
-<div id="alertContainer" class="alert-container"></div>
 
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         var carritoForm = document.querySelectorAll(".carritoForm");
@@ -71,14 +71,22 @@
                 var cantidad = parseInt(formData.get("cantidad"));
 
                 if (isNaN(cantidad) || cantidad <= 0) {
-                    alert("La cantidad debe ser un número válido y mayor que cero.");
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'La cantidad debe ser un número válido y mayor que cero.'
+                    });
                     return;
                 }
 
                 // Verificar si el producto ya está en el carrito (usando una cookie)
                 var carritoCookie = getCookie("carrito");
                 if (carritoCookie && carritoCookie.includes(id_producto)) {
-                    alert("Este producto ya está en el carrito. Puedes actualizar la cantidad en el carrito.");
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'oopss...',
+                        text: 'Este producto ya está en el carrito. Puedes actualizar la cantidad en el carrito.'
+                    });
                     return;
                 }
 
@@ -92,10 +100,20 @@
                 })
                     .then(function (response) {
                         if (response.ok) {
-                            // Update session and view
-                            updateView();
+                            // Show success SweetAlert
+                            Swal.fire({
+                              
+                                icon: 'success',
+                                title: 'Éxito',
+                                text: 'Producto añadido al carrito',
+                                showConfirmButton: false,
+                                timer: 1000 
+                                
+                            });
+
+                           
                         } else {
-                            // Handle error if needed
+                            
                         }
                     })
                     .catch(function (error) {
@@ -121,29 +139,6 @@
                 }
             }
             return null;
-        }
-
-        // Function to update the view and session
-        function updateView() {
-            var alertContainer = document.getElementById('alertContainer');
-
-            // Crear el elemento de la alerta
-            var alertElement = document.createElement('div');
-            alertElement.classList.add('alert', 'alert-success', 'fade', 'show', 'product-alert');
-            alertElement.innerHTML = 'Producto añadido al carrito';
-
-            // Agregar la alerta al contenedor
-            alertContainer.appendChild(alertElement);
-
-            // Desvanecer la alerta después de un tiempo (por ejemplo, 3 segundos)
-            setTimeout(function () {
-                alertElement.classList.remove('show');
-
-                // Eliminar la alerta del DOM después de la animación de desvanecimiento
-                alertElement.addEventListener('transitionend', function () {
-                    alertContainer.removeChild(alertElement);
-                });
-            }, 3000); // 3000 milisegundos = 3 segundos
         }
     });
 

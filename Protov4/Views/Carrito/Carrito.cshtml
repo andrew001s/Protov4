@@ -2,7 +2,7 @@
 @model List<CarritoFullDTO>
 
 @{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Carrito";
 }
 <div class="carr">
     <p class="Titulo1"> Tienes @Model.Count articulos en tu carrito</p>
@@ -42,10 +42,10 @@
                     <td class="ColSubT">$ @carr.subtotal_producto </td>
 
                     <td class="ColElim">
-                        <form class="deleteForm" action="@Url.Action("DeletePedido", "Carrito")" method="post">
+                        <form class="deleteForm" id="deleteForm-@carr.id_producto" action="@Url.Action("DeletePedido", "Carrito")" method="post">
                             @Html.AntiForgeryToken()
                             <input type="hidden" name="id_producto" value="@carr.id_producto" />
-                            <button class="btn btn-danger shadow-sm deleteButton" type="submit">
+                            <button class="btn btn-danger shadow-sm deleteButton" type="button">
                                 <i class="bi bi-trash3"></i>
                             </button>
                         </form>
@@ -94,29 +94,31 @@
     document.addEventListener("DOMContentLoaded", function () {
         var deleteForms = document.querySelectorAll(".deleteForm");
         deleteForms.forEach(function (form) {
-            form.addEventListener("submit", function (e) {
-                e.preventDefault();
+            form.addEventListener("click", function (e) {
+                e.preventDefault(); // Evita el envío automático del formulario
 
                 var formData = new FormData(form);
 
-                fetch(form.action, {
-                    method: "POST",
-                    body: formData
-                })
-                    .then(function (response) {
-                        if (response.ok) {
-                            // Eliminar el producto de la cookie
-                            var id_producto = formData.get("id_producto");
-                            removeProductFromCookie(id_producto);
+                Swal.fire({
+                    title: 'Quitar del Carrito',
+                    text: "Estas seguro de eliminar el producto de tu carrito?",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Sí, quiero eliminarlo',
+                    cancelButtonText: 'Cancelar'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        var id_producto = formData.get("id_producto");
+                        removeProductFromCookie(id_producto);
 
-                            location.reload();
-                        } else {
-                            // Handle error if needed
-                        }
-                    })
-                    .catch(function (error) {
-                        // Handle network errors or other issues
-                    });
+                        form.submit();
+
+
+                        
+                    }
+                });
             });
         });
 

@@ -7,7 +7,7 @@
 
 <body class="FinComprabody">
     <div class="cuadrito">
-        <form method="post" class="PagarFrom" action="@Url.Action("CompraRealizada", "Carrito")">
+        <form method="post" id="formularioCompra" class="PagarFrom" action="@Url.Action("CompraRealizada", "Carrito")">
             <div class="IzqForm">
                 <h2 class="TituloForm">Finalizar Compra</h2>
                 <label class="Texto1Form" for="ciudad">Ciudad</label><br>
@@ -49,7 +49,7 @@
                 </h3>
 
                 <input type="hidden" name="pagototal" value="@total" />
-                <button type="submit">Pagar</button>
+                <button type="submit" id="btnPagar">Pagar</button>
 
             </div>
         </form>

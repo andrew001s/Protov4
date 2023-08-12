@@ -4,7 +4,9 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Protov2</title>
+    <title>@ViewData["Title"]</title>
+    <link rel="shortcut icon" type="image/x-icon" href="~/recursos/miku.ico">
+
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/layout.css" asp-append-version="true" />
@@ -12,6 +14,8 @@
     <link rel="stylesheet" href="~/css/Carrito.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/AcercaDe.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/FinalizarCompra.css" asp-append-version="true" />
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@10.16.6/dist/sweetalert2.min.css" rel="stylesheet" />
+
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
@@ -21,13 +25,16 @@
     <header>
         <nav class="navbar-custom">
             <div class="logo">
-                <img src="~/recursos/Miku_logo.png" alt="Logo de MIKUTECH">
+            <a   asp-area="" asp-controller="Home" asp-action="Index">
+           
+                <img src="~/recursos/Miku_logo.png" alt="Logo de MIKUTECH" >
                 <h1>MIKUTECH</h1>
-            </div>
+            
+            </a></div>
             <div class="botonera">
                 <ul class="navbar-nav-custom">
                     <li class="nav-item-custom">
-                        <a class="nav-link-custom" asp-area="" asp-controller="Home" asp-action="Index">Inicio</a>
+                        <a class="nav-link-custom"  asp-area="" asp-controller="Home" asp-action="Index">Inicio</a>
                     </li>
                     <li class="dropdown" style="z-index:100">
                         <a class="nav-link-custom" asp-area="" asp-controller="Producto" asp-action="Producto">Tienda</a>
@@ -61,6 +68,7 @@
             @RenderBody()
         </main>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.16.6/dist/sweetalert2.min.js"></script>
 
 </body>
 </html>

@@ -1,9 +1,10 @@
 ﻿#title {
     font: bold 36px arial;
 }
-
+.alerta-custom{
+    width:10px;
+}
 #seccard {
- 
     margin-bottom: 2%;
 }
 .product-added {
@@ -19,8 +20,30 @@
     flex: 30px;
     padding: 80px;
     margin-top: 42px;
+    background: rgb(41,30,63);
+    background-image: radial-gradient( circle at left top, rgba(41,30,63,1) 6%, rgba(13,12,28,1) 45%, rgba(13,12,28,1) 80%);
+}
+.columnas-descripcion {
+    display: flex;
+    justify-content: space-between;
 }
 
+.etiquetas {
+    font-weight:bold;
+    color:white;
+    flex: 0.3; /* La columna de etiquetas ocupará el doble de ancho */
+}
+
+.valores {
+    color: white;
+    flex: 1%; /* La columna de valores ocupará la mitad de ancho en comparación con las etiquetas */
+}
+    .etiquetas p, .valores p {
+        margin: 5px 0;
+    }
+.distancia {
+    margin-left: 40px;
+}
 .product-info {
     flex: 60%;
     padding: 110px;
@@ -29,6 +52,7 @@
 .imagenProd {
     width: 145%;
     height: 65%;
+   
 }
 
 #cardform {
@@ -193,9 +217,13 @@
     font: bold 22px arial;
     color: white;
    position:absolute;
-    transform: translateX(360%) translateY(-108%);
+    transform:translateY(-125%);
 }
-
+    #botoncarritoseleccion:hover {
+        background-color: #5127a4; /* Nuevo color de fondo del botón al hacer hover */
+        transform: translateY(-125%)
+        scale(1.05);
+    }
 #carrito {
     font: bold 14px arial;
 }

@@ -25,50 +25,94 @@
                     <input type="hidden" name="precio" value="@prod.Precio" />
                     <input type="hidden" name="cantidad" value="1" />
                     <input type="hidden" name="subtotal" value="@prod.Precio" />
-                    <button id="botoncarrito" type="submit" class="btn btn-large shadow-sm">
+                    <button id="botoncarritoseleccion" type="submit" class="btn btn-large shadow-sm">
                         <i id="carrito" class="bi bi-cart-fill">AÑADIR AL CARRITO</i>
                     </button>
                 </form>
             </div>
             <div class="descripcion">
-                @switch (prod.Tipo)
-                {
-                    case "Procesador":
-                        <p class="text-white">Marca: @prod.Marca</p>
-                        <p class="text-white">Modelo: @prod.Especificaciones.Modelo</p>
-                        <p class="text-white">Velocidad: @prod.Especificaciones.Velocidad</p>
-                        <p class="text-white">Zócalo: @prod.Especificaciones.Zócalo</p>
-                        break;
-                    case "Gráfica":
-                        <p class="text-white">Marca: @prod.Marca</p>
-                        <p class="text-white">Fabricante: @prod.Especificaciones.Fabricante</p>
-                        <p class="text-white">Modelo: @prod.Especificaciones.Modelo</p>
-                        <p class="text-white">Tamaño VRAM: @prod.Especificaciones.TamañoVRAM</p>
-                        <p class="text-white">Velocidad de reloj: @prod.Especificaciones.Velocidad</p>
-                        <p class="text-white">Interfaz de salida: @prod.Especificaciones.Interfaz</p>
-                        break;
-                    case "Almacenamiento":
-                        <p class="text-white">Marca: @prod.Marca</p>
-                        <p class="text-white">Interfaz: @prod.Especificaciones.Interfaz</p>
-                        <p class="text-white">Almacenamiento: @prod.Especificaciones.Almacenamiento</p>
-                        break;
-                    case "Placa":
-                        <p class="text-white">Marca: @prod.Marca</p>
-                        <p class="text-white">Modelo: @prod.Especificaciones.Modelo</p>
-                        <p class="text-white">Velocidad: @prod.Especificaciones.Velocidad</p>
-                        <p class="text-white">Zócalo: @prod.Especificaciones.Zócalo</p>
-                        <p class="text-white">Tecnología Ram: @prod.Especificaciones.TecnologíaRAM</p>
-                        break;
-                    case "Fuente":
-                        <p class="text-white">Marca: @prod.Marca</p>
-                        break;
-                    case "Ram":
-                        <p class="text-white">Marca: @prod.Marca</p>
-                        <p class="text-white">Modelo: @prod.Especificaciones.Modelo</p>
-                        <p class="text-white">Velocidad: @prod.Especificaciones.Velocidad</p>
-                        <p class="text-white">Tamaño de memoria: @prod.Especificaciones.Tamañomemoria</p>
-                        break;
-                }
+                <div class="columnas-descripcion">
+                    <div class="etiquetas">
+                        @switch (prod.Tipo)
+                        {
+                            case "Procesador":
+                                <p>Marca:</p>
+                                <p>Modelo:</p>
+                                <p>Velocidad:</p>
+                                <p>Zócalo:</p>
+                                break;
+                            case "Gráfica":
+                                <p>Marca:</p>
+                                <p>Fabricante:</p>
+                                <p>Modelo:</p>
+                                <p>Tamaño VRAM:</p>
+                                <p>Velocidad de reloj:</p>
+                                <p>Interfaz de salida:</p>
+                                break;
+                            case "Almacenamiento":
+                                <p>Marca:</p>
+                                <p>Interfaz:</p>
+                                <p>Almacenamiento:</p>
+                                break;
+                            case "Placa":
+                                <p>Marca:</p>
+                                <p>Modelo:</p>
+                                <p>Velocidad:</p>
+                                <p>Zócalo:</p>
+                                <p>Tecnología RAM:</p>
+                                break;
+                            case "Fuente":
+                                <p>Marca:</p>
+                                break;
+                            case "Ram":
+                                <p>Marca:</p>
+                                <p>Modelo:</p>
+                                <p>Velocidad:</p>
+                                <p>Tamaño de memoria:</p>
+                                break;
+                        }
+                    </div>
+                    <div class="valores">
+                        @switch (prod.Tipo)
+                        {
+                            case "Procesador":
+                                <p><span>@prod.Marca</span></p>
+                                <p><span>@prod.Especificaciones.Modelo</span></p>
+                                <p><span>@prod.Especificaciones.Velocidad</span></p>
+                                <p><span>@prod.Especificaciones.Zócalo</span></p>
+                                break;
+                            case "Gráfica":
+                                <p><span>@prod.Marca</span></p>
+                                <p><span>@prod.Especificaciones.Fabricante</span></p>
+                                <p><span>@prod.Especificaciones.Modelo</span></p>
+                                <p><span>@prod.Especificaciones.TamañoVRAM</span></p>
+                                <p><span>@prod.Especificaciones.Velocidad</span></p>
+                                <p><span>@prod.Especificaciones.Interfaz</span></p>
+                                break;
+                            case "Almacenamiento":
+                                <p><span>@prod.Marca</span></p>
+                                <p><span>@prod.Especificaciones.Interfaz</span></p>
+                                <p><span>@prod.Especificaciones.Almacenamiento</span></p>
+                                break;
+                            case "Placa":
+                                <p><span>@prod.Marca</span></p>
+                                <p><span>@prod.Especificaciones.Modelo</span></p>
+                                <p><span>@prod.Especificaciones.Velocidad</span></p>
+                                <p><span>@prod.Especificaciones.Zócalo</span></p>
+                                <p><span>@prod.Especificaciones.TecnologíaRAM</span></p>
+                                break;
+                            case "Fuente":
+                                <p><span>@prod.Marca</span></p>
+                                break;
+                            case "Ram":
+                                <p><span>@prod.Marca</span></p>
+                                <p><span>@prod.Especificaciones.Modelo</span></p>
+                                <p><span>@prod.Especificaciones.Velocidad</span></p>
+                                <p><span>@prod.Especificaciones.Tamañomemoria</span></p>
+                                break;
+                        }
+                    </div>
+                </div>
                 <div class="adicional">
                     <h2 class="tituloarticulo">Sobre este artículo</h2>
                     @for (int i = 0; i < prod.Especificaciones.Descripción.Count; i++)
@@ -82,8 +126,6 @@
         </div>
     }
 </div>
-
-<div id="alertContainer" class="alert-container"></div>
 
 <script>
 
@@ -106,7 +148,11 @@
                 // Verificar si el producto ya está en el carrito (usando una cookie)
                 var carritoCookie = getCookie("carrito");
                 if (carritoCookie && carritoCookie.includes(id_producto)) {
-                    alert("Este producto ya está en el carrito. Puedes actualizar la cantidad en el carrito.");
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Este producto ya está en el carrito. Puedes actualizar la cantidad en el carrito.'
+                    });
                     return;
                 }
 
@@ -151,25 +197,12 @@
 
         // Function to update the view and session
         function updateView() {
-            var alertContainer = document.getElementById('alertContainer');
-
-            // Crear el elemento de la alerta
-            var alertElement = document.createElement('div');
-            alertElement.classList.add('alert', 'alert-success', 'fade', 'show', 'product-alert');
-            alertElement.innerHTML = 'Producto añadido al carrito';
-
-            // Agregar la alerta al contenedor
-            alertContainer.appendChild(alertElement);
-
-            // Desvanecer la alerta después de un tiempo (por ejemplo, 3 segundos)
-            setTimeout(function () {
-                alertElement.classList.remove('show');
-
-                // Eliminar la alerta del DOM después de la animación de desvanecimiento
-                alertElement.addEventListener('transitionend', function () {
-                    alertContainer.removeChild(alertElement);
-                });
-            }, 3000); // 3000 milisegundos = 3 segundos
+            Swal.fire({
+                icon: 'success',
+                title: '¡Producto añadido al carrito!',
+                showConfirmButton: false,
+                timer: 3000
+            });
         }
     });
 </script>

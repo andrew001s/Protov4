@@ -1,4 +1,6 @@
-﻿
+﻿@{
+    ViewData["Title"] = "Home";
+}
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -40,31 +42,31 @@
             </div>
         </div>
         <div class="product-box-container-1">
-            <div class="box-container-3">
+            <div class="box-container-3" onclick="window.location.href='@Url.Action("Producto", "Producto", new { tipo = "Procesador" })'">
                 <img class="img-cpu" src="~/recursos/cpu-box.png" alt="Imagen de cpu">
-                <p class="catalog-link"><a class="catalog-link" onclick="window.location.href='@Url.Action("Producto", "Producto", new { tipo = "Procesador" })'">Procesadores</a></p>
+                <p class="catalog-link"><a class="catalog-link">Procesadores</a></p>
             </div>
-            <div class="box-container-3">
+            <div class="box-container-3" onclick="window.location.href='@Url.Action("Producto", "Producto", new { tipo = "Gráfica" })'">
                 <img class="img-video" src="~/recursos/video-box.png" alt="Imagen de tarjetas">
-                <p class="catalog-link"><a class="catalog-link" onclick="window.location.href='@Url.Action("Producto", "Producto", new { tipo = "Gráfica" })'">Tarjetas de video</a></p>
+                <p class="catalog-link"><a class="catalog-link" >Tarjetas de video</a></p>
             </div>
-            <div class="box-container-3">
+            <div class="box-container-3" onclick="window.location.href='@Url.Action("Producto", "Producto", new { tipo = "Placa" })'">
                 <img class="img-placabase" src="~/recursos/placabase-box.png" alt="Imagen de placabase">
-                <p class="catalog-link"><a class="catalog-link" onclick="window.location.href='@Url.Action("Producto", "Producto", new { tipo = "Placa" })'">Placas Base</a></p>
+                <p class="catalog-link"><a class="catalog-link" >Placas Base</a></p>
             </div>
         </div>
         <div class="product-box-container-2">
-            <div class="box-container-4">
+            <div class="box-container-4" onclick="window.location.href='@Url.Action("Producto", "Producto", new { tipo = "Ram" })'">
                 <img class="img-ram" src="~/recursos/ram-box.png" alt="Imagen de ram">
-                <p class="catalog-link"><a class="catalog-link" onclick="window.location.href='@Url.Action("Producto", "Producto", new { tipo = "Ram" })'">Memoria RAM</a></p>
+                <p class="catalog-link"><a class="catalog-link" >Memoria RAM</a></p>
             </div>
-            <div class="box-container-4">
+            <div class="box-container-4" onclick="window.location.href='@Url.Action("Producto", "Producto", new { tipo = "Fuente" })'">
                 <img class="img-fuente" src="~/recursos/fuente-box.png" alt="Imagen de fuente">
-                <p class="catalog-link"><a class="catalog-link" onclick="window.location.href='@Url.Action("Producto", "Producto", new { tipo = "Fuente" })'">Fuentes de poder</a></p>>
+                <p class="catalog-link"><a class="catalog-link" >Fuentes de poder</a></p>>
             </div>
-            <div class="box-container-4">
+            <div class="box-container-4" onclick="window.location.href='@Url.Action("Producto", "Producto", new { tipo = "Almacenamiento" })'">
                 <img class="img-alm" src="~/recursos/alm-box.png" alt="Imagen de almacenamiento">
-                <p class="catalog-link"><a class="catalog-link" onclick="window.location.href='@Url.Action("Producto", "Producto", new { tipo = "Almacenamiento" })'">Almacenamiento</a></p>
+                <p class="catalog-link"><a class="catalog-link" >Almacenamiento</a></p>
             </div>
         </div>
     </div>

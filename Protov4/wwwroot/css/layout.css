@@ -4,6 +4,26 @@
 }
 
 /* BARRA DE NAVEGACION */
+.logo {
+    display: flex;
+    align-items: center;
+}
+
+    .logo a {
+        display: flex;
+        align-items: center;
+        text-decoration: none;
+        color: white;
+        transition: color 0.3s;
+    }
+
+        .logo a:hover {
+            color: #12CDD4;
+        }
+
+    .logo img {
+        margin-right: 10px;
+    }
 
 .navbar-custom {
     background-color: #161A33;

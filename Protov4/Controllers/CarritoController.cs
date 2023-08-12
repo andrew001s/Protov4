@@ -142,7 +142,7 @@ namespace Protov4.Controllers
             {
                 int id_pedido = carr.ObtenerIdPedido();
                 carr.EliminarProductoCarrito(id_pedido, id_producto);
-                return Json(new { success = true });
+                return RedirectToAction("Carrito");  // Redirigir a la acción Carrito
             }
             catch (Exception ex)
             {
