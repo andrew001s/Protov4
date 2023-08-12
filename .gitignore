@@ -361,3 +361,5 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/Protov4/wwwroot/js/validation.js
+/Protov4/appsettings.json
