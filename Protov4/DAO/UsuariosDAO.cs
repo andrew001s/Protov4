@@ -17,41 +17,27 @@ namespace Protov4.DAO
             // Esto asegura que el objeto de conexión se inicialice correctamente.
         }
 
-        public ((int id_usuario, int id_rol_user), int id_cliente) ValidarUsuario(UsuariosDTO nuser)
+        public int ValidarUsuario(string correoElectronico, string contrasena)
         {
-            int id_usuario = 0;
-            int id_cliente = 0;
-            int id_rol_user = 0;
+            int idUsuario = 0;
 
-            nuser.contrasena = ConvertirSha256(nuser.contrasena);
+            contrasena = ConvertirSha256(contrasena);
             using (var connection = GetSqlConnection())
             {
                 connection.Open();
                 SqlCommand cmd = new SqlCommand("Login_ValidarUsuario", connection);
-                cmd.Parameters.AddWithValue("@correo_elec", nuser.correo_elec);
-                cmd.Parameters.AddWithValue("@contrasena", nuser.contrasena);
+                cmd.Parameters.AddWithValue("@correo_elec", correoElectronico);
+                cmd.Parameters.AddWithValue("@contrasena", contrasena);
                 cmd.CommandType = CommandType.StoredProcedure;
-                using (var reader = cmd.ExecuteReader())
+
+                var result = cmd.ExecuteScalar();
+                if (result != null)
                 {
-                    if (reader.Read())
-                    {
-                        id_usuario = Convert.ToInt32(reader["id_usuario"]);
-                        id_rol_user = Convert.ToInt32(reader["id_rol_user"]);
-                        id_cliente = Convert.ToInt32(reader["id_cliente"]);
-
-                    }
-
-                    if (id_usuario == 0 && id_rol_user == 0)
-                    {
-                        id_usuario = 0;
-                        id_cliente = 0;
-                        id_rol_user = 0;
-                    }
-
+                    idUsuario = Convert.ToInt32(result);
                 }
-                connection.Close();
-                return ((id_usuario, id_rol_user), id_cliente);
             }
+
+            return idUsuario;
         }
 
         public bool Registrar(UsuariosDTO nuser, ClientesDTO nclient)

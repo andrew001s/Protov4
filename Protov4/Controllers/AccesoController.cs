@@ -1,9 +1,6 @@
-﻿using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Protov4.DAO;
 using Protov4.DTO;
-using System.Security.Claims;
 
 namespace Protov4.Controllers
 {
@@ -21,9 +18,10 @@ namespace Protov4.Controllers
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> Login(UsuariosDTO user)
+        public ActionResult Login(UsuariosDTO user)
         {
-            try
+            int idUsuario = _usuariosDAO.ValidarUsuario(user.correo_elec, user.contrasena);
+            if (idUsuario != 0)
             {
                 ((int id_usuario, int id_rol_user), int id_cliente) = _usuariosDAO.ValidarUsuario(user);
                 if (id_usuario != 0)
@@ -66,11 +64,7 @@ namespace Protov4.Controllers
                 }
                 return View();
             }
-            catch (System.Exception)
-            {
-                ViewBag.Error = "Credenciales incorrectas";
-                return View();
-            }
+            return View();
         }
 
         public ActionResult Registrar()
