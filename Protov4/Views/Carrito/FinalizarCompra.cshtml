@@ -1,6 +1,8 @@
 ﻿@using Protov4.DTO;
 @model List<PedidoDTO>
-
+@{
+    ViewData["Title"] = "Finalizar Compra";
+}
 <head>
     <title>Formulario de Compra</title>
 </head>
@@ -23,6 +25,10 @@
                 <input class="Boton1Form" type="text" id="callesec" name="calleSecundaria" required pattern="[A-Za-z0-9ñÑ\s]+"><br>
             </div>
             <div class="DerForm">
+                
+                    <h1 class=" Texto2Form">
+                        Seleccione un método de pago
+                    </h1>
                 <div class="form-check">
                     <input class="form-check-input" type="radio" id="id_metodo_pago1" name="pagoMetodo" value=1 checked>
                     <label class="Texto3Form" for="pagoMetodo">Tarjeta de Crédito</label><img class="Img1Form" src="~/Recursos/Tarjetas.png" alt="Tarjetas" width="150" height="60px" /><br>
@@ -37,7 +43,8 @@
                 </div>
 
 
-                <h3 class="text-white">
+                <div id="TextoPagar">
+                    <h1 id="TotalPagar">Total:</h1>
                     @{
                         decimal total = 0;
                         @foreach (var item in Model)
@@ -45,11 +52,13 @@
                             total = item.pago_total;
                         }
                     }
-                    $ @total
-                </h3>
+                    <h1 id="TotalNumPagar"> $ @total</h1>
+                   
+                
 
                 <input type="hidden" name="pagototal" value="@total" />
-                <button type="submit" id="btnPagar">Pagar</button>
+                </div>
+                <button type="submit" class="btnPagar btn btn-outline-info">Pagar</button>
 
             </div>
         </form>
