@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Protov4.DAO;
 using Protov4.DTO;
@@ -6,6 +7,8 @@ using Protov4.Models;
 
 namespace Protov4.Controllers
 {
+    [Authorize]
+
     public class ProductoController : Controller
     {
         private readonly MikuTechFactory db;

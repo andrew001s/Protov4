@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
 using MongoDB.Driver;
@@ -7,6 +8,8 @@ using Protov4.DTO;
 
 namespace Protov4.Controllers
 {
+    [Authorize]
+
     public class CarritoController : Controller
     {
         MikutechDAO carr;

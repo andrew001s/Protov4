@@ -34,7 +34,8 @@ namespace Protov4.Controllers
                     return View(Lista);
                 }
             }
-            return RedirectToAction("Index", "Home"); // Por ejemplo, redirige a la página principal en caso de error
+            return RedirectToAction("Index", "Home");
+        }// Por ejemplo, redirige a la página principal en caso de error
         public ActionResult AcercaDe() {
             return View();
         }
