@@ -85,6 +85,11 @@ namespace Protov4.DAO
         {
             return auditoriaDAO.ListarAuditoria();
         }
+
+        public override void InsertarProducto(string nombre, float precio, string Marca, int existencia, string tipo, string fabricante, string modelo, string velocidad, string Zócalo, string TamañoVRAM, string Interfaz, string TecnologiaRAM, string tamañomemoria, string Almacenamiento, string[] Descripcion)
+        {
+            productoDAO.InsertarProducto(nombre,precio,Marca,existencia,tipo,fabricante,modelo,velocidad,Zócalo,TamañoVRAM,Interfaz,TecnologiaRAM,tamañomemoria,Almacenamiento,Descripcion);
+        }
     }
 }
     
