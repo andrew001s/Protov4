@@ -5,12 +5,14 @@ namespace Protov4.DAO
     public class MikutechDAO : MikuTechFactory
     {   ProductoDAO productoDAO;
         CarritoDAO carritoDAO;
+        AuditoriaDAO auditoriaDAO;
         // Indica si se ha realizado un pedido
         public static bool pedido = false;
         public MikutechDAO(IConfiguration configuration)
         {
             productoDAO = new ProductoDAO(configuration);
             carritoDAO = new CarritoDAO(configuration);
+            auditoriaDAO = new AuditoriaDAO(configuration);
         }
         // Actualiza los detalles de un pedido
         public override void ActualizarPedido(int id_pedido,decimal pago_total, int tipoestado , string Ciudad_envio, string Calle_principal, string Calle_secundaria, int id_tipo_pago, DateTime fecha_pedido)
@@ -77,6 +79,11 @@ namespace Protov4.DAO
         public override void ActualizarExistencias(string id, int cantidad)
         {
             productoDAO.ActualizarExistencias(id,cantidad);
+        }
+
+        public override List<AuditoriaDTO> ObtenerAuditoria()
+        {
+            return auditoriaDAO.ListarAuditoria();
         }
     }
 }

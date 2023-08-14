@@ -2,6 +2,7 @@
 using MongoDB.Bson;
 using MongoDB.Driver;
 using Protov4.DTO;
+using System.Security.Cryptography;
 
 namespace Protov4.DAO
 {
@@ -77,6 +78,29 @@ namespace Protov4.DAO
 
             var updateResult = prod.UpdateOne(filtro, update);
 
+        }
+
+        //Inserta un Producto
+        public void InsertarProducto(string nombre,float precio,string Marca, int existencia,string tipo,string fabricante,string modelo,string velocidad,string Zócalo,string TamañoVRAM,string Interfaz,string TecnologiaRAM,string tamañomemoria,string Almacenamiento,string[] Descripcion)
+        {
+            var especificaciones = new BsonDocument
+            {
+                {"Fabricante", fabricante},
+                {"Modelo",modelo},
+                {"Velocidad", velocidad},
+                {"Zócalo",Zócalo }, {"TamañoVRAM",TamañoVRAM}, {"Interfaz",Interfaz},{"Tecnología",TecnologiaRAM}
+                ,{"Tamañomemoria",tamañomemoria},{"Almacenamiento",Almacenamiento},{"Descripción", new BsonArray(Descripcion)}
+            };
+            var ProductoDTO = new BsonDocument
+            {
+                {"Nombre_Producto",nombre },
+                {"Precio", precio},
+                {"Marca", Marca},
+                {"Existencia",existencia },
+                {"Tipo", tipo},
+                {"Especificaciones", especificaciones }
+
+            };
         }
     }
 }

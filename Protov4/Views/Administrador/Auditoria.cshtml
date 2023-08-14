@@ -1,0 +1,36 @@
+﻿@using Protov4.DTO;
+@{
+    Layout = "~/Views/Administrador/_LayoutAdmin.cshtml";
+}
+@model List<AuditoriaDTO>
+<div>
+    <h1>Auditoria</h1>
+</div>
+
+<div>
+
+    <table>
+        <tr>
+            <th>Id_Auditoria</th>
+            <th>Id_Usuario</th>
+            <th>Fecha_Inicio_Sesiom</th>
+            <th>Fecha_Cierre_Sesion</th>
+
+        </tr>
+
+
+        @for (int i = 0; i < Model.Count; i++)
+        {
+            var carr = Model[i];
+           
+            <tr>
+                <td> @carr.id_auditoria</td>
+                <td> @carr.id_usuario</td>
+                <td> @carr.fecha_inicio_sesion</td>
+                
+                <td>@carr.fecha_cierre_session </td>
+            </tr>
+        }
+    </table>
+
+</div>

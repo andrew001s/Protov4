@@ -4,8 +4,14 @@ namespace Protov4.DAO
 {
     public abstract class MikuTechFactory
     {
+        //Insertar nuevo Producto 
+        public abstract void InsertarProducto(string nombre, float precio, string Marca, int existencia, string tipo, string fabricante, string modelo, string velocidad, string Zócalo, string TamañoVRAM, string Interfaz, string TecnologiaRAM, string tamañomemoria, string Almacenamiento, string[] Descripcion);
+
         // Obtiene una lista de todos los productos basados en un tipo
         public abstract List<ProductoDTO> GetAllProductos(string tipo);
+        // Obtiene una lista de todos los productos basados en un tipo
+        
+        public abstract List<AuditoriaDTO> ObtenerAuditoria();
         // Obtiene detalles de un producto específico según su identificador
         public abstract List<ProductoDTO> GetSeleccion(string id);
         // Inserta un nuevo elemento en el carrito de compras
